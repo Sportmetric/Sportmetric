@@ -1,0 +1,373 @@
+<title>InnoMetrics Έξοδα</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one working column — summary tiles, entry form + monthly chart side by side, then category table and ledger. */
+:root{
+  --bg:#f5f7f9; --surface:#ffffff; --line:#dde3ea; --ink:#14202b; --muted:#5b6b7a;
+  --accent:#1f5fd1; --accent-soft:#e6eefc; --danger:#b4232c; --danger-soft:#fbe9ea; --ok:#1b7a4b;
+  --c1:#1f5fd1; --c2:#e07b1a; --c3:#159a8c; --c4:#a03cc0; --c5:#d4405f; --c6:#6b7f1d; --c7:#3d4b8f; --c8:#8a7a66;
+  --display:"Commissioner","Segoe UI",system-ui,sans-serif;
+  --text:"Noto Sans","Segoe UI",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#16202a; --line:#26323e; --ink:#e6edf3; --muted:#93a3b3;
+  --accent:#6f9ff0; --accent-soft:#1c2c47; --danger:#f07a80; --danger-soft:#3a1d21; --ok:#5cc996;
+  --c1:#6f9ff0; --c2:#f0a050; --c3:#4cc7b8; --c4:#c983e0; --c5:#ef7d95; --c6:#a9c24f; --c7:#8f9ce0; --c8:#bfae97;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#16202a; --line:#26323e; --ink:#e6edf3; --muted:#93a3b3;
+  --accent:#6f9ff0; --accent-soft:#1c2c47; --danger:#f07a80; --danger-soft:#3a1d21; --ok:#5cc996;
+  --c1:#6f9ff0; --c2:#f0a050; --c3:#4cc7b8; --c4:#c983e0; --c5:#ef7d95; --c6:#a9c24f; --c7:#8f9ce0; --c8:#bfae97;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--text);font-size:14px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:20px}
+h1,h2{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:1.6rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.05rem;font-weight:600}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+header .brand{display:grid;gap:2px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input,button{font:inherit;color:inherit}
+select,input{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button{cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;font-weight:600}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] button.primary{color:#0f151b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{color:#0f151b}}
+button.link{border:0;background:none;padding:4px 6px;color:var(--muted);font-weight:500}
+button.link:hover{color:var(--ink)}
+button.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;min-width:0}
+.tile .v{font-family:var(--display);font-size:1.45rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .s{color:var(--muted);font-size:.82rem}
+.row2{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:14px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+form{display:grid;gap:10px}
+label{display:grid;gap:4px;font-size:.82rem;color:var(--muted);font-weight:500}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.msg{font-size:.85rem;min-height:1.2em}
+.msg.err{color:var(--danger)} .msg.ok{color:var(--ok)}
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:520px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tfoot td{font-weight:700;border-bottom:0}
+td.zero{color:var(--muted);opacity:.5}
+.ledger td.desc{text-align:left;white-space:normal;min-width:180px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--line)}
+.confirm{display:inline-flex;gap:6px;align-items:center}
+.empty{padding:28px 12px;text-align:center;color:var(--muted);display:grid;gap:6px}
+.empty strong{color:var(--ink);font-family:var(--display);font-size:1rem}
+.status{font-size:.82rem;color:var(--muted)}
+.status.err{color:var(--danger)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select{width:auto}
+@media (max-width:860px){.row2{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.pair{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.bar{transition:opacity .15s}}
+.bar:hover{opacity:.8}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="eyebrow">InnoMetrics · Εσωτερικό εργαλείο</span>
+      <h1>Έξοδα εταιρείας</h1>
+    </div>
+    <div class="tools">
+      <label style="grid-auto-flow:column;align-items:center;gap:8px">Έτος
+        <select id="year"></select>
+      </label>
+      <button id="csv" hidden>Εξαγωγή CSV για λογιστή</button>
+    </div>
+  </header>
+  <div id="status" class="status">Φόρτωση δεδομένων…</div>
+
+  <section class="tiles" aria-label="Σύνοψη">
+    <div class="tile"><span class="eyebrow" id="t1l">Αυτόν τον μήνα</span><span class="v num" id="t1">—</span><span class="s" id="t1s">&nbsp;</span></div>
+    <div class="tile"><span class="eyebrow">Από αρχή έτους</span><span class="v num" id="t2">—</span><span class="s" id="t2s">&nbsp;</span></div>
+    <div class="tile"><span class="eyebrow">Μέσος όρος / μήνα</span><span class="v num" id="t3">—</span><span class="s">μήνες με έξοδα</span></div>
+    <div class="tile"><span class="eyebrow">Μεγαλύτερη κατηγορία</span><span class="v" id="t4">—</span><span class="s num" id="t4s">&nbsp;</span></div>
+  </section>
+
+  <div class="row2">
+    <section class="panel" aria-labelledby="addh">
+      <h2 id="addh">Νέο έξοδο</h2>
+      <form id="form" novalidate>
+        <div class="pair">
+          <label for="f-date">Ημερομηνία<input id="f-date" type="date" required></label>
+          <label for="f-amount">Ποσό (€, με ΦΠΑ)<input id="f-amount" type="text" inputmode="decimal" placeholder="π.χ. 120,50" required></label>
+        </div>
+        <label for="f-cat">Κατηγορία<select id="f-cat" required></select></label>
+        <label for="f-desc">Περιγραφή<input id="f-desc" type="text" maxlength="200" placeholder="π.χ. Προμήθεια Skroutz Οκτωβρίου"></label>
+        <label for="f-sup">Προμηθευτής / παραστατικό<input id="f-sup" type="text" maxlength="120" placeholder="π.χ. Skroutz ΑΕ · ΤΠΥ 1234"></label>
+        <button class="primary" type="submit" id="f-submit">Καταχώριση</button>
+        <div id="f-msg" class="msg" role="status"></div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="charth">
+      <div class="panel-head"><h2 id="charth">Έξοδα ανά μήνα</h2><span class="status" id="chartsub"></span></div>
+      <div class="chart" id="chart"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="cath">
+    <div class="panel-head"><h2 id="cath">Ανά κατηγορία και μήνα</h2><span class="status">ποσά σε €</span></div>
+    <div class="tablebox" id="cattable"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="ledh">
+    <div class="panel-head">
+      <h2 id="ledh">Καταχωρίσεις</h2>
+      <div class="filters">
+        <select id="flt-month" aria-label="Μήνας"></select>
+        <select id="flt-cat" aria-label="Κατηγορία"></select>
+      </div>
+    </div>
+    <div class="tablebox" id="ledger"></div>
+  </section>
+</div>
+
+<script>
+const CATS = [
+  {id:"merch",   name:"Εμπόρευμα",          c:"--c1"},
+  {id:"skroutz", name:"Skroutz",            c:"--c2"},
+  {id:"promo",   name:"Προώθηση",           c:"--c3"},
+  {id:"gs1",     name:"GS1 / barcodes",     c:"--c4"},
+  {id:"acct",    name:"Λογιστής",           c:"--c5"},
+  {id:"ship",    name:"Μεταφορικά / εκτελωνισμός", c:"--c6"},
+  {id:"pack",    name:"Συσκευασία / branding", c:"--c7"},
+  {id:"other",   name:"Λοιπά",              c:"--c8"},
+];
+const CAT = Object.fromEntries(CATS.map(c=>[c.id,c]));
+const MONTHS = ["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
+const MONTHS_FULL = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
+const eur = new Intl.NumberFormat("el-GR",{style:"currency",currency:"EUR"});
+const eur0 = new Intl.NumberFormat("el-GR",{style:"currency",currency:"EUR",maximumFractionDigits:0});
+const n0 = new Intl.NumberFormat("el-GR",{maximumFractionDigits:0});
+const $ = id => document.getElementById(id);
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const today = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+
+let rows = [];          // {id, date, category, amount, description, supplier}
+let db = null, col = null, canWrite = true;
+let year = new Date().getFullYear();
+let pendingDelete = null;
+
+function parseAmount(s){
+  s = String(s).trim().replace(/\s|€/g,"");
+  if(!s) return NaN;
+  // Greek format: 1.234,56 → 1234.56 ; also accept 1234.56
+  if(s.includes(",")) s = s.replace(/\./g,"").replace(",",".");
+  const v = Number(s);
+  return Number.isFinite(v) ? Math.round(v*100)/100 : NaN;
+}
+
+function setup(){
+  $("f-cat").innerHTML = CATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  $("f-date").value = today();
+  $("flt-cat").innerHTML = `<option value="">Όλες οι κατηγορίες</option>` + CATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  fillYears(); fillMonths();
+  $("year").addEventListener("change", e=>{ year = +e.target.value; fillMonths(); render(); });
+  $("flt-month").addEventListener("change", renderLedger);
+  $("flt-cat").addEventListener("change", renderLedger);
+  $("form").addEventListener("submit", onSubmit);
+  $("csv").addEventListener("click", exportCsv);
+  render();
+}
+
+function fillYears(){
+  const now = new Date().getFullYear();
+  const ys = new Set([now, now-1, ...rows.map(r=>+r.date.slice(0,4))]);
+  const sorted = [...ys].sort((a,b)=>b-a);
+  $("year").innerHTML = sorted.map(y=>`<option value="${y}" ${y===year?"selected":""}>${y}</option>`).join("");
+}
+function fillMonths(){
+  const cur = $("flt-month").value;
+  $("flt-month").innerHTML = `<option value="">Όλοι οι μήνες ${year}</option>` + MONTHS_FULL.map((m,i)=>`<option value="${i}">${m}</option>`).join("");
+  $("flt-month").value = cur;
+}
+
+function yearRows(){ return rows.filter(r=>r.date.startsWith(String(year))); }
+
+function render(){ renderTiles(); renderChart(); renderCatTable(); renderLedger(); }
+
+function renderTiles(){
+  const yr = yearRows();
+  const now = new Date();
+  const isCurYear = year === now.getFullYear();
+  const m = isCurYear ? now.getMonth() : 11;
+  const byMonth = Array(12).fill(0);
+  yr.forEach(r=>byMonth[+r.date.slice(5,7)-1]+=r.amount);
+  const total = byMonth.reduce((a,b)=>a+b,0);
+  $("t1l").textContent = isCurYear ? "Αυτόν τον μήνα" : "Δεκέμβριος "+year;
+  $("t1").textContent = eur.format(byMonth[m]);
+  if(m>0 && byMonth[m-1]>0){
+    const d = (byMonth[m]-byMonth[m-1])/byMonth[m-1]*100;
+    $("t1s").textContent = (d>=0?"+":"")+n0.format(d)+"% σε σχέση με "+MONTHS_FULL[m-1].toLowerCase();
+  } else $("t1s").textContent = MONTHS_FULL[m]+" "+year;
+  $("t2").textContent = eur.format(total);
+  $("t2s").textContent = yr.length+" καταχωρίσεις";
+  const active = byMonth.filter(v=>v>0).length;
+  $("t3").textContent = active ? eur.format(total/active) : "—";
+  const byCat = {}; yr.forEach(r=>byCat[r.category]=(byCat[r.category]||0)+r.amount);
+  const top = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  $("t4").textContent = top ? (CAT[top[0]]?.name||top[0]) : "—";
+  $("t4s").textContent = top ? eur.format(top[1])+" · "+n0.format(top[1]/total*100)+"% του έτους" : " ";
+}
+
+function renderChart(){
+  const yr = yearRows();
+  const data = MONTHS.map(()=>({}));
+  yr.forEach(r=>{ const i=+r.date.slice(5,7)-1; data[i][r.category]=(data[i][r.category]||0)+r.amount; });
+  const totals = data.map(d=>Object.values(d).reduce((a,b)=>a+b,0));
+  const max = Math.max(...totals, 0);
+  const W=720,H=280,L=64,R=12,T=16,B=30, iw=W-L-R, ih=H-T-B;
+  const step = niceStep(max/4 || 250);
+  const top = Math.max(step*4, Math.ceil(max/step)*step);
+  const y = v => T + ih - v/top*ih;
+  const bw = iw/12*0.62, gap = iw/12;
+  const ink = css("--muted"), line = css("--line");
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Έξοδα ανά μήνα ${year}">`;
+  for(let v=0; v<=top+0.001; v+=step){
+    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${line}" stroke-width="1"/>`;
+    s += `<text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="${ink}">${eur0.format(v)}</text>`;
+  }
+  data.forEach((d,i)=>{
+    const x = L + gap*i + (gap-bw)/2;
+    let acc = 0;
+    CATS.forEach(c=>{
+      const v = d[c.id]; if(!v) return;
+      const y0 = y(acc), y1 = y(acc+v);
+      s += `<rect class="bar" x="${x}" y="${y1}" width="${bw}" height="${Math.max(0,y0-y1)}" fill="${css(c.c)}"><title>${MONTHS_FULL[i]}: ${c.name} ${eur.format(v)}</title></rect>`;
+      acc += v;
+    });
+    s += `<text x="${x+bw/2}" y="${H-10}" text-anchor="middle" font-size="11" fill="${ink}">${MONTHS[i]}</text>`;
+  });
+  s += `</svg>`;
+  $("chart").innerHTML = s;
+  const used = CATS.filter(c=>yr.some(r=>r.category===c.id));
+  $("legend").innerHTML = (used.length?used:CATS).map(c=>`<span><i class="sw" style="background:var(${c.c})"></i>${c.name}</span>`).join("");
+  $("chartsub").textContent = max ? "υψηλότερος μήνας "+eur0.format(max) : "";
+}
+function niceStep(x){ const p=Math.pow(10,Math.floor(Math.log10(x))); const f=x/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; }
+
+function renderCatTable(){
+  const yr = yearRows();
+  if(!yr.length){ $("cattable").innerHTML = emptyHtml(); return; }
+  const grid = {}; CATS.forEach(c=>grid[c.id]=Array(12).fill(0));
+  yr.forEach(r=>{ (grid[r.category] ||= Array(12).fill(0))[+r.date.slice(5,7)-1]+=r.amount; });
+  const lastM = Math.max(...yr.map(r=>+r.date.slice(5,7)-1));
+  const months = [...Array(lastM+1).keys()];
+  const cell = v => v ? `<td>${n0.format(v)}</td>` : `<td class="zero">–</td>`;
+  let h = `<table><thead><tr><th>Κατηγορία</th>${months.map(i=>`<th>${MONTHS[i]}</th>`).join("")}<th>Σύνολο</th></tr></thead><tbody>`;
+  const colTot = Array(12).fill(0); let grand = 0;
+  CATS.forEach(c=>{
+    const arr = grid[c.id]; const t = arr.reduce((a,b)=>a+b,0); if(!t) return;
+    arr.forEach((v,i)=>colTot[i]+=v); grand+=t;
+    h += `<tr><td><span class="chip"><i class="sw" style="background:var(${c.c})"></i>${c.name}</span></td>${months.map(i=>cell(arr[i])).join("")}<td><strong>${n0.format(t)}</strong></td></tr>`;
+  });
+  h += `</tbody><tfoot><tr><td>Σύνολο</td>${months.map(i=>`<td>${n0.format(colTot[i])}</td>`).join("")}<td>${eur0.format(grand)}</td></tr></tfoot></table>`;
+  $("cattable").innerHTML = h;
+}
+
+function emptyHtml(){
+  return `<div class="empty"><strong>Δεν υπάρχουν ακόμα έξοδα για το ${year}</strong><span>Συμπληρώστε τη φόρμα «Νέο έξοδο» για την πρώτη καταχώριση, π.χ. τη συνδρομή GS1 ή την προμήθεια Skroutz του μήνα.</span></div>`;
+}
+
+function renderLedger(){
+  const fm = $("flt-month").value, fc = $("flt-cat").value;
+  let list = yearRows().filter(r=>(fm===""||+r.date.slice(5,7)-1===+fm)&&(!fc||r.category===fc));
+  list.sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||"").localeCompare(a.createdAt||""));
+  if(!yearRows().length){ $("ledger").innerHTML = emptyHtml(); return; }
+  if(!list.length){ $("ledger").innerHTML = `<div class="empty"><span>Καμία καταχώριση με αυτά τα φίλτρα.</span></div>`; return; }
+  const sum = list.reduce((a,r)=>a+r.amount,0);
+  let h = `<table class="ledger"><thead><tr><th>Ημερομηνία</th><th style="text-align:left">Κατηγορία</th><th style="text-align:left">Περιγραφή</th><th>Ποσό</th><th></th></tr></thead><tbody>`;
+  list.forEach(r=>{
+    const c = CAT[r.category] || {name:r.category,c:"--c8"};
+    const [Y,M,D] = r.date.split("-");
+    const del = !canWrite ? "" : pendingDelete===r.id
+      ? `<span class="confirm"><button class="danger" data-del="${r.id}">Διαγραφή</button><button class="link" data-cancel>Άκυρο</button></span>`
+      : `<button class="link" data-ask="${r.id}" aria-label="Διαγραφή καταχώρισης">Διαγραφή</button>`;
+    h += `<tr><td>${D}/${M}/${Y}</td><td style="text-align:left"><span class="chip"><i class="sw" style="background:var(${c.c})"></i>${esc(c.name)}</span></td><td class="desc">${esc(r.description||"")}${r.supplier?`<div class="status">${esc(r.supplier)}</div>`:""}</td><td>${eur.format(r.amount)}</td><td>${del}</td></tr>`;
+  });
+  h += `</tbody><tfoot><tr><td colspan="3">Σύνολο (${list.length})</td><td>${eur.format(sum)}</td><td></td></tr></tfoot></table>`;
+  $("ledger").innerHTML = h;
+}
+$("ledger").addEventListener("click", async e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.ask){ pendingDelete = b.dataset.ask; renderLedger(); }
+  else if("cancel" in b.dataset){ pendingDelete = null; renderLedger(); }
+  else if(b.dataset.del){
+    b.disabled = true;
+    try{ await col.doc(b.dataset.del).delete(); pendingDelete=null; }
+    catch(err){ status("Η διαγραφή δεν έγινε: "+(err.message||err.code), true); b.disabled=false; }
+  }
+});
+
+function esc(s){ return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+function status(t, err){ const s=$("status"); s.textContent=t; s.className="status"+(err?" err":""); s.hidden=!t; }
+
+async function onSubmit(e){
+  e.preventDefault();
+  const msg = $("f-msg");
+  const date = $("f-date").value, amount = parseAmount($("f-amount").value), category = $("f-cat").value;
+  if(!date){ msg.className="msg err"; msg.textContent="Συμπληρώστε ημερομηνία."; return; }
+  if(!(amount>0)){ msg.className="msg err"; msg.textContent="Το ποσό πρέπει να είναι θετικός αριθμός, π.χ. 120,50."; return; }
+  if(!col){ msg.className="msg err"; msg.textContent="Η αποθήκευση δεν είναι διαθέσιμη. Ανοίξτε τη σελίδα συνδεδεμένοι στο claude.ai."; return; }
+  const btn = $("f-submit"); btn.disabled = true;
+  try{
+    await col.add({date, amount, category, description:$("f-desc").value.trim(), supplier:$("f-sup").value.trim(), createdAt:new Date().toISOString()});
+    msg.className="msg ok"; msg.textContent="Καταχωρίστηκε: "+eur.format(amount)+" · "+CAT[category].name;
+    $("f-amount").value=""; $("f-desc").value=""; $("f-sup").value="";
+    const y = +date.slice(0,4); if(y!==year){ year=y; fillYears(); fillMonths(); }
+  }catch(err){
+    msg.className="msg err"; msg.textContent = err.code==="permission_denied" ? "Δεν έχετε δικαίωμα καταχώρισης σε αυτή τη σελίδα." : "Η καταχώριση δεν αποθηκεύτηκε: "+(err.message||err.code);
+  }finally{ btn.disabled=false; }
+}
+
+async function exportCsv(){
+  const dl = await window.claude?.use?.("downloads"); if(!dl) return;
+  const list = yearRows().sort((a,b)=>a.date.localeCompare(b.date));
+  const q = s => `"${String(s??"").replace(/"/g,'""')}"`;
+  const lines = ["Ημερομηνία;Κατηγορία;Περιγραφή;Προμηθευτής;Ποσό"].concat(list.map(r=>[r.date.split("-").reverse().join("/"), CAT[r.category]?.name||r.category, r.description, r.supplier, r.amount.toFixed(2).replace(".",",")].map(q).join(";")));
+  try{ await dl.save({filename:`InnoMetrics-exoda-${year}.csv`, data:"﻿"+lines.join("\r\n")}); }catch(_){}
+}
+
+async function connect(){
+  const timer = setTimeout(()=>status("Η σύνδεση με τη βάση αργεί. Ελέγξτε ότι είστε συνδεδεμένοι στο claude.ai.", true), 10000);
+  try{
+    db = await window.claude?.use?.("db");
+    if(!db){ clearTimeout(timer); status("Η αποθήκευση δεν είναι διαθέσιμη σε αυτή την προβολή. Ανοίξτε τη σελίδα συνδεδεμένοι στο claude.ai.", true); return; }
+    col = db.collection("expenses");
+    col.onSnapshot(snap=>{
+      clearTimeout(timer);
+      rows = snap.docs.map(d=>{ const v=d.data(); return {id:d.id, date:String(v.date||""), category:String(v.category||"other"), amount:Number(v.amount)||0, description:v.description||"", supplier:v.supplier||"", createdAt:v.createdAt||""}; }).filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(r.date));
+      status(""); fillYears(); render();
+    }, err=>{ clearTimeout(timer); status(err.code==="permission_denied"?"Δεν έχετε πρόσβαση στα έξοδα αυτής της σελίδας.":"Σφάλμα σύνδεσης: "+(err.message||err.code), true); });
+    const user = await window.claude?.use?.("user");
+    const w = await user?.can?.("data.write");
+    if(w===false){ canWrite=false; $("form").querySelectorAll("input,select,button").forEach(el=>el.disabled=true); $("f-msg").textContent="Έχετε δικαίωμα μόνο προβολής."; }
+    const dl = await window.claude?.use?.("downloads"); if(dl) $("csv").hidden=false;
+  }catch(err){ clearTimeout(timer); status("Σφάλμα σύνδεσης: "+(err.message||err), true); }
+}
+
+setup();
+connect();
+</script>
