@@ -17,3 +17,7 @@
 | Balance | Έσοδα, έξοδα, αποτέλεσμα και σωρευτικά ανά μήνα. |
 
 Κάθε καρτέλα έχει εξαγωγή σε CSV.
+
+## Social posting bot
+
+Ο φάκελος `social/` περιέχει το bot που ανεβάζει βίντεο σε Instagram και TikTok με έγκριση από Telegram. Δες `social/README.md`.
