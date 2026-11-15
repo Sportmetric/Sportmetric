@@ -92,7 +92,10 @@ def setup(cfg: Config) -> int:
     if cfg.tiktok_ready():
         from .tiktok import TikTok
         try:
-            info = TikTok(cfg.tiktok_client_key, cfg.tiktok_client_secret, {}, cfg.tiktok_refresh_token).creator_info()
+            tt_state = {}
+            if cfg.telegram_chat_id and not cfg.state_file:
+                tt_state = dict(TelegramStore(tg).load().get("tiktok") or {})  # token from the pinned queue file
+            info = TikTok(cfg.tiktok_client_key, cfg.tiktok_client_secret, tt_state, cfg.tiktok_refresh_token).creator_info()
             print("TikTok:", info.get("creator_username"), "privacy options:", info.get("privacy_level_options"))
         except Exception as e:
             print("TikTok check failed:", e)
