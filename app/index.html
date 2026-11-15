@@ -1,0 +1,1225 @@
+<title>InnoMetrics Οικονομικά</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@500;600;700&family=Noto+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: six tabs (Έξοδα, Έσοδα, Απόθεμα, Προϊόντα, Συνεργάτες, Balance); each opens with summary tiles, then working panels and wide tables. */
+:root{
+  --bg:#f5f7f9; --surface:#ffffff; --line:#dde3ea; --ink:#14202b; --muted:#5b6b7a;
+  --accent:#1f5fd1; --danger:#b4232c; --warn:#a86500; --ok:#1b7a4b;
+  --danger-soft:#fbe9ea; --warn-soft:#fdf1dc; --ok-soft:#e3f4ea; --info-soft:#e6eefc; --missing:#fff6d6;
+  --inc:#159a8c; --exp:#d4405f;
+  --c1:#1f5fd1; --c2:#e07b1a; --c3:#159a8c; --c4:#a03cc0; --c5:#d4405f; --c6:#6b7f1d; --c7:#3d4b8f; --c8:#8a7a66;
+  --on-accent:#ffffff;
+  --display:"Commissioner","Segoe UI",system-ui,sans-serif;
+  --text:"Noto Sans","Segoe UI",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#16202a; --line:#26323e; --ink:#e6edf3; --muted:#93a3b3;
+  --accent:#6f9ff0; --danger:#f07a80; --warn:#f0b357; --ok:#5cc996;
+  --danger-soft:#3a1d21; --warn-soft:#3a2c14; --ok-soft:#173326; --info-soft:#1c2c47; --missing:#3a3416;
+  --inc:#4cc7b8; --exp:#ef7d95;
+  --c1:#6f9ff0; --c2:#f0a050; --c3:#4cc7b8; --c4:#c983e0; --c5:#ef7d95; --c6:#a9c24f; --c7:#8f9ce0; --c8:#bfae97;
+  --on-accent:#0f151b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#16202a; --line:#26323e; --ink:#e6edf3; --muted:#93a3b3;
+  --accent:#6f9ff0; --danger:#f07a80; --warn:#f0b357; --ok:#5cc996;
+  --danger-soft:#3a1d21; --warn-soft:#3a2c14; --ok-soft:#173326; --info-soft:#1c2c47; --missing:#3a3416;
+  --inc:#4cc7b8; --exp:#ef7d95;
+  --c1:#6f9ff0; --c2:#f0a050; --c3:#4cc7b8; --c4:#c983e0; --c5:#ef7d95; --c6:#a9c24f; --c7:#8f9ce0; --c8:#bfae97;
+  --on-accent:#0f151b; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--text);font-size:14px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:20px}
+.view{display:grid;gap:20px;min-width:0}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:1.6rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.05rem;font-weight:600}
+h3{font-size:.92rem;font-weight:600}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+header .brand{display:grid;gap:2px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input,button,textarea{font:inherit;color:inherit}
+select,input,textarea{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
+textarea{resize:vertical;line-height:1.5}
+select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button{cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;font-weight:600}
+button:disabled{opacity:.55;cursor:default}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+button.link{border:0;background:none;padding:4px 6px;color:var(--muted);font-weight:500}
+button.link:hover{color:var(--ink)}
+button.danger{background:var(--danger);border-color:var(--danger);color:var(--on-accent)}
+nav.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{border-bottom:3px solid transparent;padding:10px 14px;font-family:var(--display);font-size:.98rem;font-weight:600;color:var(--muted);white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab .badge{font-family:var(--text);font-size:.72rem;background:var(--danger);color:var(--on-accent);border-radius:99px;padding:0 7px;line-height:1.6}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;min-width:0}
+.tile .v{font-family:var(--display);font-size:1.45rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.tile .s{color:var(--muted);font-size:.82rem}
+.pos{color:var(--ok)} .neg{color:var(--danger)}
+.row2{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
+.stack{display:flex;flex-direction:column-reverse;gap:20px;min-width:0}
+.stack > .panel:first-child{max-width:760px;width:100%}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:14px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+form{display:grid;gap:10px}
+label{display:grid;gap:4px;font-size:.82rem;color:var(--muted);font-weight:500}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sub-box{display:grid;gap:10px;padding:10px;border-radius:8px;background:var(--bg);border:1px dashed var(--line)}
+.hint{font-size:.78rem;color:var(--muted)}
+.msg{font-size:.85rem;min-height:1.2em}
+.msg.err{color:var(--danger)} .msg.ok{color:var(--ok)}
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:520px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child,th.l,td.l{text-align:left}
+thead th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tfoot td{font-weight:700;border-bottom:0}
+td.zero{color:var(--muted);opacity:.5}
+td.wrapcell{white-space:normal;min-width:200px;text-align:left}
+tr.group td{background:var(--bg);font-family:var(--display);font-weight:600;text-align:left;font-size:.85rem}
+td.miss{background:var(--missing);color:var(--muted)}
+.sub{display:block;font-size:.78rem;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--line)}
+.pill{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pill.red{background:var(--danger-soft);color:var(--danger)}
+.pill.amber{background:var(--warn-soft);color:var(--warn)}
+.pill.green{background:var(--ok-soft);color:var(--ok)}
+.pill.blue{background:var(--info-soft);color:var(--accent)}
+.pill.grey{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.confirm{display:inline-flex;gap:6px;align-items:center}
+.empty{padding:28px 12px;text-align:center;color:var(--muted);display:grid;gap:6px}
+.empty strong{color:var(--ink);font-family:var(--display);font-size:1rem}
+.status{font-size:.82rem;color:var(--muted)}
+.status.err{color:var(--danger)}
+.note{font-size:.8rem;color:var(--muted);margin:0}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select{width:auto}
+.settings{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.settings label{width:160px}
+.history{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.history li{display:grid;gap:2px;padding-left:10px;border-left:2px solid var(--line)}
+.history time{font-size:.75rem;color:var(--muted)}
+.mail{display:grid;gap:10px}
+#mail-out{min-height:260px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+@media (max-width:860px){.row2{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.pair{grid-template-columns:1fr}.tab{padding:10px 10px}}
+.bar:hover{opacity:.8}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="eyebrow">InnoMetrics · Εσωτερικό εργαλείο</span>
+      <h1>Οικονομικά εταιρείας</h1>
+    </div>
+    <div class="tools">
+      <label for="year" id="year-w" style="grid-auto-flow:column;align-items:center;gap:8px">Έτος
+        <select id="year"></select>
+      </label>
+      <button id="csv" hidden>Εξαγωγή CSV</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Ενότητες">
+    <a class="tab" role="tab" href="#exoda" id="tab-exoda"><i class="dot" style="background:var(--exp)"></i>Έξοδα</a>
+    <a class="tab" role="tab" href="#esoda" id="tab-esoda"><i class="dot" style="background:var(--inc)"></i>Έσοδα</a>
+    <a class="tab" role="tab" href="#apothema" id="tab-apothema">Απόθεμα <span class="badge" id="badge-stock" hidden></span></a>
+    <a class="tab" role="tab" href="#proionta" id="tab-proionta">Προϊόντα</a>
+    <a class="tab" role="tab" href="#synergates" id="tab-synergates">Συνεργάτες <span class="badge" id="badge-partners" hidden></span></a>
+    <a class="tab" role="tab" href="#balance" id="tab-balance"><i class="dot" style="background:var(--accent)"></i>Balance</a>
+  </nav>
+
+  <div id="status" class="status">Φόρτωση δεδομένων…</div>
+
+  <!-- ========== Έξοδα / Έσοδα ========== -->
+  <div id="view-ledger" class="view">
+    <section class="tiles" aria-label="Σύνοψη">
+      <div class="tile"><span class="eyebrow" id="t1l">Αυτόν τον μήνα</span><span class="v" id="t1">—</span><span class="s" id="t1s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Από αρχή έτους</span><span class="v" id="t2">—</span><span class="s" id="t2s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Μέσος όρος / μήνα</span><span class="v" id="t3">—</span><span class="s">μήνες με κινήσεις</span></div>
+      <div class="tile"><span class="eyebrow" id="t4l">Μεγαλύτερη κατηγορία</span><span class="v" id="t4">—</span><span class="s" id="t4s">&nbsp;</span></div>
+    </section>
+
+    <div class="row2">
+      <section class="panel" aria-labelledby="addh">
+        <h2 id="addh">Νέο έξοδο</h2>
+        <form id="form" novalidate>
+          <div class="pair">
+            <label for="f-date">Ημερομηνία<input id="f-date" type="date" required></label>
+            <label for="f-amount">Ποσό (€, με ΦΠΑ)<input id="f-amount" type="text" inputmode="decimal" placeholder="π.χ. 120,50" required></label>
+          </div>
+          <label for="f-cat"><span id="f-cat-l">Κατηγορία</span><select id="f-cat" required></select></label>
+          <div class="sub-box" id="f-prodbox">
+            <div class="pair">
+              <label for="f-prod"><span id="f-prod-l">Προϊόν</span><select id="f-prod"></select></label>
+              <label for="f-qty">Τεμάχια<input id="f-qty" type="text" inputmode="numeric" placeholder="π.χ. 3"></label>
+            </div>
+            <span class="hint" id="f-prodhint"></span>
+          </div>
+          <label for="f-desc">Περιγραφή<input id="f-desc" type="text" maxlength="200"></label>
+          <label for="f-sup"><span id="f-sup-l">Προμηθευτής / παραστατικό</span><input id="f-sup" type="text" maxlength="120"></label>
+          <button class="primary" type="submit" id="f-submit">Καταχώριση</button>
+          <div id="f-msg" class="msg" role="status"></div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="charth">
+        <div class="panel-head"><h2 id="charth">Ανά μήνα</h2><span class="status" id="chartsub"></span></div>
+        <div class="chart" id="chart"></div>
+        <div class="legend" id="legend"></div>
+      </section>
+    </div>
+
+    <section class="panel" aria-labelledby="cath">
+      <div class="panel-head"><h2 id="cath">Ανά κατηγορία και μήνα</h2><span class="status">ποσά σε €</span></div>
+      <div class="tablebox" id="cattable"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="ledh">
+      <div class="panel-head">
+        <h2 id="ledh">Καταχωρίσεις</h2>
+        <div class="filters">
+          <select id="flt-month" aria-label="Μήνας"></select>
+          <select id="flt-cat" aria-label="Κατηγορία"></select>
+        </div>
+      </div>
+      <div class="tablebox" id="ledger"></div>
+    </section>
+  </div>
+
+  <!-- ========== Απόθεμα ========== -->
+  <div id="view-apothema" class="view" hidden>
+    <section class="tiles" aria-label="Σύνοψη αποθέματος">
+      <div class="tile"><span class="eyebrow">Τεμάχια σε απόθεμα</span><span class="v" id="s1">—</span><span class="s" id="s1s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Αξία σε κόστος</span><span class="v" id="s2">—</span><span class="s" id="s2s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Αξία σε τιμή Skroutz</span><span class="v" id="s3">—</span><span class="s">με ΦΠΑ, αν πουληθούν όλα</span></div>
+      <div class="tile"><span class="eyebrow">Θέλουν προσοχή</span><span class="v" id="s4">—</span><span class="s" id="s4s">&nbsp;</span></div>
+    </section>
+    <section class="panel" aria-labelledby="sth">
+      <div class="panel-head"><h2 id="sth">Απόθεμα ανά προϊόν</h2>
+        <div class="filters"><select id="st-filter" aria-label="Φίλτρο">
+          <option value="">Όλα τα προϊόντα</option><option value="stock">Μόνο με κινήσεις</option><option value="alert">Μόνο χαμηλό ή εξαντλημένο</option>
+        </select></div>
+      </div>
+      <div class="tablebox" id="stocktable"></div>
+      <p class="note">Οι <strong>αγορές</strong> μπαίνουν από τα Έξοδα (κατηγορία «Εμπόρευμα», με προϊόν και τεμάχια) και οι <strong>πωλήσεις</strong> από τα Έσοδα (με προϊόν και τεμάχια). Εδώ καταγράφετε μόνο διορθώσεις, όπως αρχικό απόθεμα, ελαττωματικά ή δείγματα. <span id="stnote"></span></p>
+    </section>
+    <div class="row2">
+      <section class="panel" aria-labelledby="adjh">
+        <h2 id="adjh">Διόρθωση αποθέματος</h2>
+        <form id="aform" novalidate>
+          <label for="a-prod">Προϊόν<select id="a-prod"></select></label>
+          <div class="pair">
+            <label for="a-date">Ημερομηνία<input id="a-date" type="date"></label>
+            <label for="a-qty">Τεμάχια (+ ή −)<input id="a-qty" type="text" inputmode="numeric" placeholder="π.χ. 20 ή -1"></label>
+          </div>
+          <label for="a-reason">Αιτία<select id="a-reason">
+            <option>Αρχικό απόθεμα</option><option>Ελαττωματικό / επιστροφή</option><option>Δείγμα σε συνεργάτη</option><option>Καταμέτρηση</option><option>Άλλο</option>
+          </select></label>
+          <label for="a-note">Σημείωση<input id="a-note" type="text" maxlength="160"></label>
+          <button class="primary" type="submit" id="a-submit">Καταχώριση διόρθωσης</button>
+          <div id="a-msg" class="msg" role="status"></div>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="mlh">
+        <div class="panel-head"><h2 id="mlh">Ιστορικό κινήσεων</h2>
+          <select id="ml-prod" aria-label="Προϊόν" style="width:auto"></select>
+        </div>
+        <div class="tablebox" id="movetable"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ========== Προϊόντα ========== -->
+  <div id="view-proionta" class="view" hidden>
+    <section class="panel" aria-labelledby="sett">
+      <div class="panel-head"><h2 id="sett">Παράμετροι υπολογισμού</h2><span class="msg" id="set-msg" role="status"></span></div>
+      <form id="sform" class="settings" novalidate>
+        <label for="set-comm">Προμήθεια Skroutz (%)<input id="set-comm" type="text" inputmode="decimal"></label>
+        <label for="set-vat">ΦΠΑ (%)<input id="set-vat" type="text" inputmode="decimal"></label>
+        <label for="set-low">Όριο χαμηλού αποθέματος<input id="set-low" type="text" inputmode="numeric"></label>
+        <button type="submit">Αποθήκευση</button>
+      </form>
+    </section>
+    <div class="stack">
+      <section class="panel" aria-labelledby="pfh">
+        <div class="panel-head"><h2 id="pfh">Νέο προϊόν</h2><button class="link" type="button" id="p-cancel" hidden>Ακύρωση επεξεργασίας</button></div>
+        <form id="pform" novalidate>
+          <div class="pair">
+            <label for="p-cat">Κατηγορία<select id="p-cat"></select></label>
+            <label for="p-model">Μοντέλο<input id="p-model" type="text" maxlength="60" required></label>
+          </div>
+          <div class="pair">
+            <label for="p-var">Παραλλαγή<input id="p-var" type="text" maxlength="60"></label>
+            <label for="p-ean">EAN (GTIN)<input id="p-ean" type="text" inputmode="numeric" maxlength="14"></label>
+          </div>
+          <div class="pair">
+            <label for="p-fc">Κόστος εργοστασίου (€)<input id="p-fc" type="text" inputmode="decimal"></label>
+            <label for="p-lc">Κόστος με έξοδα (€)<input id="p-lc" type="text" inputmode="decimal"></label>
+          </div>
+          <div class="pair">
+            <label for="p-sk">Τιμή Skroutz (€)<input id="p-sk" type="text" inputmode="decimal"></label>
+            <label for="p-rt">Τιμή λιανικής (€)<input id="p-rt" type="text" inputmode="decimal"></label>
+          </div>
+          <div class="pair">
+            <label for="p-ws">Τιμή χονδρικής (€)<input id="p-ws" type="text" inputmode="decimal"></label>
+            <label for="p-pl">Private label<select id="p-pl"><option value="">Όχι / άγνωστο</option><option value="yes">Ναι</option></select></label>
+          </div>
+          <button class="primary" type="submit" id="p-submit">Προσθήκη προϊόντος</button>
+          <div id="p-msg" class="msg" role="status"></div>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="pth">
+        <div class="panel-head"><h2 id="pth">Κατάλογος και περιθώρια</h2><span class="status" id="pthsub"></span></div>
+        <div class="tablebox" id="prodtable"></div>
+        <p class="note">Περιθώριο = (τιμή Skroutz − προμήθεια Skroutz) χωρίς ΦΠΑ − κόστος με έξοδα. Τα κίτρινα κελιά δεν έχουν συμπληρωθεί ακόμα· πατήστε «Επεξεργασία» για να τα συμπληρώσετε.</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- ========== Συνεργάτες ========== -->
+  <div id="view-synergates" class="view" hidden>
+    <section class="tiles" aria-label="Σύνοψη συνεργατών">
+      <div class="tile"><span class="eyebrow">Ενεργοί συνεργάτες</span><span class="v" id="k1">—</span><span class="s">πουλάνε ήδη τα προϊόντα σας</span></div>
+      <div class="tile"><span class="eyebrow">Σε συζήτηση</span><span class="v" id="k2">—</span><span class="s" id="k2s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Ενέργειες για σήμερα</span><span class="v" id="k3">—</span><span class="s" id="k3s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Χωρίς επαφή 30+ ημέρες</span><span class="v" id="k4">—</span><span class="s">ενεργοί ή σε συζήτηση</span></div>
+    </section>
+
+    <section class="panel" aria-labelledby="plh">
+      <div class="panel-head"><h2 id="plh">Λίστα συνεργατών</h2>
+        <div class="filters">
+          <select id="pl-stage" aria-label="Στάδιο"></select>
+          <button class="primary" type="button" id="pl-new">Νέος συνεργάτης</button>
+        </div>
+      </div>
+      <div class="tablebox" id="partnertable"></div>
+    </section>
+
+    <div class="row2" id="partner-work">
+      <section class="panel" aria-labelledby="ptfh" id="ptpanel">
+        <div class="panel-head"><h2 id="ptfh">Νέος συνεργάτης</h2><button class="link" type="button" id="pt-cancel" hidden>Κλείσιμο</button></div>
+        <form id="ptform" novalidate>
+          <label for="pt-name">Επωνυμία<input id="pt-name" type="text" maxlength="100" placeholder="π.χ. Πλαίσιο Computers"></label>
+          <div class="pair">
+            <label for="pt-type">Τύπος<select id="pt-type"></select></label>
+            <label for="pt-stage">Στάδιο<select id="pt-stage"></select></label>
+          </div>
+          <div class="pair">
+            <label for="pt-person">Υπεύθυνος επικοινωνίας<input id="pt-person" type="text" maxlength="80"></label>
+            <label for="pt-city">Πόλη<input id="pt-city" type="text" maxlength="60"></label>
+          </div>
+          <div class="pair">
+            <label for="pt-email">Email<input id="pt-email" type="email" maxlength="120"></label>
+            <label for="pt-phone">Τηλέφωνο<input id="pt-phone" type="tel" maxlength="40"></label>
+          </div>
+          <div class="pair">
+            <label for="pt-last">Τελευταία επαφή<input id="pt-last" type="date"></label>
+            <label for="pt-next-date">Ημερομηνία επόμενης ενέργειας<input id="pt-next-date" type="date"></label>
+          </div>
+          <label for="pt-next">Επόμενη ενέργεια<input id="pt-next" type="text" maxlength="160" placeholder="π.χ. Αποστολή δειγμάτων W610 στο τμήμα αγορών"></label>
+          <label for="pt-log">Τι συζητήσατε στην τελευταία επαφή (προαιρετικό)<textarea id="pt-log" rows="3" maxlength="800" placeholder="Μπαίνει στο ιστορικό με την ημερομηνία της τελευταίας επαφής"></textarea></label>
+          <label for="pt-notes">Μόνιμες σημειώσεις<textarea id="pt-notes" rows="2" maxlength="800" placeholder="π.χ. όροι πληρωμής, ποια προϊόντα τους ενδιαφέρουν"></textarea></label>
+          <button class="primary" type="submit" id="pt-submit">Προσθήκη συνεργάτη</button>
+          <div id="pt-msg" class="msg" role="status"></div>
+        </form>
+        <div id="pt-historybox" hidden>
+          <h3>Ιστορικό επαφών</h3>
+          <ul class="history" id="pt-history"></ul>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="mailh" id="mailpanel">
+        <div class="panel-head"><h2 id="mailh">Βοηθός email</h2><span class="status" id="mailfor">Επιλέξτε «Email» σε έναν συνεργάτη</span></div>
+        <div class="mail">
+          <div class="pair">
+            <label for="mail-partner">Συνεργάτης<select id="mail-partner"></select></label>
+            <label for="mail-goal">Σκοπός<select id="mail-goal">
+              <option value="intro">Πρώτη επαφή / παρουσίαση</option>
+              <option value="followup">Follow-up μετά από επαφή</option>
+              <option value="offer">Αποστολή προσφοράς και τιμών</option>
+              <option value="samples">Πρόταση για δείγματα</option>
+              <option value="thanks">Ευχαριστώ μετά από συνάντηση</option>
+              <option value="reorder">Πρόταση νέας παραγγελίας</option>
+              <option value="corporate">Πρόταση για εταιρικά δώρα</option>
+            </select></label>
+          </div>
+          <label for="mail-extra">Τι θέλετε να πει το email (προαιρετικό)<textarea id="mail-extra" rows="3" maxlength="800" placeholder="π.χ. να προτείνουμε τα W610 για τα καταστήματα της Αθήνας, έκπτωση 10% για πρώτη παραγγελία 30 τεμαχίων"></textarea></label>
+          <div class="btnrow">
+            <button class="primary" type="button" id="mail-go">Γράψε email</button>
+            <button type="button" id="mail-copy" hidden>Αντιγραφή</button>
+            <span class="msg" id="mail-msg" role="status"></span>
+          </div>
+          <label for="mail-out">Κείμενο (μπορείτε να το διορθώσετε πριν το στείλετε)<textarea id="mail-out" placeholder="Εδώ θα εμφανιστεί το προσχέδιο του email."></textarea></label>
+          <p class="note" id="mail-note">Το προσχέδιο γράφεται από το Claude με βάση τα στοιχεία του συνεργάτη και τον κατάλογό σας. Τιμές και ποσότητες που δεν υπάρχουν στον κατάλογο μπαίνουν σε [αγκύλες] για να τις συμπληρώσετε εσείς. Η σελίδα δεν στέλνει το email.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ========== Balance ========== -->
+  <div id="view-balance" class="view" hidden>
+    <section class="tiles" aria-label="Σύνοψη balance">
+      <div class="tile"><span class="eyebrow">Έσοδα έτους</span><span class="v" id="b1">—</span><span class="s" id="b1s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Έξοδα έτους</span><span class="v" id="b2">—</span><span class="s" id="b2s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Αποτέλεσμα</span><span class="v" id="b3">—</span><span class="s" id="b3s">&nbsp;</span></div>
+      <div class="tile"><span class="eyebrow">Περιθώριο</span><span class="v" id="b4">—</span><span class="s">αποτέλεσμα ÷ έσοδα</span></div>
+    </section>
+    <section class="panel" aria-labelledby="bch">
+      <div class="panel-head"><h2 id="bch">Έσοδα, έξοδα και αποτέλεσμα ανά μήνα</h2><span class="status" id="bchsub"></span></div>
+      <div class="chart" id="bchart"></div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--inc)"></i>Έσοδα</span>
+        <span><i class="sw" style="background:var(--exp)"></i>Έξοδα</span>
+        <span><i class="sw" style="background:var(--ink);height:3px;border-radius:2px"></i>Αποτέλεσμα</span>
+      </div>
+    </section>
+    <section class="panel" aria-labelledby="bth">
+      <div class="panel-head"><h2 id="bth">Μηνιαία εικόνα</h2><span class="status">ποσά σε €</span></div>
+      <div class="tablebox" id="btable"></div>
+      <p class="note">Τα ποσά περιλαμβάνουν ΦΠΑ και δεν αφαιρούν φόρους. Είναι μια γρήγορη εικόνα για εσάς, όχι το λογιστικό αποτέλεσμα του λογιστή. Οι αγορές εμπορεύματος μετράνε ως έξοδο τον μήνα που πληρώθηκαν.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ================= constants ================= */
+const KINDS = {
+  exoda: {
+    collection:"expenses", one:"έξοδο", title:"Νέο έξοδο", catLabel:"Κατηγορία", supLabel:"Προμηθευτής / παραστατικό",
+    descPh:"π.χ. Προμήθεια Skroutz Οκτωβρίου", supPh:"π.χ. Skroutz ΑΕ · ΤΠΥ 1234",
+    topLabel:"Μεγαλύτερη κατηγορία", chartTitle:"Έξοδα ανά μήνα",
+    emptyHint:"π.χ. τη συνδρομή GS1 ή την προμήθεια Skroutz του μήνα",
+    cats:[
+      {id:"merch",   name:"Εμπόρευμα",          c:"--c1"},
+      {id:"skroutz", name:"Skroutz",            c:"--c2"},
+      {id:"promo",   name:"Προώθηση",           c:"--c3"},
+      {id:"gs1",     name:"GS1 / barcodes",     c:"--c4"},
+      {id:"acct",    name:"Λογιστής",           c:"--c5"},
+      {id:"ship",    name:"Μεταφορικά / εκτελωνισμός", c:"--c6"},
+      {id:"pack",    name:"Συσκευασία / branding", c:"--c7"},
+      {id:"other",   name:"Λοιπά",              c:"--c8"},
+    ]
+  },
+  esoda: {
+    collection:"income", one:"έσοδο", title:"Νέο έσοδο", catLabel:"Κανάλι πώλησης", supLabel:"Πελάτης / παραστατικό",
+    descPh:"π.χ. Πωλήσεις Skroutz Νοεμβρίου", supPh:"π.χ. Hondos Center · ΤΠ 0587",
+    topLabel:"Μεγαλύτερο κανάλι", chartTitle:"Έσοδα ανά μήνα",
+    emptyHint:"π.χ. την εκκαθάριση Skroutz του μήνα ή ένα τιμολόγιο προς κατάστημα",
+    cats:[
+      {id:"skroutz",   name:"Skroutz",              c:"--c2"},
+      {id:"retail",    name:"Καταστήματα λιανικής", c:"--c1"},
+      {id:"corporate", name:"Εταιρικοί πελάτες",    c:"--c3"},
+      {id:"other",     name:"Λοιπές πωλήσεις",      c:"--c8"},
+    ]
+  }
+};
+const PCATS = [
+  {id:"glasses", name:"Smart Glasses", c:"--c1"},
+  {id:"watch",   name:"Smart Watch",   c:"--c2"},
+  {id:"ring",    name:"Smart Ring",    c:"--c4"},
+  {id:"other",   name:"Λοιπά",         c:"--c8"},
+];
+const STAGES = [
+  {id:"target",      name:"Στόχος",              cls:"grey"},
+  {id:"contact",     name:"Πρώτη επαφή",         cls:"blue"},
+  {id:"proposal",    name:"Πρόταση / δείγματα",  cls:"blue"},
+  {id:"negotiation", name:"Διαπραγμάτευση",      cls:"amber"},
+  {id:"active",      name:"Ενεργός συνεργάτης",  cls:"green"},
+  {id:"lost",        name:"Δεν προχώρησε",       cls:"red"},
+];
+const PTYPES = {chain:"Αλυσίδα λιανικής", store:"Κατάστημα", corporate:"Εταιρικός πελάτης", marketplace:"Marketplace / e-shop", distributor:"Διανομέας", other:"Άλλο"};
+const TALKING = ["contact","proposal","negotiation"];
+const MONTHS = ["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
+const MONTHS_FULL = ["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"];
+const TABS = ["exoda","esoda","apothema","proionta","synergates","balance"];
+
+const eur = new Intl.NumberFormat("el-GR",{style:"currency",currency:"EUR"});
+const eur0 = new Intl.NumberFormat("el-GR",{style:"currency",currency:"EUR",maximumFractionDigits:0});
+const n0 = new Intl.NumberFormat("el-GR",{maximumFractionDigits:0});
+const n1 = new Intl.NumberFormat("el-GR",{maximumFractionDigits:1});
+const $ = id => document.getElementById(id);
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const today = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+const dmy = s => s ? s.split("-").reverse().join("/") : "–";
+const signed = v => (v>0?"+":v<0?"−":"")+eur.format(Math.abs(v));
+const daysBetween = (a,b) => Math.round((Date.parse(b)-Date.parse(a))/86400000);
+function esc(s){ return String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+function num(s){
+  s = String(s??"").trim().replace(/\s|€|%/g,"");
+  if(!s) return null;
+  if(s.includes(",")) s = s.replace(/\./g,"").replace(",",".");
+  const v = Number(s); return Number.isFinite(v) ? v : NaN;
+}
+const fmtIn = v => v==null ? "" : String(Math.round(v*100)/100).replace(".",",");
+const N = v => (v==null||v==="") ? null : (Number.isFinite(Number(v)) ? Number(v) : null);
+function status(t, err){ const s=$("status"); s.textContent=t; s.className="status"+(err?" err":""); s.hidden=!t; }
+function niceStep(x){ const p=Math.pow(10,Math.floor(Math.log10(x))); const f=x/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; }
+function setMsg(el, text, ok){ el.className = "msg "+(ok?"ok":"err"); el.textContent = text; }
+
+/* ================= state ================= */
+const data = {exoda:[], esoda:[]};
+let products = [], moves = [], partners = [];
+let settings = {commission:0.1054, vat:0.24, lowStock:5};
+const cols = {};
+let cProd=null, cMove=null, cPart=null, dSet=null, sample=null, dl=null;
+const loaded = {exoda:false, esoda:false, products:false, movements:false, partners:false};
+let canWrite = true;
+let year = new Date().getFullYear();
+let tab = "exoda";
+let pendingDelete = null, editingProduct = null, editingPartner = null;
+let amountAuto = false;
+
+const K = () => KINDS[tab];
+const catOf = (kind,id) => KINDS[kind].cats.find(c=>c.id===id) || {id, name:id, c:"--c8"};
+const pcatOf = id => PCATS.find(c=>c.id===id) || PCATS[3];
+const stageOf = id => STAGES.find(s=>s.id===id) || STAGES[0];
+const rowsOf = kind => data[kind].filter(r=>r.date.startsWith(String(year)));
+const byMonth = list => { const a=Array(12).fill(0); list.forEach(r=>a[+r.date.slice(5,7)-1]+=r.amount); return a; };
+const byId = id => products.find(p=>p.id===id);
+const pname = p => p ? (p.model + (p.variant ? " · " + p.variant : "")) : "Άγνωστο προϊόν";
+const sortedProducts = () => [...products].sort((a,b)=>PCATS.indexOf(pcatOf(a.category))-PCATS.indexOf(pcatOf(b.category)) || a.model.localeCompare(b.model,"el") || (a.variant||"").localeCompare(b.variant||"","el"));
+
+/* ================= routing ================= */
+function route(){
+  const h = location.hash.replace("#","");
+  tab = TABS.includes(h) ? h : "exoda";
+  TABS.forEach(t=>$("tab-"+t).setAttribute("aria-selected", String(t===tab)));
+  $("view-ledger").hidden = !(tab in KINDS);
+  ["apothema","proionta","synergates","balance"].forEach(t=>$("view-"+t).hidden = t!==tab);
+  $("year-w").hidden = !(tab in KINDS || tab==="balance");
+  pendingDelete = null;
+  if(tab in KINDS) applyKind();
+  render();
+}
+function render(){
+  fillProductSelects();
+  renderBadges();
+  if(tab in KINDS){ renderTiles(); renderChart(); renderCatTable(); renderLedger(); }
+  else if(tab==="apothema") { renderStock(); renderMoves(); }
+  else if(tab==="proionta") renderProducts();
+  else if(tab==="synergates") renderPartners();
+  else renderBalance();
+}
+
+/* ================= Έξοδα / Έσοδα ================= */
+function applyKind(){
+  const k = K();
+  $("addh").textContent = k.title;
+  $("f-cat-l").textContent = k.catLabel;
+  $("f-sup-l").textContent = k.supLabel;
+  $("f-desc").placeholder = k.descPh;
+  $("f-sup").placeholder = k.supPh;
+  $("f-cat").innerHTML = k.cats.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  $("flt-cat").innerHTML = `<option value="">Όλες οι κατηγορίες</option>` + k.cats.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  $("t4l").textContent = k.topLabel;
+  $("charth").textContent = k.chartTitle;
+  $("cath").textContent = (tab==="esoda"?"Ανά κανάλι":"Ανά κατηγορία")+" και μήνα";
+  $("f-prod-l").textContent = tab==="esoda" ? "Προϊόν που πουλήθηκε" : "Προϊόν που αγοράστηκε";
+  $("f-msg").textContent = canWrite ? "" : "Έχετε δικαίωμα μόνο προβολής.";
+  $("f-prod").value = ""; $("f-qty").value = ""; amountAuto = false;
+  updateProdBox();
+}
+function updateProdBox(){
+  const show = tab==="esoda" || (tab==="exoda" && $("f-cat").value==="merch");
+  $("f-prodbox").hidden = !show;
+  if(!show){ $("f-prodhint").textContent=""; return; }
+  const p = byId($("f-prod").value), q = num($("f-qty").value);
+  if(tab==="exoda"){
+    const a = num($("f-amount").value);
+    $("f-prodhint").textContent = p && q>0 && a>0 ? "Κόστος ανά τεμάχιο: "+eur.format(a/q)+". Τα τεμάχια μπαίνουν στο απόθεμα." : "Προαιρετικό. Αν το συμπληρώσετε, τα τεμάχια μπαίνουν στο απόθεμα.";
+  } else {
+    if(p && q>0){
+      const u = unitPrice(p, $("f-cat").value);
+      if(u!=null && (amountAuto || !$("f-amount").value)){ $("f-amount").value = fmtIn(u.price*q); amountAuto = true; }
+      $("f-prodhint").textContent = (u ? "Προτεινόμενο ποσό: "+q+" × "+eur.format(u.price)+" ("+u.label+"). " : "Δεν υπάρχει τιμή στον κατάλογο για αυτό το κανάλι. ") + "Τα τεμάχια αφαιρούνται από το απόθεμα ("+n0.format(stockOf(p.id).qty)+" διαθέσιμα).";
+    } else $("f-prodhint").textContent = "Προαιρετικό. Αν το συμπληρώσετε, τα τεμάχια αφαιρούνται από το απόθεμα.";
+  }
+}
+function unitPrice(p, channel){
+  if(channel==="skroutz" && p.skroutzPrice!=null) return {price:p.skroutzPrice, label:"τιμή Skroutz"};
+  if((channel==="retail"||channel==="corporate") && p.wholesalePrice!=null) return {price:p.wholesalePrice, label:"τιμή χονδρικής"};
+  if(p.retailPrice!=null) return {price:p.retailPrice, label:"τιμή λιανικής"};
+  if(p.skroutzPrice!=null) return {price:p.skroutzPrice, label:"τιμή Skroutz"};
+  return null;
+}
+function fillYears(){
+  const now = new Date().getFullYear();
+  const ys = new Set([now, now-1, ...[...data.exoda, ...data.esoda].map(r=>+r.date.slice(0,4))]);
+  $("year").innerHTML = [...ys].sort((a,b)=>b-a).map(y=>`<option value="${y}" ${y===year?"selected":""}>${y}</option>`).join("");
+}
+function fillMonths(){
+  const cur = $("flt-month").value;
+  $("flt-month").innerHTML = `<option value="">Όλοι οι μήνες ${year}</option>` + MONTHS_FULL.map((m,i)=>`<option value="${i}">${m}</option>`).join("");
+  $("flt-month").value = cur;
+}
+function curMonthIndex(){ const now=new Date(); return year===now.getFullYear() ? now.getMonth() : 11; }
+
+function renderTiles(){
+  const yr = rowsOf(tab), bm = byMonth(yr), m = curMonthIndex();
+  const total = bm.reduce((a,b)=>a+b,0);
+  $("t1l").textContent = year===new Date().getFullYear() ? "Αυτόν τον μήνα" : "Δεκέμβριος "+year;
+  $("t1").textContent = eur.format(bm[m]);
+  if(m>0 && bm[m-1]>0){
+    const d = (bm[m]-bm[m-1])/bm[m-1]*100;
+    $("t1s").textContent = (d>=0?"+":"")+n0.format(d)+"% σε σχέση με "+MONTHS_FULL[m-1].toLowerCase();
+  } else $("t1s").textContent = MONTHS_FULL[m]+" "+year;
+  $("t2").textContent = eur.format(total);
+  const units = yr.reduce((a,r)=>a+(r.qty||0),0);
+  $("t2s").textContent = yr.length+" καταχωρίσεις"+(units?" · "+n0.format(units)+" τεμ. "+(tab==="esoda"?"πουλήθηκαν":"αγοράστηκαν"):"");
+  const active = bm.filter(v=>v>0).length;
+  $("t3").textContent = active ? eur.format(total/active) : "—";
+  const byCat = {}; yr.forEach(r=>byCat[r.category]=(byCat[r.category]||0)+r.amount);
+  const top = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  $("t4").textContent = top ? catOf(tab,top[0]).name : "—";
+  $("t4s").textContent = top ? eur.format(top[1])+" · "+n0.format(top[1]/total*100)+"% του έτους" : " ";
+}
+function renderChart(){
+  const k = K(), yr = rowsOf(tab);
+  const md = MONTHS.map(()=>({}));
+  yr.forEach(r=>{ const i=+r.date.slice(5,7)-1; md[i][r.category]=(md[i][r.category]||0)+r.amount; });
+  const totals = md.map(d=>Object.values(d).reduce((a,b)=>a+b,0));
+  const max = Math.max(...totals, 0);
+  const W=720,H=280,L=64,R=12,T=16,B=30, iw=W-L-R, ih=H-T-B;
+  const step = niceStep(max/4 || 250), top = Math.max(step*4, Math.ceil(max/step)*step);
+  const y = v => T + ih - v/top*ih, bw = iw/12*0.62, gap = iw/12, ink = css("--muted"), line = css("--line");
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${k.chartTitle} ${year}">`;
+  for(let v=0; v<=top+0.001; v+=step){
+    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${line}" stroke-width="1"/>`;
+    s += `<text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="${ink}">${eur0.format(v)}</text>`;
+  }
+  md.forEach((d,i)=>{
+    const x = L + gap*i + (gap-bw)/2; let acc = 0;
+    k.cats.forEach(c=>{
+      const v = d[c.id]; if(!v) return;
+      const y0 = y(acc), y1 = y(acc+v);
+      s += `<rect class="bar" x="${x}" y="${y1}" width="${bw}" height="${Math.max(0,y0-y1)}" fill="${css(c.c)}"><title>${MONTHS_FULL[i]}: ${c.name} ${eur.format(v)}</title></rect>`;
+      acc += v;
+    });
+    s += `<text x="${x+bw/2}" y="${H-10}" text-anchor="middle" font-size="11" fill="${ink}">${MONTHS[i]}</text>`;
+  });
+  $("chart").innerHTML = s + `</svg>`;
+  const used = k.cats.filter(c=>yr.some(r=>r.category===c.id));
+  $("legend").innerHTML = (used.length?used:k.cats).map(c=>`<span><i class="sw" style="background:var(${c.c})"></i>${c.name}</span>`).join("");
+  $("chartsub").textContent = max ? "υψηλότερος μήνας "+eur0.format(max) : "";
+}
+function emptyLedger(){
+  const k = K();
+  return `<div class="empty"><strong>Δεν υπάρχουν ακόμα ${tab==="esoda"?"έσοδα":"έξοδα"} για το ${year}</strong><span>Συμπληρώστε τη φόρμα «${k.title}» για την πρώτη καταχώριση, ${k.emptyHint}.</span></div>`;
+}
+function renderCatTable(){
+  const k = K(), yr = rowsOf(tab);
+  if(!yr.length){ $("cattable").innerHTML = emptyLedger(); return; }
+  const grid = {};
+  yr.forEach(r=>{ (grid[r.category] ||= Array(12).fill(0))[+r.date.slice(5,7)-1]+=r.amount; });
+  const lastM = Math.max(...yr.map(r=>+r.date.slice(5,7)-1));
+  const months = [...Array(lastM+1).keys()];
+  const cell = v => v ? `<td>${n0.format(v)}</td>` : `<td class="zero">–</td>`;
+  let h = `<table><thead><tr><th>${tab==="esoda"?"Κανάλι":"Κατηγορία"}</th>${months.map(i=>`<th>${MONTHS[i]}</th>`).join("")}<th>Σύνολο</th></tr></thead><tbody>`;
+  const colTot = Array(12).fill(0); let grand = 0;
+  const ids = [...k.cats.map(c=>c.id), ...Object.keys(grid).filter(id=>!k.cats.some(c=>c.id===id))];
+  ids.forEach(id=>{
+    const arr = grid[id]; if(!arr) return;
+    const c = catOf(tab,id), t = arr.reduce((a,b)=>a+b,0);
+    arr.forEach((v,i)=>colTot[i]+=v); grand+=t;
+    h += `<tr><td><span class="chip"><i class="sw" style="background:var(${c.c})"></i>${esc(c.name)}</span></td>${months.map(i=>cell(arr[i])).join("")}<td><strong>${n0.format(t)}</strong></td></tr>`;
+  });
+  h += `</tbody><tfoot><tr><td>Σύνολο</td>${months.map(i=>`<td>${n0.format(colTot[i])}</td>`).join("")}<td>${eur0.format(grand)}</td></tr></tfoot></table>`;
+  $("cattable").innerHTML = h;
+}
+function delCell(id){
+  if(!canWrite) return "";
+  return pendingDelete===id
+    ? `<span class="confirm"><button class="danger" data-del="${esc(id)}">Διαγραφή</button><button class="link" data-cancel>Άκυρο</button></span>`
+    : `<button class="link" data-ask="${esc(id)}">Διαγραφή</button>`;
+}
+function renderLedger(){
+  const fm = $("flt-month").value, fc = $("flt-cat").value, all = rowsOf(tab);
+  if(!all.length){ $("ledger").innerHTML = emptyLedger(); return; }
+  const list = all.filter(r=>(fm===""||+r.date.slice(5,7)-1===+fm)&&(!fc||r.category===fc))
+    .sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||"").localeCompare(a.createdAt||""));
+  if(!list.length){ $("ledger").innerHTML = `<div class="empty"><span>Καμία καταχώριση με αυτά τα φίλτρα.</span></div>`; return; }
+  const sum = list.reduce((a,r)=>a+r.amount,0);
+  let h = `<table><thead><tr><th>Ημερομηνία</th><th class="l">${tab==="esoda"?"Κανάλι":"Κατηγορία"}</th><th class="l">Περιγραφή</th><th>Ποσό</th><th></th></tr></thead><tbody>`;
+  list.forEach(r=>{
+    const c = catOf(tab,r.category);
+    const prod = r.productId && r.qty ? `<span class="sub">${tab==="esoda"?"Πώληση":"Αγορά"}: ${esc(pname(byId(r.productId)))} × ${r.qty}${tab==="exoda"?" · "+eur.format(r.amount/r.qty)+"/τεμ.":""}</span>` : "";
+    h += `<tr><td>${dmy(r.date)}</td><td class="l"><span class="chip"><i class="sw" style="background:var(${c.c})"></i>${esc(c.name)}</span></td><td class="wrapcell">${esc(r.description||"")}${r.supplier?`<span class="sub">${esc(r.supplier)}</span>`:""}${prod}</td><td>${eur.format(r.amount)}</td><td>${delCell(r.id)}</td></tr>`;
+  });
+  h += `</tbody><tfoot><tr><td colspan="3">Σύνολο (${list.length})</td><td>${eur.format(sum)}</td><td></td></tr></tfoot></table>`;
+  $("ledger").innerHTML = h;
+}
+$("ledger").addEventListener("click", async e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.ask){ pendingDelete = b.dataset.ask; renderLedger(); }
+  else if("cancel" in b.dataset){ pendingDelete = null; renderLedger(); }
+  else if(b.dataset.del){
+    b.disabled = true;
+    try{ await cols[tab].doc(b.dataset.del).delete(); pendingDelete=null; }
+    catch(err){ status("Η διαγραφή δεν έγινε: "+(err.message||err.code), true); b.disabled=false; }
+  }
+});
+async function onSubmit(e){
+  e.preventDefault();
+  const msg = $("f-msg"), kind = tab, k = KINDS[kind];
+  const date = $("f-date").value, amount = num($("f-amount").value), category = $("f-cat").value;
+  if(!date) return setMsg(msg,"Συμπληρώστε ημερομηνία.");
+  if(!(amount>0)) return setMsg(msg,"Το ποσό πρέπει να είναι θετικός αριθμός, π.χ. 120,50.");
+  const doc = {date, amount:Math.round(amount*100)/100, category, description:$("f-desc").value.trim(), supplier:$("f-sup").value.trim(), createdAt:new Date().toISOString()};
+  if(!$("f-prodbox").hidden){
+    const pid = $("f-prod").value, q = num($("f-qty").value);
+    if(pid || q!=null){
+      if(!byId(pid)) return setMsg(msg,"Επιλέξτε προϊόν ή αφήστε κενά τα τεμάχια.");
+      if(!(Number.isInteger(q) && q>0)) return setMsg(msg,"Τα τεμάχια πρέπει να είναι θετικός ακέραιος αριθμός.");
+      doc.productId = pid; doc.qty = q;
+    }
+  }
+  if(!cols[kind]) return setMsg(msg,"Η αποθήκευση δεν είναι διαθέσιμη. Ανοίξτε τη σελίδα συνδεδεμένοι στο claude.ai.");
+  const btn = $("f-submit"); btn.disabled = true;
+  try{
+    const before = doc.productId ? stockOf(doc.productId).qty : 0;
+    await cols[kind].add(doc);
+    let t = "Καταχωρίστηκε "+k.one+": "+eur.format(doc.amount)+" · "+catOf(kind,category).name;
+    if(doc.productId){ const after = before + (kind==="esoda"?-doc.qty:doc.qty); t += ". Απόθεμα "+pname(byId(doc.productId))+": "+n0.format(after)+" τεμ."+(after<0?" Βγήκε αρνητικό· περάστε το αρχικό απόθεμα στην καρτέλα Απόθεμα.":""); }
+    setMsg(msg, t, true);
+    $("f-amount").value=""; $("f-desc").value=""; $("f-sup").value=""; $("f-qty").value=""; $("f-prod").value=""; amountAuto=false; updateProdBox();
+    const y = +date.slice(0,4); if(y!==year){ year=y; fillYears(); fillMonths(); render(); }
+  }catch(err){
+    setMsg(msg, err.code==="permission_denied" ? "Δεν έχετε δικαίωμα καταχώρισης σε αυτή τη σελίδα." : "Η καταχώριση δεν αποθηκεύτηκε: "+(err.message||err.code));
+  }finally{ btn.disabled=false; }
+}
+
+/* ================= Απόθεμα ================= */
+function stockOf(pid){
+  let bought=0, cost=0, sold=0, adj=0, last=null;
+  const touch = d => { if(!last || d>last) last=d; };
+  data.exoda.forEach(r=>{ if(r.productId===pid && r.qty){ bought+=r.qty; cost+=r.amount; touch(r.date); } });
+  data.esoda.forEach(r=>{ if(r.productId===pid && r.qty){ sold+=r.qty; touch(r.date); } });
+  moves.forEach(m=>{ if(m.productId===pid){ adj+=m.qty; touch(m.date); } });
+  return {qty:bought-sold+adj, bought, sold, adj, avgCost: bought ? cost/bought : null, last, has: !!last};
+}
+function stockRows(){
+  const low = settings.lowStock;
+  return sortedProducts().map(p=>{
+    const s = stockOf(p.id), unit = s.avgCost ?? p.landedCost;
+    const state = !s.has ? "none" : s.qty<=0 ? "out" : s.qty<=low ? "low" : "ok";
+    return {p, s, unit, state};
+  });
+}
+function renderBadges(){
+  const alerts = stockRows().filter(r=>r.state==="out"||r.state==="low").length;
+  $("badge-stock").hidden = !alerts; $("badge-stock").textContent = alerts;
+  const due = partners.filter(isDue).length;
+  $("badge-partners").hidden = !due; $("badge-partners").textContent = due;
+}
+function renderStock(){
+  const low = settings.lowStock, rows = stockRows();
+  let units=0, valCost=0, valSk=0, missingCost=0;
+  rows.forEach(({p,s,unit})=>{ if(s.qty>0){ units+=s.qty; if(unit!=null) valCost+=s.qty*unit; else missingCost++; if(p.skroutzPrice!=null) valSk+=s.qty*p.skroutzPrice; } });
+  const out = rows.filter(r=>r.state==="out").length, lows = rows.filter(r=>r.state==="low").length;
+  $("s1").textContent = n0.format(units);
+  $("s1s").textContent = rows.filter(r=>r.s.qty>0).length+" από "+products.length+" προϊόντα σε απόθεμα";
+  $("s2").textContent = eur0.format(valCost);
+  $("s2s").textContent = missingCost ? missingCost+" προϊόντα χωρίς κόστος δεν μετράνε" : "με μέσο κόστος αγοράς";
+  $("s3").textContent = eur0.format(valSk);
+  $("s4").textContent = n0.format(out+lows);
+  $("s4").className = "v"+(out+lows?" neg":"");
+  $("s4s").textContent = out+lows ? out+" εξαντλημένα · "+lows+" με ≤ "+low+" τεμ." : "κανένα χαμηλό απόθεμα";
+  $("stnote").textContent = "Κόστος/τεμ.: ο μέσος όρος των αγορών σας, ή το «κόστος με έξοδα» του καταλόγου αν δεν υπάρχει αγορά. Χαμηλό απόθεμα: έως "+low+" τεμάχια.";
+  const f = $("st-filter").value;
+  const shown = rows.filter(r=> f==="" || (f==="stock" && r.s.has) || (f==="alert" && (r.state==="out"||r.state==="low")));
+  if(!products.length){ $("stocktable").innerHTML = `<div class="empty"><strong>Δεν υπάρχουν ακόμα προϊόντα</strong><span>Προσθέστε προϊόντα στην καρτέλα «Προϊόντα».</span></div>`; return; }
+  if(!shown.length){ $("stocktable").innerHTML = `<div class="empty"><span>${f==="alert"?"Κανένα προϊόν με χαμηλό απόθεμα.":"Δεν υπάρχουν ακόμα κινήσεις. Ξεκινήστε με μια διόρθωση «Αρχικό απόθεμα» παρακάτω."}</span></div>`; return; }
+  const pill = {out:`<span class="pill red">Εξαντλήθηκε</span>`, low:`<span class="pill amber">Χαμηλό</span>`, ok:`<span class="pill green">Επαρκές</span>`, none:`<span class="pill grey">Χωρίς κινήσεις</span>`};
+  let h = `<table><thead><tr><th>Προϊόν</th><th>Αγορές</th><th>Πωλήσεις</th><th>Διορθ.</th><th>Απόθεμα</th><th class="l">Κατάσταση</th><th>Κόστος/τεμ.</th><th>Αξία</th><th>Τελευταία κίνηση</th></tr></thead><tbody>`;
+  let lastCat = null;
+  shown.forEach(({p,s,unit,state})=>{
+    if(p.category!==lastCat){ lastCat=p.category; const c=pcatOf(p.category); h+=`<tr class="group"><td colspan="9"><i class="dot" style="background:var(${c.c});margin-right:6px"></i>${c.name}</td></tr>`; }
+    h += `<tr><td>${esc(p.model)}<span class="sub">${esc(p.variant||"")}${p.ean?" · "+esc(p.ean):""}</span></td><td>${n0.format(s.bought)}</td><td>${n0.format(s.sold)}</td><td>${s.adj?(s.adj>0?"+":"−")+n0.format(Math.abs(s.adj)):"–"}</td><td><strong>${n0.format(s.qty)}</strong></td><td class="l">${pill[state]}</td><td>${unit!=null?eur.format(unit):"–"}</td><td>${unit!=null&&s.qty>0?eur0.format(unit*s.qty):"–"}</td><td>${dmy(s.last)}</td></tr>`;
+  });
+  $("stocktable").innerHTML = h + `</tbody></table>`;
+}
+function allMoves(){
+  const list = [];
+  data.exoda.forEach(r=>{ if(r.productId&&r.qty) list.push({id:r.id, src:"exoda", date:r.date, productId:r.productId, qty:r.qty, label:"Αγορά", cls:"green", note:[eur.format(r.amount/r.qty)+"/τεμ.", r.supplier||r.description].filter(Boolean).join(" · "), createdAt:r.createdAt}); });
+  data.esoda.forEach(r=>{ if(r.productId&&r.qty) list.push({id:r.id, src:"esoda", date:r.date, productId:r.productId, qty:-r.qty, label:"Πώληση", cls:"amber", note:[catOf("esoda",r.category).name, r.supplier||r.description].filter(Boolean).join(" · "), createdAt:r.createdAt}); });
+  moves.forEach(m=>list.push({id:m.id, src:"move", date:m.date, productId:m.productId, qty:m.qty, label:"Διόρθωση", cls:"grey", note:[m.reason, m.note].filter(Boolean).join(" · "), createdAt:m.createdAt}));
+  return list.sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||"").localeCompare(a.createdAt||""));
+}
+function renderMoves(){
+  const fp = $("ml-prod").value;
+  const list = allMoves().filter(m=>!fp||m.productId===fp);
+  if(!list.length){ $("movetable").innerHTML = `<div class="empty"><span>Δεν υπάρχουν ακόμα κινήσεις αποθέματος.</span></div>`; return; }
+  let h = `<table><thead><tr><th>Ημερομηνία</th><th class="l">Είδος</th><th class="l">Προϊόν</th><th>Τεμ.</th><th></th></tr></thead><tbody>`;
+  list.slice(0,200).forEach(m=>{
+    const del = m.src==="move" ? delCell(m.id) : `<span class="hint">από ${m.src==="exoda"?"Έξοδα":"Έσοδα"}</span>`;
+    h += `<tr><td>${dmy(m.date)}</td><td class="l"><span class="pill ${m.cls}">${m.label}</span></td><td class="wrapcell">${esc(pname(byId(m.productId)))}${m.note?`<span class="sub">${esc(m.note)}</span>`:""}</td><td><strong>${m.qty>0?"+":"−"}${n0.format(Math.abs(m.qty))}</strong></td><td>${del}</td></tr>`;
+  });
+  $("movetable").innerHTML = h + `</tbody></table>`;
+}
+$("movetable").addEventListener("click", async e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.ask){ pendingDelete=b.dataset.ask; renderMoves(); }
+  else if("cancel" in b.dataset){ pendingDelete=null; renderMoves(); }
+  else if(b.dataset.del){ b.disabled=true; try{ await cMove.doc(b.dataset.del).delete(); pendingDelete=null; }catch(err){ status("Η διαγραφή δεν έγινε: "+(err.message||err.code), true); b.disabled=false; } }
+});
+async function onAdjust(e){
+  e.preventDefault();
+  const msg=$("a-msg"), pid=$("a-prod").value, date=$("a-date").value, q=num($("a-qty").value);
+  if(!byId(pid)) return setMsg(msg,"Επιλέξτε προϊόν.");
+  if(!date) return setMsg(msg,"Συμπληρώστε ημερομηνία.");
+  if(!(Number.isInteger(q) && q!==0)) return setMsg(msg,"Γράψτε ακέραιο αριθμό τεμαχίων, π.χ. 20 ή -1.");
+  if(!cMove) return setMsg(msg,"Η αποθήκευση δεν είναι διαθέσιμη.");
+  const btn=$("a-submit"); btn.disabled=true;
+  try{
+    const before = stockOf(pid).qty;
+    await cMove.add({date, productId:pid, qty:q, reason:$("a-reason").value, note:$("a-note").value.trim(), createdAt:new Date().toISOString()});
+    setMsg(msg, "Καταχωρίστηκε. Απόθεμα "+pname(byId(pid))+": "+n0.format(before+q)+" τεμ.", true);
+    $("a-qty").value=""; $("a-note").value="";
+  }catch(err){ setMsg(msg, "Δεν αποθηκεύτηκε: "+(err.message||err.code)); }
+  finally{ btn.disabled=false; }
+}
+function fillProductSelects(){
+  const opts = sortedProducts().map(p=>`<option value="${esc(p.id)}">${esc(pcatOf(p.category).name)} · ${esc(pname(p))}</option>`).join("");
+  const keep = (id, html) => { const el=$(id), v=el.value; el.innerHTML = html; el.value = v && byId(v) ? v : (el.options[0]?.value ?? ""); };
+  keep("f-prod", `<option value="">— Χωρίς προϊόν —</option>` + opts);
+  keep("a-prod", opts || `<option value="">Δεν υπάρχουν προϊόντα</option>`);
+  keep("ml-prod", `<option value="">Όλα τα προϊόντα</option>` + opts);
+}
+
+/* ================= Προϊόντα ================= */
+function margin(p){
+  if(p.skroutzPrice==null || p.landedCost==null) return null;
+  const netEx = p.skroutzPrice*(1-settings.commission)/(1+settings.vat);
+  return {abs: netEx - p.landedCost, pct: netEx ? (netEx - p.landedCost)/netEx : null};
+}
+function renderProducts(){
+  if(document.activeElement?.closest?.("#sform")==null){
+    $("set-comm").value = fmtIn(settings.commission*100);
+    $("set-vat").value = fmtIn(settings.vat*100);
+    $("set-low").value = settings.lowStock;
+  }
+  if(!products.length){ $("prodtable").innerHTML = `<div class="empty"><strong>Δεν υπάρχουν ακόμα προϊόντα</strong><span>Συμπληρώστε τη φόρμα «Νέο προϊόν».</span></div>`; $("pthsub").textContent=""; return; }
+  const missing = products.filter(p=>p.landedCost==null).length;
+  $("pthsub").textContent = products.length+" προϊόντα"+(missing?" · "+missing+" χωρίς κόστος":"");
+  const m = v => v==null ? `<td class="miss">–</td>` : `<td>${eur.format(v)}</td>`;
+  let h = `<table><thead><tr><th>Προϊόν</th><th class="l">EAN</th><th>Κόστος εργοστ.</th><th>Κόστος με έξοδα</th><th>Skroutz</th><th>Λιανική</th><th>Χονδρική</th><th>Περιθώριο/τεμ.</th><th>Περιθώριο %</th><th></th></tr></thead><tbody>`;
+  let lastCat=null;
+  sortedProducts().forEach(p=>{
+    if(p.category!==lastCat){ lastCat=p.category; const c=pcatOf(p.category); h+=`<tr class="group"><td colspan="10"><i class="dot" style="background:var(${c.c});margin-right:6px"></i>${c.name}</td></tr>`; }
+    const mg = margin(p);
+    const mcell = mg ? `<td class="${mg.abs<0?"neg":"pos"}">${eur.format(mg.abs)}</td><td>${n1.format(mg.pct*100)}%</td>` : `<td class="miss">–</td><td class="miss">–</td>`;
+    const acts = !canWrite ? "" : pendingDelete===p.id
+      ? `<span class="confirm"><button class="danger" data-pdel="${esc(p.id)}">Διαγραφή</button><button class="link" data-cancel>Άκυρο</button></span>`
+      : `<button class="link" data-edit="${esc(p.id)}">Επεξεργασία</button><button class="link" data-pask="${esc(p.id)}">Διαγραφή</button>`;
+    h += `<tr><td>${esc(p.model)}${p.privateLabel?` <span class="pill blue">PL</span>`:""}<span class="sub">${esc(p.variant||"")}</span></td>${p.ean?`<td class="l">${esc(p.ean)}</td>`:`<td class="l miss">–</td>`}${m(p.factoryCost)}${m(p.landedCost)}${m(p.skroutzPrice)}${m(p.retailPrice)}${m(p.wholesalePrice)}${mcell}<td>${acts}</td></tr>`;
+  });
+  $("prodtable").innerHTML = h + `</tbody></table>`;
+}
+$("prodtable").addEventListener("click", async e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.edit) startEditProduct(b.dataset.edit);
+  else if(b.dataset.pask){ pendingDelete=b.dataset.pask; renderProducts(); }
+  else if("cancel" in b.dataset){ pendingDelete=null; renderProducts(); }
+  else if(b.dataset.pdel){
+    const pid=b.dataset.pdel;
+    if(stockOf(pid).has){ pendingDelete=null; renderProducts(); status("Το προϊόν έχει κινήσεις αποθέματος (αγορές, πωλήσεις ή διορθώσεις) και δεν διαγράφεται.", true); return; }
+    b.disabled=true; try{ await cProd.doc(pid).delete(); pendingDelete=null; status(""); }catch(err){ status("Η διαγραφή δεν έγινε: "+(err.message||err.code), true); b.disabled=false; }
+  }
+});
+const PF = {fc:"factoryCost", lc:"landedCost", sk:"skroutzPrice", rt:"retailPrice", ws:"wholesalePrice"};
+function startEditProduct(id){
+  const p = byId(id); if(!p) return;
+  editingProduct = id;
+  $("p-cat").value = p.category; $("p-model").value = p.model; $("p-var").value = p.variant||""; $("p-ean").value = p.ean||"";
+  Object.entries(PF).forEach(([k,f])=>$("p-"+k).value = fmtIn(p[f]));
+  $("p-pl").value = p.privateLabel ? "yes" : "";
+  $("pfh").textContent = "Επεξεργασία: "+pname(p);
+  $("p-submit").textContent = "Αποθήκευση αλλαγών";
+  $("p-cancel").hidden = false; $("p-msg").textContent = "";
+  $("pform").scrollIntoView({behavior:"smooth", block:"center"});
+  $("p-model").focus({preventScroll:true});
+}
+function endEditProduct(){ editingProduct=null; $("pform").reset(); $("pfh").textContent="Νέο προϊόν"; $("p-submit").textContent="Προσθήκη προϊόντος"; $("p-cancel").hidden=true; }
+function slug(s){
+  const map={α:"a",β:"v",γ:"g",δ:"d",ε:"e",ζ:"z",η:"i",θ:"th",ι:"i",κ:"k",λ:"l",μ:"m",ν:"n",ξ:"x",ο:"o",π:"p",ρ:"r",σ:"s",ς:"s",τ:"t",υ:"y",φ:"f",χ:"ch",ψ:"ps",ω:"o"};
+  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[α-ω]/g,c=>map[c]||"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60) || "x";
+}
+async function onProduct(e){
+  e.preventDefault();
+  const msg=$("p-msg");
+  const model=$("p-model").value.trim(); if(!model) return setMsg(msg,"Συμπληρώστε μοντέλο.");
+  const ean=$("p-ean").value.trim(); if(ean && !/^\d{8,14}$/.test(ean)) return setMsg(msg,"Το EAN πρέπει να έχει 8 έως 14 ψηφία.");
+  const doc = {category:$("p-cat").value, model, variant:$("p-var").value.trim(), ean, privateLabel:$("p-pl").value==="yes"};
+  for(const [k,f] of Object.entries(PF)){ const v=num($("p-"+k).value); if(Number.isNaN(v)||(v!=null&&v<0)) return setMsg(msg,"Ελέγξτε τα ποσά: γράψτε αριθμούς, π.χ. 39,74."); doc[f] = v==null ? null : Math.round(v*100)/100; }
+  if(!cProd) return setMsg(msg,"Η αποθήκευση δεν είναι διαθέσιμη.");
+  const btn=$("p-submit"); btn.disabled=true;
+  try{
+    if(editingProduct){ await cProd.doc(editingProduct).update(doc); setMsg(msg,"Αποθηκεύτηκε: "+pname(doc), true); endEditProduct(); }
+    else {
+      const base = slug(model+(doc.variant?"-"+doc.variant:"")); let id = base, i=2; while(byId(id)) id = base+"-"+(i++);
+      await cProd.doc(id).set(doc); setMsg(msg,"Προστέθηκε: "+pname(doc), true); $("pform").reset();
+    }
+  }catch(err){ setMsg(msg, err.code==="permission_denied" ? "Δεν έχετε δικαίωμα αλλαγών." : "Δεν αποθηκεύτηκε: "+(err.message||err.code)); }
+  finally{ btn.disabled=false; }
+}
+async function onSettings(e){
+  e.preventDefault();
+  const c=num($("set-comm").value), v=num($("set-vat").value), l=num($("set-low").value), msg=$("set-msg");
+  if(!(c>=0&&c<100) || !(v>=0&&v<100) || !(Number.isInteger(l)&&l>=0)) return setMsg(msg,"Ελέγξτε τις τιμές.");
+  if(!dSet) return setMsg(msg,"Η αποθήκευση δεν είναι διαθέσιμη.");
+  try{ await dSet.set({commission:Math.round(c*100)/10000, vat:Math.round(v*100)/10000, lowStock:l}); setMsg(msg,"Αποθηκεύτηκε", true); document.activeElement?.blur?.(); }
+  catch(err){ setMsg(msg,"Δεν αποθηκεύτηκε: "+(err.message||err.code)); }
+}
+
+/* ================= Συνεργάτες ================= */
+const isDue = p => p.nextDate && p.nextDate <= today() && p.stage!=="lost";
+function renderPartners(){
+  const t = today();
+  $("k1").textContent = partners.filter(p=>p.stage==="active").length;
+  const talking = partners.filter(p=>TALKING.includes(p.stage));
+  $("k2").textContent = talking.length;
+  $("k2s").textContent = talking.length ? STAGES.filter(s=>TALKING.includes(s.id)).map(s=>partners.filter(p=>p.stage===s.id).length+" "+s.name.toLowerCase()).join(" · ") : "κανένας ακόμα";
+  const due = partners.filter(isDue), late = due.filter(p=>p.nextDate<t);
+  $("k3").textContent = due.length;
+  $("k3").className = "v"+(late.length?" neg":"");
+  $("k3s").textContent = due.length ? (late.length ? late.length+" καθυστερούν" : "όλες για σήμερα") : "τίποτα εκκρεμές";
+  $("k4").textContent = partners.filter(p=>(p.stage==="active"||TALKING.includes(p.stage)) && (!p.lastContact || daysBetween(p.lastContact,t)>30)).length;
+
+  const fs = $("pl-stage").value;
+  const list = partners.filter(p=>!fs||p.stage===fs).sort((a,b)=>{
+    const da = a.nextDate||"9999", db_ = b.nextDate||"9999";
+    return (a.stage==="lost")-(b.stage==="lost") || da.localeCompare(db_) || a.name.localeCompare(b.name,"el");
+  });
+  if(!partners.length){ $("partnertable").innerHTML = `<div class="empty"><strong>Δεν υπάρχουν ακόμα συνεργάτες</strong><span>Πατήστε «Νέος συνεργάτης» για να προσθέσετε το πρώτο κατάστημα ή εταιρεία.</span></div>`; return; }
+  if(!list.length){ $("partnertable").innerHTML = `<div class="empty"><span>Κανένας συνεργάτης σε αυτό το στάδιο.</span></div>`; return; }
+  let h = `<table><thead><tr><th>Συνεργάτης</th><th class="l">Στάδιο</th><th class="l">Τελευταία επαφή</th><th class="l">Επόμενη ενέργεια</th><th></th></tr></thead><tbody>`;
+  list.forEach(p=>{
+    const st = stageOf(p.stage);
+    const ago = p.lastContact ? daysBetween(p.lastContact,t) : null;
+    const agoTxt = ago==null ? "" : ago<=0 ? "σήμερα" : ago===1 ? "χθες" : "πριν "+ago+" ημέρες";
+    const nd = p.nextDate ? (p.nextDate<t ? `<span class="pill red">${dmy(p.nextDate)} · καθυστερεί</span>` : p.nextDate===t ? `<span class="pill amber">Σήμερα</span>` : `<span class="hint">${dmy(p.nextDate)}</span>`) : "";
+    const acts = `<button class="link" data-pedit="${esc(p.id)}">${canWrite?"Επεξεργασία":"Προβολή"}</button><button class="link" data-pmail="${esc(p.id)}">Email</button>` + (canWrite ? (pendingDelete===p.id ? `<span class="confirm"><button class="danger" data-ptdel="${esc(p.id)}">Διαγραφή</button><button class="link" data-cancel>Άκυρο</button></span>` : `<button class="link" data-ptask="${esc(p.id)}">Διαγραφή</button>`) : "");
+    h += `<tr><td class="wrapcell" style="min-width:170px"><strong>${esc(p.name)}</strong><span class="sub">${esc([PTYPES[p.type]||"", p.city, p.person].filter(Boolean).join(" · "))}</span></td><td class="l"><span class="pill ${st.cls}">${st.name}</span></td><td class="l">${p.lastContact?dmy(p.lastContact)+`<span class="sub">${agoTxt}</span>`:`<span class="hint">—</span>`}</td><td class="wrapcell">${esc(p.nextAction||"")}${nd?`<span class="sub" style="margin-top:2px">${nd}</span>`:""}${!p.nextAction&&!nd?`<span class="hint">Δεν έχει οριστεί</span>`:""}</td><td>${acts}</td></tr>`;
+  });
+  $("partnertable").innerHTML = h + `</tbody></table>`;
+  fillMailPartners();
+}
+$("partnertable").addEventListener("click", async e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.pedit) startEditPartner(b.dataset.pedit);
+  else if(b.dataset.pmail){ $("mail-partner").value = b.dataset.pmail; onMailPartner(); $("mailpanel").scrollIntoView({behavior:"smooth", block:"start"}); }
+  else if(b.dataset.ptask){ pendingDelete=b.dataset.ptask; renderPartners(); }
+  else if("cancel" in b.dataset){ pendingDelete=null; renderPartners(); }
+  else if(b.dataset.ptdel){ b.disabled=true; try{ await cPart.doc(b.dataset.ptdel).delete(); pendingDelete=null; if(editingPartner===b.dataset.ptdel) endEditPartner(); }catch(err){ status("Η διαγραφή δεν έγινε: "+(err.message||err.code), true); b.disabled=false; } }
+});
+const PTF = {name:"name", type:"type", stage:"stage", person:"person", city:"city", email:"email", phone:"phone", last:"lastContact", "next-date":"nextDate", next:"nextAction", notes:"notes"};
+function startEditPartner(id){
+  const p = partners.find(x=>x.id===id); if(!p) return;
+  editingPartner = id;
+  Object.entries(PTF).forEach(([k,f])=>$("pt-"+k).value = p[f]||"");
+  $("pt-log").value = "";
+  $("ptfh").textContent = p.name;
+  $("pt-submit").textContent = "Αποθήκευση αλλαγών";
+  $("pt-cancel").hidden = false; $("pt-msg").textContent = "";
+  renderHistory(p);
+  $("mail-partner").value = id; onMailPartner();
+  $("ptpanel").scrollIntoView({behavior:"smooth", block:"start"});
+}
+function renderHistory(p){
+  const hist = (p?.history||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  $("pt-historybox").hidden = !hist.length;
+  $("pt-history").innerHTML = hist.map(x=>`<li><time>${dmy(x.date)}</time><span>${esc(x.text)}</span></li>`).join("");
+}
+function endEditPartner(){
+  editingPartner=null; $("ptform").reset(); $("pt-type").value="chain"; $("pt-stage").value="target";
+  $("ptfh").textContent="Νέος συνεργάτης"; $("pt-submit").textContent="Προσθήκη συνεργάτη"; $("pt-cancel").hidden=true; $("pt-historybox").hidden=true;
+}
+async function onPartner(e){
+  e.preventDefault();
+  const msg=$("pt-msg");
+  const name=$("pt-name").value.trim(); if(!name) return setMsg(msg,"Συμπληρώστε επωνυμία.");
+  const email=$("pt-email").value.trim(); if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setMsg(msg,"Το email δεν φαίνεται σωστό.");
+  const doc = {}; Object.entries(PTF).forEach(([k,f])=>doc[f]=$("pt-"+k).value.trim());
+  const log = $("pt-log").value.trim();
+  const prev = editingPartner ? partners.find(x=>x.id===editingPartner) : null;
+  let history = (prev?.history||[]).slice();
+  if(log){ if(!doc.lastContact) doc.lastContact = today(); history.push({date:doc.lastContact, text:log}); history = history.slice(-60); }
+  doc.history = history;
+  if(!cPart) return setMsg(msg,"Η αποθήκευση δεν είναι διαθέσιμη.");
+  const btn=$("pt-submit"); btn.disabled=true;
+  try{
+    if(editingPartner){ await cPart.doc(editingPartner).set({...doc, createdAt: prev?.createdAt||new Date().toISOString()}); setMsg(msg,"Αποθηκεύτηκε: "+name, true); $("pt-log").value=""; }
+    else {
+      const base = slug(name); let id=base, i=2; while(partners.some(x=>x.id===id)) id=base+"-"+(i++);
+      await cPart.doc(id).set({...doc, createdAt:new Date().toISOString()}); setMsg(msg,"Προστέθηκε: "+name, true); endEditPartner();
+    }
+  }catch(err){ setMsg(msg, err.code==="permission_denied" ? "Δεν έχετε δικαίωμα αλλαγών." : "Δεν αποθηκεύτηκε: "+(err.message||err.code)); }
+  finally{ btn.disabled=false; }
+}
+
+/* ----- email assistant ----- */
+function fillMailPartners(){
+  const el=$("mail-partner"), v=el.value;
+  el.innerHTML = `<option value="">— Επιλέξτε συνεργάτη —</option>` + [...partners].sort((a,b)=>a.name.localeCompare(b.name,"el")).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
+  el.value = partners.some(p=>p.id===v) ? v : "";
+}
+function onMailPartner(){
+  const p = partners.find(x=>x.id===$("mail-partner").value);
+  $("mailfor").textContent = p ? p.name+" · "+stageOf(p.stage).name : "Επιλέξτε «Email» σε έναν συνεργάτη";
+  if(p){
+    const g = $("mail-goal");
+    g.value = p.stage==="target" ? (p.type==="corporate"?"corporate":"intro") : p.stage==="proposal" ? "offer" : p.stage==="active" ? "reorder" : "followup";
+  }
+}
+const GOALS = {
+  intro:"Πρώτη επαφή: σύντομη παρουσίαση της InnoMetrics και πρόταση για μια σύντομη γνωριμία ή τηλεφωνική συζήτηση.",
+  followup:"Follow-up μετά την τελευταία επαφή: υπενθύμιση με ευγένεια, συνέχεια από ό,τι συζητήθηκε, ένα σαφές επόμενο βήμα.",
+  offer:"Αποστολή προσφοράς: παρουσίαση των σχετικών προϊόντων με τις τιμές που υπάρχουν στον κατάλογο και πρόταση για παραγγελία.",
+  samples:"Πρόταση να σταλούν δείγματα για δοκιμή, με συγκεκριμένα προϊόντα.",
+  thanks:"Ευχαριστήριο μετά από συνάντηση, σύνοψη των όσων συμφωνήθηκαν και επόμενο βήμα.",
+  reorder:"Σε υπάρχοντα συνεργάτη: πρόταση για νέα παραγγελία ή για νέα προϊόντα του καταλόγου.",
+  corporate:"Πρόταση για εταιρικά δώρα προς το προσωπικό, με δυνατότητα private label (λογότυπο της εταιρείας στη συσκευασία και στο όνομα Bluetooth) για μεγαλύτερες ποσότητες."
+};
+function catalogText(){
+  return sortedProducts().map(p=>{
+    const parts = [pcatOf(p.category).name+" "+pname(p)];
+    if(p.retailPrice!=null) parts.push("λιανική "+eur.format(p.retailPrice));
+    if(p.skroutzPrice!=null) parts.push("Skroutz "+eur.format(p.skroutzPrice));
+    if(p.wholesalePrice!=null) parts.push("χονδρική "+eur.format(p.wholesalePrice));
+    const s = stockOf(p.id); if(s.has) parts.push("απόθεμα "+s.qty+" τεμ.");
+    return "- "+parts.join(", ");
+  }).join("\n");
+}
+async function onMailGo(){
+  const msg=$("mail-msg"), out=$("mail-out");
+  const p = partners.find(x=>x.id===$("mail-partner").value);
+  if(!p) return setMsg(msg,"Επιλέξτε συνεργάτη.");
+  if(!sample) return setMsg(msg,"Ο βοηθός email δεν είναι διαθέσιμος σε αυτή την προβολή.");
+  const hist = (p.history||[]).slice(-6).map(x=>"- "+dmy(x.date)+": "+x.text).join("\n") || "(δεν υπάρχει καταγεγραμμένο ιστορικό)";
+  const prompt = `Είσαι βοηθός του ιδιοκτήτη της InnoMetrics (πρώην SportMetrics ΙΚΕ), μιας μικρής ελληνικής εταιρείας που εισάγει και διανέμει wearable τεχνολογία στην Ελλάδα: smartglasses, smartwatches και smartrings. Σε ορισμένα προϊόντα βάζει δικό της λογότυπο, συσκευασία και όνομα Bluetooth (private label). Πουλάει μέσω Skroutz, σε φυσικά καταστήματα λιανικής σε όλη την Ελλάδα και σε εταιρικούς πελάτες για δώρα προσωπικού.
+
+Γράψε ένα email στα ελληνικά προς τον παρακάτω συνεργάτη.
+
+ΣΚΟΠΟΣ: ${GOALS[$("mail-goal").value]}
+
+ΣΥΝΕΡΓΑΤΗΣ
+- Επωνυμία: ${p.name}
+- Τύπος: ${PTYPES[p.type]||"—"}
+- Στάδιο συνεργασίας: ${stageOf(p.stage).name}
+- Υπεύθυνος επικοινωνίας: ${p.person||"άγνωστος"}
+- Πόλη: ${p.city||"—"}
+- Τελευταία επαφή: ${p.lastContact?dmy(p.lastContact):"καμία"}
+- Επόμενη ενέργεια που έχει σημειωθεί: ${p.nextAction||"—"}
+- Σημειώσεις: ${p.notes||"—"}
+Ιστορικό επαφών:
+${hist}
+
+ΚΑΤΑΛΟΓΟΣ ΠΡΟΪΟΝΤΩΝ (τιμές με ΦΠΑ)
+${catalogText()||"(κενός)"}
+
+ΕΠΙΠΛΕΟΝ ΟΔΗΓΙΕΣ ΑΠΟ ΤΟΝ ΙΔΙΟΚΤΗΤΗ
+${$("mail-extra").value.trim()||"(καμία)"}
+
+ΚΑΝΟΝΕΣ
+- Επαγγελματικό αλλά ζεστό ύφος, πληθυντικός ευγενείας, σύντομο (έως 180 λέξεις στο σώμα).
+- Μην επινοείς τιμές, εκπτώσεις, ποσότητες, ημερομηνίες ή γεγονότα που δεν δίνονται παραπάνω. Ό,τι λείπει, γράψ' το σε αγκύλες, π.χ. [τιμή χονδρικής] ή [ημερομηνία].
+- Αν δεν υπάρχει όνομα υπευθύνου, χρησιμοποίησε γενική προσφώνηση.
+- Ένα σαφές επόμενο βήμα στο τέλος.
+- Υπογραφή: [Το όνομά σας], InnoMetrics, [τηλέφωνο].
+- Μορφή απάντησης: πρώτη γραμμή «Θέμα: ...», μετά μια κενή γραμμή, μετά το σώμα. Χωρίς άλλο σχόλιο πριν ή μετά.`;
+  const btn=$("mail-go"); btn.disabled=true; msg.className="msg"; msg.textContent="Γράφεται…"; out.value="";
+  try{
+    const r = await sample(prompt, {onText:({text})=>{ out.value = text; }});
+    out.value = r.text; msg.textContent = r.truncated ? "Το κείμενο κόπηκε· πατήστε ξανά «Γράψε email»." : "Έτοιμο. Διαβάστε το και συμπληρώστε ό,τι είναι σε [αγκύλες].";
+    msg.className = "msg "+(r.truncated?"err":"ok");
+    $("mail-copy").hidden = false;
+  }catch(err){
+    if(err?.text) out.value = err.text;
+    setMsg(msg, err?.code==="not_granted" ? "Δεν δόθηκε άδεια στη σελίδα να χρησιμοποιήσει το Claude. Μπορείτε να την επιτρέψετε από το μενού Permissions της σελίδας." : err?.code==="rate_limited" ? "Πολλά αιτήματα μαζί· δοκιμάστε ξανά σε λίγο." : "Δεν γράφτηκε το email: "+(err?.message||err?.code||err));
+  }finally{ btn.disabled=false; }
+}
+async function onMailCopy(){
+  const out=$("mail-out"), msg=$("mail-msg");
+  try{ await navigator.clipboard.writeText(out.value); setMsg(msg,"Αντιγράφηκε. Επικολλήστε το στο email σας.", true); }
+  catch(_){ out.focus(); out.select(); setMsg(msg,"Το κείμενο επιλέχθηκε· πατήστε Ctrl+C (ή Cmd+C) για αντιγραφή.", true); }
+}
+
+/* ================= Balance ================= */
+function balanceData(){
+  const inc = byMonth(rowsOf("esoda")), exp = byMonth(rowsOf("exoda"));
+  const res = inc.map((v,i)=>v-exp[i]);
+  let run = 0; const cum = res.map(v=>run+=v);
+  return {inc, exp, res, cum};
+}
+function renderBalance(){
+  const {inc, exp, res, cum} = balanceData();
+  const ti = inc.reduce((a,b)=>a+b,0), te = exp.reduce((a,b)=>a+b,0), tr = ti-te;
+  $("b1").textContent = eur.format(ti);
+  $("b1s").textContent = rowsOf("esoda").length+" καταχωρίσεις εσόδων";
+  $("b2").textContent = eur.format(te);
+  $("b2s").textContent = rowsOf("exoda").length+" καταχωρίσεις εξόδων";
+  $("b3").textContent = signed(tr);
+  $("b3").className = "v "+(tr>0?"pos":tr<0?"neg":"");
+  $("b3s").textContent = !ti && !te ? " " : tr>=0 ? "κέρδος πριν από φόρους" : "ζημιά πριν από φόρους";
+  $("b4").textContent = ti ? n0.format(tr/ti*100)+"%" : "—";
+  $("b4").className = "v "+(ti&&tr<0?"neg":"");
+
+  const W=720,H=300,L=64,R=12,T=16,B=30, ih=H-T-B, iw=W-L-R;
+  const hi = Math.max(...inc, ...exp, ...res, 0), lo = Math.min(...res, 0);
+  const step = niceStep(Math.max(hi-lo,0)/4 || 250);
+  const top = Math.max(Math.ceil(hi/step)*step, step*(lo<0?2:4));
+  const bot = Math.floor(lo/step)*step;
+  const y = v => T + (top-v)/(top-bot)*ih;
+  const gap = iw/12, bw = gap*0.32, ink=css("--muted"), line=css("--line");
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Balance ${year}">`;
+  for(let v=bot; v<=top+0.001; v+=step){
+    s += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${line}" stroke-width="${Math.abs(v)<1e-9?1.5:1}"/>`;
+    s += `<text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="${ink}">${eur0.format(v)}</text>`;
+  }
+  const pts = [];
+  for(let i=0;i<12;i++){
+    const cx = L + gap*i + gap/2;
+    if(inc[i]) s += `<rect class="bar" x="${cx-bw-1}" y="${y(inc[i])}" width="${bw}" height="${y(0)-y(inc[i])}" fill="${css("--inc")}"><title>${MONTHS_FULL[i]}: έσοδα ${eur.format(inc[i])}</title></rect>`;
+    if(exp[i]) s += `<rect class="bar" x="${cx+1}" y="${y(exp[i])}" width="${bw}" height="${y(0)-y(exp[i])}" fill="${css("--exp")}"><title>${MONTHS_FULL[i]}: έξοδα ${eur.format(exp[i])}</title></rect>`;
+    if(inc[i]||exp[i]) pts.push([cx, y(res[i]), res[i], i]);
+    s += `<text x="${cx}" y="${H-10}" text-anchor="middle" font-size="11" fill="${ink}">${MONTHS[i]}</text>`;
+  }
+  if(pts.length>1) s += `<polyline points="${pts.map(p=>p[0]+","+p[1]).join(" ")}" fill="none" stroke="${css("--ink")}" stroke-width="2"/>`;
+  pts.forEach(p=> s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${css(p[2]>=0?"--ok":"--danger")}" stroke="${css("--surface")}" stroke-width="1.5"><title>${MONTHS_FULL[p[3]]}: αποτέλεσμα ${signed(p[2])}</title></circle>`);
+  $("bchart").innerHTML = s + `</svg>`;
+  const best = pts.length ? pts.reduce((a,b)=>b[2]>a[2]?b:a) : null;
+  $("bchsub").textContent = best ? "καλύτερος μήνας: "+MONTHS_FULL[best[3]].toLowerCase()+" ("+signed(best[2])+")" : "";
+
+  const months = [...Array(12).keys()].filter(i=>inc[i]||exp[i]);
+  if(!months.length){ $("btable").innerHTML = `<div class="empty"><strong>Δεν υπάρχουν ακόμα κινήσεις για το ${year}</strong><span>Καταχωρίστε έσοδα και έξοδα στις δύο πρώτες καρτέλες και εδώ θα εμφανιστεί το αποτέλεσμα κάθε μήνα.</span></div>`; return; }
+  const cls = v => v>0?"pos":v<0?"neg":"";
+  let h = `<table><thead><tr><th>Μήνας</th><th>Έσοδα</th><th>Έξοδα</th><th>Αποτέλεσμα</th><th>Σωρευτικά</th></tr></thead><tbody>`;
+  months.forEach(i=>{ h += `<tr><td>${MONTHS_FULL[i]}</td><td>${eur.format(inc[i])}</td><td>${eur.format(exp[i])}</td><td class="${cls(res[i])}">${signed(res[i])}</td><td class="${cls(cum[i])}">${signed(cum[i])}</td></tr>`; });
+  h += `</tbody><tfoot><tr><td>Σύνολο ${year}</td><td>${eur.format(ti)}</td><td>${eur.format(te)}</td><td class="${cls(tr)}">${signed(tr)}</td><td></td></tr></tfoot></table>`;
+  $("btable").innerHTML = h;
+}
+
+/* ================= CSV ================= */
+async function exportCsv(){
+  if(!dl) return;
+  const q = s => `"${String(s??"").replace(/"/g,'""')}"`;
+  const money = v => v==null ? "" : v.toFixed(2).replace(".",",");
+  const row = a => a.map(q).join(";");
+  let lines, name;
+  if(tab==="balance"){
+    const {inc, exp, res, cum} = balanceData();
+    lines = [row(["Μήνας","Έσοδα","Έξοδα","Αποτέλεσμα","Σωρευτικά"])].concat(MONTHS_FULL.map((m,i)=>row([m, money(inc[i]), money(exp[i]), money(res[i]), money(cum[i])])));
+    name = `InnoMetrics-balance-${year}.csv`;
+  } else if(tab in KINDS){
+    const list = rowsOf(tab).sort((a,b)=>a.date.localeCompare(b.date));
+    lines = [row(["Ημερομηνία", tab==="esoda"?"Κανάλι":"Κατηγορία", "Περιγραφή", tab==="esoda"?"Πελάτης":"Προμηθευτής", "Προϊόν", "Τεμάχια", "Ποσό"])]
+      .concat(list.map(r=>row([dmy(r.date), catOf(tab,r.category).name, r.description, r.supplier, r.productId?pname(byId(r.productId)):"", r.qty||"", money(r.amount)])));
+    name = `InnoMetrics-${tab}-${year}.csv`;
+  } else if(tab==="apothema"){
+    lines = [row(["Κατηγορία","Μοντέλο","Παραλλαγή","EAN","Αγορές","Πωλήσεις","Διορθώσεις","Απόθεμα","Κόστος/τεμ.","Αξία"])]
+      .concat(stockRows().map(({p,s,unit})=>row([pcatOf(p.category).name, p.model, p.variant, p.ean, s.bought, s.sold, s.adj, s.qty, money(unit), money(unit!=null&&s.qty>0?unit*s.qty:null)])));
+    name = `InnoMetrics-apothema-${today()}.csv`;
+  } else if(tab==="proionta"){
+    lines = [row(["Κατηγορία","Μοντέλο","Παραλλαγή","EAN","Κόστος εργοστασίου","Κόστος με έξοδα","Τιμή Skroutz","Τιμή λιανικής","Τιμή χονδρικής","Περιθώριο/τεμ.","Περιθώριο %"])]
+      .concat(sortedProducts().map(p=>{ const m=margin(p); return row([pcatOf(p.category).name, p.model, p.variant, p.ean, money(p.factoryCost), money(p.landedCost), money(p.skroutzPrice), money(p.retailPrice), money(p.wholesalePrice), money(m?.abs), m?n1.format(m.pct*100):""]); }));
+    name = `InnoMetrics-katalogos.csv`;
+  } else {
+    lines = [row(["Επωνυμία","Τύπος","Στάδιο","Υπεύθυνος","Email","Τηλέφωνο","Πόλη","Τελευταία επαφή","Επόμενη ενέργεια","Ημερομηνία ενέργειας"])]
+      .concat(partners.map(p=>row([p.name, PTYPES[p.type]||"", stageOf(p.stage).name, p.person, p.email, p.phone, p.city, dmy(p.lastContact), p.nextAction, p.nextDate?dmy(p.nextDate):""])));
+    name = `InnoMetrics-synergates.csv`;
+  }
+  try{ await dl.save({filename:name, data:"﻿"+lines.join("\r\n")}); }catch(_){}
+}
+
+/* ================= setup & data ================= */
+function setup(){
+  $("f-date").value = today(); $("a-date").value = today();
+  $("p-cat").innerHTML = PCATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+  $("pt-type").innerHTML = Object.entries(PTYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");
+  $("pt-stage").innerHTML = STAGES.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+  $("pl-stage").innerHTML = `<option value="">Όλα τα στάδια</option>` + STAGES.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+  endEditPartner(); fillMailPartners();
+  fillYears(); fillMonths();
+  $("year").addEventListener("change", e=>{ year = +e.target.value; fillMonths(); render(); });
+  $("flt-month").addEventListener("change", renderLedger);
+  $("flt-cat").addEventListener("change", renderLedger);
+  $("f-cat").addEventListener("change", ()=>{ updateProdBox(); });
+  $("f-prod").addEventListener("change", ()=>{ if(amountAuto) $("f-amount").value=""; updateProdBox(); });
+  $("f-qty").addEventListener("input", ()=>{ if(amountAuto) $("f-amount").value=""; updateProdBox(); });
+  $("f-amount").addEventListener("input", ()=>{ amountAuto=false; if(tab==="exoda") updateProdBox(); });
+  $("form").addEventListener("submit", onSubmit);
+  $("aform").addEventListener("submit", onAdjust);
+  $("pform").addEventListener("submit", onProduct);
+  $("sform").addEventListener("submit", onSettings);
+  $("ptform").addEventListener("submit", onPartner);
+  $("p-cancel").addEventListener("click", endEditProduct);
+  $("pt-cancel").addEventListener("click", endEditPartner);
+  $("pl-new").addEventListener("click", ()=>{ endEditPartner(); $("ptpanel").scrollIntoView({behavior:"smooth", block:"start"}); $("pt-name").focus({preventScroll:true}); });
+  $("pl-stage").addEventListener("change", renderPartners);
+  $("st-filter").addEventListener("change", renderStock);
+  $("ml-prod").addEventListener("change", renderMoves);
+  $("mail-partner").addEventListener("change", onMailPartner);
+  $("mail-go").addEventListener("click", onMailGo);
+  $("mail-copy").addEventListener("click", onMailCopy);
+  $("csv").addEventListener("click", exportCsv);
+  window.addEventListener("hashchange", route);
+  route();
+}
+function toRow(d){ const v=d.data(); return {id:d.id, date:String(v.date||""), category:String(v.category||"other"), amount:Number(v.amount)||0, description:v.description||"", supplier:v.supplier||"", productId:v.productId?String(v.productId):"", qty:Number.isInteger(v.qty)&&v.qty>0?v.qty:0, createdAt:v.createdAt||""}; }
+
+async function connect(){
+  const timer = setTimeout(()=>status("Η σύνδεση με τη βάση αργεί. Ελέγξτε ότι είστε συνδεδεμένοι στο claude.ai.", true), 10000);
+  const done = ()=>{ if(Object.values(loaded).every(Boolean)){ clearTimeout(timer); status(""); } };
+  const onErr = err=>{ clearTimeout(timer); status(err.code==="permission_denied"?"Δεν έχετε πρόσβαση στα δεδομένα αυτής της σελίδας.":"Σφάλμα σύνδεσης: "+(err.message||err.code), true); };
+  try{
+    const db = await window.claude?.use?.("db");
+    if(!db){ clearTimeout(timer); status("Η αποθήκευση δεν είναι διαθέσιμη σε αυτή την προβολή. Ανοίξτε τη σελίδα συνδεδεμένοι στο claude.ai.", true); return; }
+    for(const kind of Object.keys(KINDS)){
+      cols[kind] = db.collection(KINDS[kind].collection);
+      cols[kind].onSnapshot(snap=>{
+        data[kind] = snap.docs.map(toRow).filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(r.date));
+        loaded[kind] = true; done(); fillYears(); render();
+      }, onErr);
+    }
+    cProd = db.collection("products"); cMove = db.collection("movements"); cPart = db.collection("partners"); dSet = db.doc("settings/main");
+    cProd.onSnapshot(snap=>{
+      products = snap.docs.map(d=>{ const v=d.data(); return {id:d.id, category:String(v.category||"other"), model:String(v.model||"?"), variant:v.variant||"", ean:v.ean||"", privateLabel:!!v.privateLabel,
+        factoryCost:N(v.factoryCost), landedCost:N(v.landedCost), skroutzPrice:N(v.skroutzPrice), retailPrice:N(v.retailPrice), wholesalePrice:N(v.wholesalePrice)}; });
+      loaded.products=true; done(); render(); if(tab in KINDS) updateProdBox();
+    }, onErr);
+    cMove.onSnapshot(snap=>{
+      moves = snap.docs.map(d=>{ const v=d.data(); return {id:d.id, date:String(v.date||""), productId:String(v.productId||""), qty:Math.trunc(Number(v.qty)||0), reason:v.reason||"", note:v.note||"", createdAt:v.createdAt||""}; }).filter(m=>/^\d{4}-\d{2}-\d{2}$/.test(m.date) && m.qty);
+      loaded.movements=true; done(); render();
+    }, onErr);
+    cPart.onSnapshot(snap=>{
+      partners = snap.docs.map(d=>{ const v=d.data(); return {id:d.id, name:String(v.name||"?"), type:v.type||"other", stage:STAGES.some(s=>s.id===v.stage)?v.stage:"target", person:v.person||"", city:v.city||"", email:v.email||"", phone:v.phone||"",
+        lastContact:/^\d{4}-\d{2}-\d{2}$/.test(v.lastContact||"")?v.lastContact:"", nextDate:/^\d{4}-\d{2}-\d{2}$/.test(v.nextDate||"")?v.nextDate:"", nextAction:v.nextAction||"", notes:v.notes||"",
+        history:Array.isArray(v.history)?v.history.filter(x=>x&&typeof x.text==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(x.date||"")):[], createdAt:v.createdAt||""}; });
+      loaded.partners=true; done(); fillMailPartners(); render();
+      if(editingPartner){ const p=partners.find(x=>x.id===editingPartner); if(p) renderHistory(p); }
+    }, onErr);
+    dSet.onSnapshot(s=>{ if(s.exists){ const v=s.data(); settings={commission:N(v.commission)??0.1054, vat:N(v.vat)??0.24, lowStock:Number.isInteger(v.lowStock)?v.lowStock:5}; render(); } }, ()=>{});
+
+    const user = await window.claude?.use?.("user");
+    if(await user?.can?.("data.write")===false){ canWrite=false; document.querySelectorAll("form input,form select,form button,form textarea").forEach(el=>el.disabled=true); render(); }
+    dl = await window.claude?.use?.("downloads"); if(dl) $("csv").hidden=false;
+    sample = await window.claude?.use?.("sample");
+    if(!sample){ $("mail-go").disabled = true; $("mail-note").textContent = "Ο βοηθός email δεν είναι διαθέσιμος σε αυτή την προβολή. Ανοίξτε τη σελίδα στο claude.ai συνδεδεμένοι με τον λογαριασμό σας."; }
+  }catch(err){ onErr(err); }
+}
+setup();
+connect();
+</script>
