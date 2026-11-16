@@ -1,4 +1,4 @@
-# InnoMetrics social bot: every 10 minutes, handle Telegram button taps/replies and publish posts that are due.
+# InnoMetrics social bot: every 10 minutes, handle Telegram button taps/replies and publish posts ok that are due.
 # Captions and times are still written by the hourly Claude run (social/PLAYBOOK.md).
 # Secrets: repository Settings -> Secrets and variables -> Actions.
 name: Social bot (10-minute check)
