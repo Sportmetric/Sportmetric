@@ -185,6 +185,9 @@ class Bot:
             return
         if action != "y" and mid != p.get("preview_message_id"):
             self.tg.answer_callback(cq["id"], "That draft is outdated - use the newest one.")
+            if p["status"] not in FINAL:
+                self.tg.send(f"⚠️ That's an older draft of {p['id']}. Tap the buttons on the newest one (this message's reply).",
+                             reply_to=p.get("preview_message_id"), html=False)
             return
         if action == "a" and p["status"] == "awaiting_approval" and not p["instructions"]:
             p["status"] = "approved"
