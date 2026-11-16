@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 
 
 def _env(name: str, default: str = "") -> str:
-    return os.environ.get(name, default).strip()
+    return os.environ.get(name, "").strip() or default  # empty counts as unset (missing GitHub secrets are "")
 
 
 @dataclass

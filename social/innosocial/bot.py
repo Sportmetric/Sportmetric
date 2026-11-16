@@ -127,7 +127,7 @@ class Bot:
              "instructions": [], "platforms": {}, "preview_message_id": None, "prompt_message_ids": []}
         self.state["posts"][pid] = p
         self.log(p, "received")
-        self.tg.send(f"🎬 Got it - <b>{pid}</b>. Drafting a caption and a time; the preview is coming in a few minutes.",
+        self.tg.send(f"🎬 Got it - <b>{pid}</b>. Drafting a caption and a time; the preview is coming within the hour.",
                      reply_to=msg["message_id"], silent=True)
 
     def _post_for_message(self, message_id: int) -> dict | None:
@@ -191,12 +191,14 @@ class Bot:
             self.log(p, "approved")
             self.tg.answer_callback(cq["id"], "Approved")
             self.refresh_preview(p)
+            self.confirm(p, f"✅ {p['id']} approved - it goes out {self.fmt_time(p['scheduled_at'])}.")
         elif action == "n" and p["status"] in ("awaiting_approval", "approved"):
             p["status"] = "approved"
             p["scheduled_at"] = self.now()
             self.log(p, "approved: post now")
             self.tg.answer_callback(cq["id"], "Posting now")
             self.refresh_preview(p)
+            self.confirm(p, f"🚀 {p['id']} - posting now.")
         elif action in ("e", "t") and p["status"] not in FINAL:
             ask = ("✏️ <b>Reply to this message</b> with the new caption, or say what to change "
                    "(e.g. <i>shorter, mention the price, more energetic</i>)." if action == "e" else
@@ -209,6 +211,7 @@ class Bot:
             self.log(p, "rejected")
             self.tg.answer_callback(cq["id"], "Rejected")
             self.refresh_preview(p)
+            self.confirm(p, f"❌ {p['id']} rejected - it won't be posted.")
         elif action == "y" and p["status"] == "failed":
             for plat in p["platforms"].values():
                 if plat["status"] == "failed":
@@ -217,8 +220,12 @@ class Bot:
             p["scheduled_at"] = self.now()
             self.log(p, "retry")
             self.tg.answer_callback(cq["id"], "Retrying")
+            self.confirm(p, f"🔁 {p['id']} - trying again now.")
         else:
             self.tg.answer_callback(cq["id"], f"Can't do that - {p['id']} is {p['status'].replace('_', ' ')}.")
+
+    def confirm(self, p: dict, text: str) -> None:
+        self.tg.send(text, reply_to=p.get("preview_message_id"), html=False)
 
     def buttons(self, p: dict):
         if p["status"] == "awaiting_approval":
@@ -385,12 +392,13 @@ class Bot:
         st["status"] = "uploaded"  # still processing; check again next run
 
     # --- one full run -----------------------------------------------------------
-    def tick(self) -> dict:
+    def tick(self, quick: bool = False) -> dict:
+        """quick=True: buttons, replies and due posts only (the frequent GitHub run); drafting is left to Claude."""
         self.process_updates()
         self.publish_due()
         for p in self.state["posts"].values():
             if p["status"] == "new":
-                self.report["needs_draft"].append(self.prepare_draft_inputs(p))
+                self.report["needs_draft"].append({"id": p["id"]} if quick else self.prepare_draft_inputs(p))
             elif p["instructions"] and p["status"] not in FINAL:
                 self.report["needs_revision"].append({
                     "id": p["id"], "caption": p["caption"], "scheduled_at": self.fmt_time(p.get("scheduled_at")),
@@ -405,5 +413,5 @@ HELP = ("How it works:\n"
         "1. Send me a video (add a note in the caption if you like: product, offer, when to post).\n"
         "2. I draft a caption and a time and send you a preview.\n"
         "3. Tap ✅ Approve - it posts at that time. Or ✏️ / 🕒 to change things, by replying.\n\n"
-        "I check messages once an hour, so button taps take effect on the next check.\n"
+        "Button taps and replies are picked up within about 10 minutes; new drafts within the hour.\n"
         "/queue - upcoming posts")

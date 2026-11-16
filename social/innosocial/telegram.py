@@ -63,7 +63,7 @@ class Telegram:
         try:
             self.call("answerCallbackQuery", callback_query_id=callback_id, text=text[:200])
         except TelegramError:
-            pass  # query too old (we only poll hourly) - harmless
+            pass  # query too old (we poll, so taps can be minutes old) - harmless
 
     def send_video(self, file_id: str, caption: str = "") -> dict:
         return self.call("sendVideo", chat_id=self.chat_id, video=file_id, caption=caption[:1024], parse_mode="HTML")

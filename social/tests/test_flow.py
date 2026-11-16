@@ -200,5 +200,22 @@ class Chunks(unittest.TestCase):
         self.assertEqual(chunk_plan(100 * MB), (10 * MB, 10))
 
 
+class MergeTest(unittest.TestCase):
+    def test_merge_keeps_latest_change_per_post(self):
+        from innosocial.store import merge
+        base = {"history": [{"at": 1, "event": "received"}]}
+        ours = {"seq": 2, "tg_offset": 10, "tiktok": {"expires_at": 5},
+                "posts": {"P1": {**base, "status": "approved", "history": base["history"] + [{"at": 3, "event": "approved"}]},
+                          "P2": {**base, "status": "new"}}}
+        theirs = {"seq": 2, "tg_offset": 8, "tiktok": {"expires_at": 9},
+                  "posts": {"P1": {**base, "status": "awaiting_approval"},
+                            "P2": {**base, "status": "awaiting_approval", "history": base["history"] + [{"at": 4, "event": "draft sent"}]}}}
+        m = merge(ours, theirs)
+        self.assertEqual(m["posts"]["P1"]["status"], "approved")
+        self.assertEqual(m["posts"]["P2"]["status"], "awaiting_approval")
+        self.assertEqual(m["tg_offset"], 10)
+        self.assertEqual(m["tiktok"]["expires_at"], 9)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -26,7 +26,8 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="innosocial")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("setup", help="check settings; list chats that messaged the bot")
-    sub.add_parser("tick", help="one run: read Telegram, publish due posts, print what needs drafting (JSON)")
+    tk = sub.add_parser("tick", help="one run: read Telegram, publish due posts, print what needs drafting (JSON)")
+    tk.add_argument("--quick", action="store_true", help="skip preparing drafts (frequent automatic run)")
     pr = sub.add_parser("propose", help="send a caption + time draft for approval")
     pr.add_argument("post_id")
     g = pr.add_mutually_exclusive_group(required=True)
@@ -50,7 +51,7 @@ def main(argv=None) -> int:
     before = json.dumps(state, sort_keys=True)
     try:
         if a.cmd == "tick":
-            out = bot.tick()
+            out = bot.tick(quick=a.quick)
         elif a.cmd == "propose":
             cap = Path(a.caption_file).read_text() if a.caption_file else a.caption
             p = bot.propose(a.post_id, cap, a.time)

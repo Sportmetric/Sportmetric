@@ -12,8 +12,11 @@ You ──video──▶ Telegram bot ──▶ hourly Claude run ──▶ draf
                                                                  automatic after TikTok's audit)
 ```
 
-- Everything runs as a Claude **scheduled task every hour**; no server to host.
-  Button taps and replies are picked up on the next run (up to 1 hour), and posts go out within the hour of their time.
+- A Claude **scheduled task every hour** writes captions and picks times; no server to host.
+- A free **GitHub Actions** check every 10 minutes (`.github/workflows/social-bot.yml`, on the repository's default branch)
+  handles button taps and replies, confirms them with a message, and publishes posts that are due.
+  It needs repository secrets `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`
+  (and later `META_ACCESS_TOKEN`, `INSTAGRAM_USER_ID`). GitHub pauses scheduled workflows after 60 days without repository activity.
 - The queue is stored in the Telegram chat as a pinned JSON file. **Don't unpin or delete it.**
 - Videos: send as a normal Telegram video (not "as file"), max 20 MB, 3 s - 10 min, vertical 9:16 is best.
 - Code: `innosocial/` (Python, standard library only). Claude's instructions: `PLAYBOOK.md`. Tests: `python3 -m unittest discover -s tests`.
