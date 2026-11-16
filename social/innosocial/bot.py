@@ -250,8 +250,9 @@ class Bot:
                 "published": "🎉 <b>{id} published</b>", "failed": "⚠️ <b>{id} failed</b>"}.get(
             p["status"], "<b>{id}</b>").format(id=p["id"])
         plats = ", ".join(LABEL.get(x, x) for x in (p["platforms"] or self.cfg.configured_platforms())) or "no platform configured"
-        tk = " (TikTok: to your drafts)" if "tiktok" in (p["platforms"] or self.cfg.configured_platforms()) \
-            and self.cfg.tiktok_mode == "draft" else ""
+        on_tt = "tiktok" in (p["platforms"] or self.cfg.configured_platforms())
+        tk = (" (TikTok: to your drafts)" if self.cfg.tiktok_mode == "draft" else
+              " (TikTok: private - you make it public)" if self.cfg.tiktok_privacy == "SELF_ONLY" else "") if on_tt else ""
         return (f"{head}\n🕒 {self.fmt_time(p.get('scheduled_at'))}\n📱 {plats}{tk}\n\n"
                 f"{esc(p['caption'])}")
 
@@ -390,6 +391,9 @@ class Bot:
                 ids = s.get("publicaly_available_post_id") or []
                 st.update(status="done", url=f"https://www.tiktok.com/video/{ids[0]}" if ids else "")
                 self.log(p, "tiktok published")
+                if self.cfg.tiktok_privacy == "SELF_ONLY":
+                    self.tg.send(f"🔒 <b>{p['id']} is on TikTok with its caption, visible only to you.</b> To show it to everyone: "
+                                 "TikTok → Profile → open the video → ⋯ → Privacy settings → Everyone.")
                 return
             time.sleep(10)
         st["status"] = "uploaded"  # still processing; check again next run
