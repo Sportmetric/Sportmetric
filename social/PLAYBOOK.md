@@ -17,6 +17,8 @@ Python does all the API work; your part is **writing captions, choosing times, a
 
 2. For **each item in `needs_draft`**:
    - Look at every image in `frames` (Read tool) and read `note` (what the owner typed with the video).
+   - Also apply every message in `instructions` (oldest first): replies the owner sent before the first draft,
+     e.g. a time ("Tomorrow 15:25") or a caption change. They override the default time rules.
    - Write the caption (rules below) to a file, choose a time (rules below), then:
      `python3 -m innosocial propose P7 --caption-file /tmp/P7.txt --time "2026-11-20 19:00"`
    - If the item has an `error` (video couldn't be downloaded), don't propose: tell the owner with

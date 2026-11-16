@@ -279,7 +279,8 @@ class Bot:
         return p
 
     def prepare_draft_inputs(self, p: dict) -> dict:
-        item = {"id": p["id"], "note": p.get("note", ""), "received": self.fmt_time(p["created_at"])}
+        item = {"id": p["id"], "note": p.get("note", ""), "received": self.fmt_time(p["created_at"]),
+                "instructions": p.get("instructions", [])}  # owner replies sent before the first draft
         try:
             v = self.video_path(p)
             info = media.probe(v)

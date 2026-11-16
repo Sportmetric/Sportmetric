@@ -107,6 +107,12 @@ class Flow(unittest.TestCase):
     def run_tick(self, now):
         return Bot(self.cfg, self.tg, self.state, now=now).tick()
 
+    def test_reply_before_first_draft_reaches_needs_draft(self):
+        self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000})),
+                         upd(2, message=msg(6, text="Tomorrow 15:25", reply_to_message={"message_id": 5}))]
+        r = self.run_tick(self.t0)
+        self.assertEqual(r["needs_draft"][0]["instructions"], ["Tomorrow 15:25"])
+
     def test_full_cycle(self):
         # 1. video arrives (plus a stranger's video, which must be ignored)
         self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000}, caption="new grips")),
@@ -114,6 +120,7 @@ class Flow(unittest.TestCase):
         r = self.run_tick(self.t0)
         self.assertEqual([d["id"] for d in r["needs_draft"]], ["P1"])
         self.assertEqual(r["needs_draft"][0]["note"], "new grips")
+        self.assertEqual(r["needs_draft"][0]["instructions"], [])
         self.assertEqual(len(self.state["posts"]), 1)
 
         # 2. Claude proposes
