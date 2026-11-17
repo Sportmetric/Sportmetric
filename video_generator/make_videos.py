@@ -405,7 +405,8 @@ def render(work: Path, voice: Path, music: Path | None, duration: float, out: Pa
 
     cmd += ["-filter_complex", ";".join(f), "-map", "[v]", "-map", "[a]",
             "-t", f"{duration:.3f}",
-            "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-r", str(FPS),
+            "-c:v", "libx264", "-profile:v", "main", "-level", "4.1",
+            "-preset", "medium", "-crf", "20", "-r", str(FPS), "-tag:v", "avc1",
             "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
             "-movflags", "+faststart", str(out)]
     run(cmd, cwd=work)
