@@ -6,7 +6,12 @@ name: Social bot (10-minute check)
 on:
   schedule:
     - cron: "*/10 * * * *"
-  workflow_dispatch:
+  workflow_dispatch:  # also called every 10 minutes by cron-job.org (GitHub's own timer is unreliable)
+    inputs:
+      force:
+        description: "Run even during the hourly Claude run window (:39-:50)"
+        type: boolean
+        default: false
 
 concurrency:
   group: social-bot
@@ -38,7 +43,7 @@ jobs:
         run: |
           # The hourly Claude run starts at :41; stay out of its way.
           m=$((10#$(date -u +%M)))
-          if [ "${{ github.event_name }}" = schedule ] && [ "$m" -ge 39 ] && [ "$m" -le 50 ]; then echo "Hourly run window - skipping"; exit 0; fi
+          if [ "${{ inputs.force }}" != true ] && [ "$m" -ge 39 ] && [ "$m" -le 50 ]; then echo "Hourly run window - skipping"; exit 0; fi
           # The repository is public: print only a summary, never the raw output.
           if python3 -m innosocial tick --quick > /tmp/tick.json 2> /tmp/err.txt; then
             python3 -c "import json; d=json.load(open('/tmp/tick.json')); print('published:', d['published'], '| errors:', len(d['errors']), '| waiting for a draft:', len(d['needs_draft']))"
