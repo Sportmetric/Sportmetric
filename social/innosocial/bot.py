@@ -108,6 +108,10 @@ class Bot:
             vid = doc
         if vid:
             self.new_video(msg, vid)
+        elif msg.get("photo") or doc.get("mime_type", "").startswith("image/"):
+            self.tg.send("📷 I can only post <b>videos</b> for now - TikTok's posting API doesn't take photos or stories "
+                         "from apps like this one. Send it as a short video (e.g. the image with music, made in CapCut), "
+                         "or post the photo by hand.", reply_to=msg["message_id"])
         elif msg.get("text", "").startswith("/"):
             self.command(msg["text"].split()[0].split("@")[0].lower())
         elif msg.get("text"):
@@ -371,9 +375,10 @@ class Bot:
             st["status"] = "publishing"
             st["mode"] = self.cfg.tiktok_mode
             if st["mode"] == "direct":
-                st["publish_id"] = tt.direct_post(self.video_path(p), p["caption"], self.cfg.tiktok_privacy)
+                st["publish_id"] = tt.direct_post(media.fix_frame_rate(self.video_path(p)), p["caption"],
+                                                  self.cfg.tiktok_privacy)
             else:
-                st["publish_id"] = tt.upload_draft(self.video_path(p))
+                st["publish_id"] = tt.upload_draft(media.fix_frame_rate(self.video_path(p)))
             st["status"] = "uploaded"
         for _ in range(12):
             s = tt.status(st["publish_id"])
