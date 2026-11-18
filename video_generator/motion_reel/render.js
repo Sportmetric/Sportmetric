@@ -2,7 +2,7 @@ const {chromium}=require('playwright');const {spawn}=require('child_process');
 (async()=>{
  const mode=process.argv[2]; const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1080,height:1920}});
  p.on('console',m=>console.log('console:',m.text())); p.on('pageerror',e=>console.log('ERR',e.message));
- await p.goto('file://'+__dirname+'/reel.html'); await p.evaluate(()=>window.ready);
+ await p.goto('file://'+__dirname+'/'+(process.env.HTML||'reel.html')); await p.evaluate(()=>window.ready);
  const total=await p.evaluate(()=>window.TOTAL);
  const el=await p.$('canvas');
  if(mode==='preview'){const ts=process.argv.slice(3).map(Number);
