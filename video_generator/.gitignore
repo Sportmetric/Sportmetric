@@ -1,0 +1,8 @@
+# Τα πλάνα, η μουσική και τα βίντεο μένουν μόνο στον υπολογιστή σου.
+clips/*
+music/*
+output/*
+!clips/.gitkeep
+!music/.gitkeep
+!output/.gitkeep
+__pycache__/
