@@ -1,7 +1,11 @@
 # InnoMetrics social posting bot
 
-Send a video to the InnoMetrics Telegram bot → Claude writes an English caption and picks a time →
-you approve in Telegram → it posts to **Instagram Reels** and **TikTok** at that time.
+Send a video to the Telegram bot → Claude writes an English caption and picks a time →
+you approve in Telegram → it posts at that time to **TikTok** / **Instagram Reels** (InnoMetrics)
+or **YouTube Shorts** (Meme Town).
+
+Start the video's caption with where it goes: `#tt`, `#ig` (both InnoMetrics, can be combined) or `#yt` (Meme Town).
+Without a tag the bot asks with buttons.
 
 ```
 You ──video──▶ Telegram bot ──▶ hourly Claude run ──▶ draft + buttons in Telegram
@@ -34,16 +38,23 @@ Type the secret values there yourself, never in a chat.
 4. Ask Claude to run `python3 -m innosocial setup`; it prints your chat id → add `TELEGRAM_CHAT_ID`.
    Only this chat can use the bot; everyone else is ignored.
 
-### 2. Instagram (20-30 min)
-1. The Instagram account must be **Professional (Business or Creator)** and **linked to a Facebook Page**
-   (Instagram app → Settings → Account type; then link the Page in Meta Business Suite).
-2. At developers.facebook.com create an app (type *Business*), add the **Instagram** product
-   ("API setup with Facebook login").
-3. Get a token with `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`,
-   `business_management`. Best: a **System User token** in Business Settings → Users → System users
-   (it doesn't expire). A normal long-lived user token expires after 60 days.
-4. Find the Instagram user id: Graph API Explorer → `me/accounts?fields=instagram_business_account`.
-5. Add variables `META_ACCESS_TOKEN` and `INSTAGRAM_USER_ID`.
+### 2. Instagram (Instagram API with Instagram Login - no Facebook Page token needed)
+1. The Instagram account must be **Professional (Business or Creator)**.
+2. developers.facebook.com → Create app → use case **"Manage messaging & content on Instagram"** →
+   *API setup with Instagram business login*. Add the redirect URL
+   `https://sportmetric.github.io/Sportmetric/tiktok-callback.html` under *Set up Instagram business login*.
+3. Add variables `INSTAGRAM_APP_ID` and `INSTAGRAM_APP_SECRET` (the **Instagram** app id/secret shown there).
+4. Ask Claude to run `python3 -m innosocial auth instagram`: open the link, sign in, paste the one-time code back.
+   The token is kept in the pinned queue file and renewed weekly (it would otherwise expire after 60 days).
+
+### 2b. YouTube (Meme Town)
+1. console.cloud.google.com → new project → enable **YouTube Data API v3**.
+2. OAuth consent screen: External; add the Meme Town Google account as a test user, then **Publish app**
+   (in "Testing" mode Google expires the sign-in after 7 days).
+3. Credentials → OAuth client ID → *Web application*, redirect URI as above. Add `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`.
+4. Ask Claude to run `python3 -m innosocial auth youtube` and sign in with the Meme Town account.
+5. Until Google verifies the app (apply for the audit early), uploads stay **private**; the bot tells you, and you
+   switch them to Public in YouTube Studio. Quota: about 6 uploads a day.
 
 ### 3. TikTok (30 min + TikTok's review)
 1. At developers.tiktok.com create an app, add **Login Kit** and **Content Posting API**,

@@ -62,6 +62,7 @@ def request(
     headers: dict | None = None,
     timeout: float = 120,
     retries: int = 2,
+    out_headers: dict | None = None,
 ) -> bytes:
     if params:
         url += ("&" if "?" in url else "?") + urllib.parse.urlencode({k: v for k, v in params.items() if v is not None})
@@ -78,6 +79,8 @@ def request(
         req = urllib.request.Request(url, data=body, method=method, headers=hdrs)
         try:
             with urllib.request.urlopen(req, timeout=timeout, context=_ctx()) as resp:
+                if out_headers is not None:
+                    out_headers.update({k.lower(): v for k, v in resp.headers.items()})
                 return resp.read()
         except urllib.error.HTTPError as e:
             text = e.read().decode("utf-8", "replace")

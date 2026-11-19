@@ -109,13 +109,54 @@ class Flow(unittest.TestCase):
 
     def test_reply_before_first_draft_reaches_needs_draft(self):
         self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000})),
-                         upd(2, message=msg(6, text="Tomorrow 15:25", reply_to_message={"message_id": 5}))]
+                         upd(2, message=msg(6, text="Tomorrow 15:25 #tt", reply_to_message={"message_id": 5}))]
         r = self.run_tick(self.t0)
-        self.assertEqual(r["needs_draft"][0]["instructions"], ["Tomorrow 15:25"])
+        self.assertEqual(r["needs_draft"][0]["note"], "Tomorrow 15:25")
+        self.assertEqual(r["needs_draft"][0]["targets"], ["tiktok"])
+
+    def test_no_tag_asks_where_then_button_sets_platforms(self):
+        self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000}, caption="hello"))]
+        r = self.run_tick(self.t0)
+        self.assertEqual(r["needs_draft"], [])
+        p = self.state["posts"]["P1"]
+        self.assertEqual(p["status"], "needs_platform")
+        codes = [row[0]["callback_data"] for row in self.tg.sent[-1][1]["buttons"]]
+        self.assertEqual(codes, ["gti:P1", "gt:P1", "gi:P1"])  # YouTube not configured in this test
+        self.tg.queue = [upd(2, callback_query={"id": "c", "data": "gt:P1", "message": msg(p["platform_question_id"])})]
+        r = self.run_tick(self.t0 + 5)
+        self.assertEqual(p["targets"], ["tiktok"])
+        self.assertEqual([d["id"] for d in r["needs_draft"]], ["P1"])
+        self.assertEqual(r["needs_draft"][0]["brand"], "InnoMetrics")
+
+    def test_youtube_post(self):
+        published = []
+
+        class FakeYT:
+            def __init__(self, *a):
+                pass
+
+            def upload(self, video, caption, privacy, tags=None):
+                published.append((caption, tags))
+                return {"id": "abc", "url": "https://youtube.com/shorts/abc", "privacy": "private"}
+
+        mock.patch.object(botmod, "YouTube", FakeYT).start()
+        self.cfg.youtube_client_id, self.cfg.youtube_client_secret = "id", "sec"
+        self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000}, caption="#yt cat vs printer"))]
+        r = self.run_tick(self.t0)
+        self.assertEqual(r["needs_draft"][0]["brand"], "Meme Town")
+        b = Bot(self.cfg, self.tg, self.state, now=self.t0)
+        b.propose("P1", "When the printer wins\nNobody expected this. #memes", "2027-01-15 19:00")
+        self.state["posts"]["P1"]["status"] = "approved"
+        self.run_tick(1_900_000_000.0)
+        p = self.state["posts"]["P1"]
+        self.assertEqual(p["status"], "published")
+        self.assertEqual(p["platforms"]["youtube"]["url"], "https://youtube.com/shorts/abc")
+        self.assertEqual(published[0][1], ["memes"])
+        self.assertIn("private", self.tg.sent[-2][0])  # told the owner it stayed private
 
     def test_full_cycle(self):
         # 1. video arrives (plus a stranger's video, which must be ignored)
-        self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000}, caption="new grips")),
+        self.tg.queue = [upd(1, message=msg(5, video={"file_id": "F", "file_size": 5000}, caption="#tt #ig new grips")),
                          upd(2, message={"message_id": 6, "chat": {"id": 999}, "video": {"file_id": "X"}})]
         r = self.run_tick(self.t0)
         self.assertEqual([d["id"] for d in r["needs_draft"]], ["P1"])
@@ -198,6 +239,20 @@ class Chunks(unittest.TestCase):
         from innosocial.tiktok import MB, chunk_plan
         self.assertEqual(chunk_plan(3 * MB), (3 * MB, 1))
         self.assertEqual(chunk_plan(100 * MB), (10 * MB, 10))
+
+
+class TagTest(unittest.TestCase):
+    def test_parse_tags(self):
+        from innosocial.bot import parse_tags
+        self.assertEqual(parse_tags("#ig Νέα smartglasses 🔥"), (["instagram"], "Νέα smartglasses 🔥"))
+        self.assertEqual(parse_tags("#yt #YT meme title"), (["youtube"], "meme title"))
+        self.assertEqual(parse_tags("price #innometrics"), ([], "price #innometrics"))
+
+    def test_youtube_title_split(self):
+        from innosocial.youtube import split_caption
+        t, d = split_caption("Title <b>here</b>\nline two")
+        self.assertEqual(t, "Title bhere/b")
+        self.assertTrue(d.endswith("#Shorts"))
 
 
 class MergeTest(unittest.TestCase):

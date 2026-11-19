@@ -17,6 +17,7 @@ Python does all the API work; your part is **writing captions, choosing times, a
 
 2. For **each item in `needs_draft`**:
    - Look at every image in `frames` (Read tool) and read `note` (what the owner typed with the video).
+   - `brand` tells you whose post it is: **InnoMetrics** (TikTok/Instagram) or **Meme Town** (YouTube). Use that brand's rules below.
    - Also apply every message in `instructions` (oldest first): replies the owner sent before the first draft,
      e.g. a time ("Tomorrow 15:25") or a caption change. They override the default time rules.
    - Write the caption (rules below) to a file, choose a time (rules below), then:
@@ -31,7 +32,7 @@ Python does all the API work; your part is **writing captions, choosing times, a
 
 4. Do nothing else: no commits, no other messages. If `needs_draft` and `needs_revision` are both empty, you're done.
 
-## Caption rules (English)
+## Caption rules - InnoMetrics (English; TikTok and Instagram)
 
 - Brand: **InnoMetrics**. Friendly, confident, short. No corporate filler.
 - Line 1 is the hook (it's all people see before "more"): max ~70 characters, no hashtags.
@@ -43,11 +44,19 @@ Python does all the API work; your part is **writing captions, choosing times, a
 - **Never invent facts**: no prices, discounts, specs, dates or claims that aren't in the note or clearly visible in the video.
 - Same caption goes to Instagram and TikTok.
 
+## Caption rules - Meme Town (English; YouTube Shorts)
+
+- **Line 1 is the YouTube title**: max 70 characters (hard limit 100), funny and specific, no hashtags, no `<` `>`.
+- Then 1-2 short lines of description in a playful meme tone. Don't explain the joke.
+- End with 3-5 hashtags on their own line (e.g. `#memes #funny #shorts`). Never mention InnoMetrics.
+- If the owner typed a title in the note, use it exactly as line 1.
+- Same honesty rule: describe only what's in the video or the note.
+
 ## Time rules (Europe/Athens time - the `now` field is already in that zone)
 
 - If the note asks for a time or day, use it (if it's in the past, take the next possible slot and mention nothing).
-- Otherwise pick the next free slot that is **at least 3 hours from now** (the owner needs time to approve):
+- Otherwise (both brands) pick the next free slot that is **at least 3 hours from now** (the owner needs time to approve):
   - Mon-Fri: 13:00 or 19:30
   - Sat-Sun: 11:30 or 20:00
-- At most one post per day; check `booked` and skip days that already have one.
+- At most one post per day **per brand**; check `booked` and skip days that already have one.
 - Format for `--time`: `YYYY-MM-DD HH:MM`.

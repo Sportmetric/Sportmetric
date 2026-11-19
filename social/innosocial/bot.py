@@ -10,19 +10,41 @@ Replies to a draft ("make it shorter", "Friday 19:00") are queued as instruction
 from __future__ import annotations
 
 import html
+import re
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
 from . import media
 from .config import Config
+from . import instagram as iglib
 from .instagram import Instagram, InstagramError
 from .telegram import Telegram
 from .tiktok import TikTok, TikTokError
+from .youtube import YouTube, YouTubeError
 
 MAX_BOT_DOWNLOAD = 20 * 1024 * 1024
 FINAL = {"published", "rejected"}
-LABEL = {"instagram": "Instagram", "tiktok": "TikTok"}
+LABEL = {"instagram": "Instagram", "tiktok": "TikTok", "youtube": "YouTube (Meme Town)"}
+TAGS = {"ig": "instagram", "insta": "instagram", "instagram": "instagram", "tt": "tiktok", "tiktok": "tiktok",
+        "yt": "youtube", "youtube": "youtube"}
+TAG_RE = re.compile(r"(?<!\w)#(ig|insta|instagram|tt|tiktok|yt|youtube)\b", re.I)
+# Platform question buttons: code -> targets
+CHOICES = {"ti": ["tiktok", "instagram"], "t": ["tiktok"], "i": ["instagram"], "y": ["youtube"]}
+
+
+def parse_tags(text: str) -> tuple[list[str], str]:
+    """'#ig New glasses' -> (['instagram'], 'New glasses'). Order kept, duplicates dropped."""
+    found = []
+    for m in TAG_RE.finditer(text or ""):
+        t = TAGS[m.group(1).lower()]
+        if t not in found:
+            found.append(t)
+    return found, re.sub(r"\s{2,}", " ", TAG_RE.sub("", text or "")).strip()
+
+
+def brand(targets: list[str]) -> str:
+    return "Meme Town" if "youtube" in targets else "InnoMetrics"
 
 
 def esc(s: str) -> str:
@@ -55,6 +77,10 @@ class Bot:
             dt = dt.replace(tzinfo=self.cfg.tz)
         return dt.timestamp()
 
+    def default_targets(self) -> list[str]:
+        """Older posts made before platform tags: InnoMetrics platforms only, never Meme Town's YouTube."""
+        return [t for t in self.cfg.configured_platforms() if t != "youtube"]
+
     def post(self, pid: str) -> dict:
         p = self.state["posts"].get(pid)
         if not p:
@@ -71,7 +97,8 @@ class Bot:
         return path
 
     def booked(self) -> list[dict]:
-        return [{"id": p["id"], "at": self.fmt_time(p.get("scheduled_at")), "status": p["status"]}
+        return [{"id": p["id"], "at": self.fmt_time(p.get("scheduled_at")), "status": p["status"],
+                 "brand": brand(p.get("targets") or list(p["platforms"]))}
                 for p in self.state["posts"].values()
                 if p["status"] in ("awaiting_approval", "approved") and p.get("scheduled_at")]
 
@@ -125,14 +152,38 @@ class Bot:
             return
         self.state["seq"] += 1
         pid = f"P{self.state['seq']}"
-        p = {"id": pid, "status": "new", "created_at": self.now(), "note": msg.get("caption", ""),
+        targets, note = parse_tags(msg.get("caption", ""))
+        p = {"id": pid, "status": "new", "created_at": self.now(), "note": note, "targets": [],
              "source": {k: vid.get(k) for k in ("file_id", "file_unique_id", "file_size", "duration", "width", "height")},
              "video_message_id": msg["message_id"], "caption": "", "scheduled_at": None,
              "instructions": [], "platforms": {}, "preview_message_id": None, "prompt_message_ids": []}
         self.state["posts"][pid] = p
         self.log(p, "received")
-        self.tg.send(f"🎬 Got it - <b>{pid}</b>. Drafting a caption and a time; the preview is coming within the hour.",
-                     reply_to=msg["message_id"], silent=True)
+        self.set_targets(p, targets, reply_to=msg["message_id"])
+
+    # --- where to post ------------------------------------------------------------
+    def set_targets(self, p: dict, targets: list[str], reply_to: int | None = None) -> None:
+        problem = ""
+        missing = [t for t in targets if t not in self.cfg.configured_platforms()]
+        if "youtube" in targets and len(targets) > 1:
+            problem = "YouTube is the Meme Town channel - send Meme Town videos on their own (#yt only).\n"
+        elif missing:
+            problem = f"{', '.join(LABEL[t] for t in missing)} isn't connected yet.\n"
+        if targets and not problem:
+            p.update(targets=targets, status="new")
+            self.log(p, "targets: " + ",".join(targets))
+            self.tg.send(f"🎬 Got it - <b>{p['id']}</b> → {', '.join(LABEL[t] for t in targets)}. "
+                         "The draft is coming within the hour.", reply_to=reply_to, silent=True)
+            return
+        p["status"] = "needs_platform"
+        options = [(c, ts) for c, ts in CHOICES.items() if all(t in self.cfg.configured_platforms() for t in ts)]
+        m = self.tg.send(f"🎬 <b>{p['id']}</b>: {esc(problem)}Where should it go?\n"
+                         "<i>Tip: start the video's caption with #tt, #ig or #yt to skip this question.</i>",
+                         reply_to=reply_to,
+                         buttons=[[{"text": " + ".join(LABEL[t].split(" (")[0] for t in ts) +
+                                    (" (Meme Town)" if ts == ["youtube"] else ""),
+                                    "callback_data": f"g{c}:{p['id']}"}] for c, ts in options])
+        p["platform_question_id"] = m["message_id"]
 
     def _post_for_message(self, message_id: int) -> dict | None:
         for p in self.state["posts"].values():
@@ -146,11 +197,17 @@ class Bot:
         p = self._post_for_message(target) if target else None
         if p is None:
             # A note typed right after a video belongs to that video.
-            fresh = [q for q in self.state["posts"].values() if q["status"] == "new"]
+            fresh = [q for q in self.state["posts"].values() if q["status"] in ("new", "needs_platform")]
             if len(fresh) == 1:
                 p = fresh[0]
-                p["note"] = (p["note"] + "\n" + msg["text"]).strip()
-                return
+        if p is not None and p["status"] in ("new", "needs_platform"):  # not drafted yet: it's part of the note
+            targets, note = parse_tags(msg["text"])
+            p["note"] = (p["note"] + "\n" + note).strip()
+            self.log(p, f"note: {msg['text'][:80]}")
+            if p["status"] == "needs_platform" and targets:
+                self.set_targets(p, targets, reply_to=msg["message_id"])
+            return
+        if p is None:
             self.tg.send("I couldn't tell which post that's for. <b>Reply</b> (swipe left) to the post's draft "
                          "message, or tap ✏️ / 🕒 under it.", reply_to=msg["message_id"])
             return
@@ -186,6 +243,14 @@ class Bot:
         mid = cq.get("message", {}).get("message_id")
         if not p:
             self.tg.answer_callback(cq["id"], "Unknown post")
+            return
+        if action.startswith("g"):
+            if p["status"] != "needs_platform" or action[1:] not in CHOICES:
+                self.tg.answer_callback(cq["id"], "Already chosen")
+                return
+            self.tg.answer_callback(cq["id"], "OK")
+            self.tg.edit(mid, f"🎬 <b>{p['id']}</b> → {', '.join(LABEL[t] for t in CHOICES[action[1:]])}")
+            self.set_targets(p, CHOICES[action[1:]])
             return
         if action != "y" and mid != p.get("preview_message_id"):
             self.tg.answer_callback(cq["id"], "That draft is outdated - use the newest one.")
@@ -253,8 +318,9 @@ class Bot:
                 "approved": "✅ <b>{id} approved</b>", "rejected": "❌ <b>{id} rejected</b>",
                 "published": "🎉 <b>{id} published</b>", "failed": "⚠️ <b>{id} failed</b>"}.get(
             p["status"], "<b>{id}</b>").format(id=p["id"])
-        plats = ", ".join(LABEL.get(x, x) for x in (p["platforms"] or self.cfg.configured_platforms())) or "no platform configured"
-        on_tt = "tiktok" in (p["platforms"] or self.cfg.configured_platforms())
+        where = list(p["platforms"]) or p.get("targets") or self.default_targets()
+        plats = ", ".join(LABEL.get(x, x) for x in where) or "no platform configured"
+        on_tt = "tiktok" in where
         tk = (" (TikTok: to your drafts)" if self.cfg.tiktok_mode == "draft" else
               " (TikTok: private - you make it public)" if self.cfg.tiktok_privacy == "SELF_ONLY" else "") if on_tt else ""
         return (f"{head}\n🕒 {self.fmt_time(p.get('scheduled_at'))}\n📱 {plats}{tk}\n\n"
@@ -283,6 +349,8 @@ class Bot:
             p["scheduled_at"] = ts
         if not p.get("scheduled_at"):
             raise ValueError("no time given")
+        if "youtube" in (p.get("targets") or []) and len(caption.splitlines()[0]) > 100:
+            raise ValueError("line 1 is the YouTube title and must be at most 100 characters")
         old = p.get("preview_message_id")
         p.update(caption=caption, status="awaiting_approval", instructions=[])
         if old:
@@ -294,7 +362,9 @@ class Bot:
         return p
 
     def prepare_draft_inputs(self, p: dict) -> dict:
+        targets = p.get("targets") or self.default_targets()
         item = {"id": p["id"], "note": p.get("note", ""), "received": self.fmt_time(p["created_at"]),
+                "targets": targets, "brand": brand(targets),
                 "instructions": p.get("instructions", [])}  # owner replies sent before the first draft
         try:
             v = self.video_path(p)
@@ -315,7 +385,8 @@ class Bot:
 
     def publish(self, p: dict) -> None:
         if not p["platforms"]:
-            plats = self.cfg.configured_platforms()
+            plats = [t for t in (p.get("targets") or self.default_targets())
+                     if t in self.cfg.configured_platforms()]
             if not plats:
                 self.report["errors"].append(f"{p['id']}: no platform configured; not publishing")
                 return
@@ -329,7 +400,9 @@ class Bot:
                     self._instagram(p, st)
                 elif name == "tiktok":
                     self._tiktok(p, st)
-            except (InstagramError, TikTokError, Exception) as e:
+                elif name == "youtube":
+                    self._youtube(p, st)
+            except (InstagramError, TikTokError, YouTubeError, Exception) as e:
                 st.update(status="failed", error=str(e)[:500])
                 self.log(p, f"{name} failed: {str(e)[:120]}")
         states = {s["status"] for s in p["platforms"].values()}
@@ -350,7 +423,7 @@ class Bot:
         self.refresh_preview(p)
 
     def _instagram(self, p: dict, st: dict) -> None:
-        ig = Instagram(self.cfg.meta_token, self.cfg.ig_user_id, self.cfg.graph_version)
+        ig = self.instagram()
         if st["status"] == "publishing" and not st.get("container_id"):
             raise InstagramError("a previous run was interrupted mid-publish; check Instagram before retrying")
         if not st.get("container_id"):
@@ -365,6 +438,38 @@ class Bot:
         res = ig.publish(st["container_id"])
         st.update(status="done", media_id=res["id"], url=res["url"])
         self.log(p, "instagram published")
+
+    def instagram(self) -> Instagram:
+        saved = self.state.get("instagram") or {}
+        token = saved.get("token") or self.cfg.meta_token
+        if self.cfg.instagram_app_id and not token:
+            raise InstagramError("Instagram isn't connected yet - ask Claude to connect the account")
+        return Instagram(token, saved.get("user_id") or self.cfg.ig_user_id, self.cfg.graph_version)
+
+    def renew_instagram_token(self) -> None:
+        """Instagram Login tokens last 60 days; renew weekly so they never run out."""
+        saved = self.state.get("instagram") or {}
+        if not saved.get("token") or self.now() - saved.get("renewed_at", 0) < 7 * 86400:
+            return
+        try:
+            saved.update(iglib.refresh_token(saved["token"]), renewed_at=self.now())
+        except Exception as e:
+            if saved.get("expires_at", 0) - self.now() < 10 * 86400:
+                self.report["errors"].append(f"Instagram token renewal failed: {e}")
+
+    def _youtube(self, p: dict, st: dict) -> None:
+        if st["status"] == "publishing":
+            raise YouTubeError("a previous run was interrupted mid-upload; check YouTube Studio before retrying")
+        yt = YouTube(self.cfg.youtube_client_id, self.cfg.youtube_client_secret, self.state.setdefault("youtube", {}),
+                     self.cfg.youtube_refresh_token)
+        st["status"] = "publishing"
+        res = yt.upload(media.fix_frame_rate(self.video_path(p)), p["caption"], self.cfg.youtube_privacy,
+                        tags=[t.lstrip("#") for t in re.findall(r"#\w+", p["caption"])][:15])
+        st.update(status="done", url=res["url"], video_id=res["id"])
+        self.log(p, "youtube published")
+        if res["privacy"] != self.cfg.youtube_privacy:
+            self.tg.send(f"🔒 {p['id']} is on YouTube as <b>{res['privacy']}</b>: Google keeps uploads from apps it hasn't "
+                         "verified yet private. Open YouTube Studio → Content → the video → Visibility → Public.")
 
     def _tiktok(self, p: dict, st: dict) -> None:
         tt = TikTok(self.cfg.tiktok_client_key, self.cfg.tiktok_client_secret, self.state.setdefault("tiktok", {}),
@@ -407,6 +512,7 @@ class Bot:
     def tick(self, quick: bool = False) -> dict:
         """quick=True: buttons, replies and due posts only (the frequent GitHub run); drafting is left to Claude."""
         self.process_updates()
+        self.renew_instagram_token()
         self.publish_due()
         for p in self.state["posts"].values():
             if p["status"] == "new":
@@ -422,8 +528,9 @@ class Bot:
 
 
 HELP = ("How it works:\n"
-        "1. Send me a video (add a note in the caption if you like: product, offer, when to post).\n"
+        "1. Send me a video. Start its caption with where it goes: #tt (TikTok), #ig (Instagram) - both for "
+        "InnoMetrics - or #yt (YouTube, Meme Town). No tag: I'll ask. Add a note too (product, offer, when to post).\n"
         "2. I draft a caption and a time and send you a preview.\n"
         "3. Tap ✅ Approve - it posts at that time. Or ✏️ / 🕒 to change things, by replying.\n\n"
-        "Button taps and replies are picked up within about 10 minutes; new drafts within the hour.\n"
+        "Button taps and replies are picked up within a few minutes; new drafts within the hour.\n"
         "/queue - upcoming posts")
