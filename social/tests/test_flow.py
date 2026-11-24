@@ -93,6 +93,7 @@ class Flow(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.cfg = Config(telegram_token="x", telegram_chat_id=CHAT, ig_user_id="1", meta_token="t",
                           tiktok_client_key="k", tiktok_client_secret="s", tiktok_refresh_token="r",
+                          youtube_client_id="", youtube_client_secret="", instagram_app_id="",
                           work_dir=Path(self.tmp.name))
         self.tg = FakeTG()
         FakeIG.published = []
