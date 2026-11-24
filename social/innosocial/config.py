@@ -36,7 +36,7 @@ class Config:
     tiktok_privacy: str = field(default_factory=lambda: _env("TIKTOK_PRIVACY", "PUBLIC_TO_EVERYONE"))
 
     # YouTube (Meme Town channel): Google OAuth client; connect once with `python -m innosocial auth youtube`.
-    youtube_client_id: str = field(default_factory=lambda: _env("YOUTUBE_CLIENT_ID"))
+    youtube_client_id: str = field(default_factory=lambda: _env("YOUTUBE_CLIENT_ID").split("://")[-1].strip("/ "))
     youtube_client_secret: str = field(default_factory=lambda: _env("YOUTUBE_CLIENT_SECRET"))
     youtube_refresh_token: str = field(default_factory=lambda: _env("YOUTUBE_REFRESH_TOKEN"))
     youtube_privacy: str = field(default_factory=lambda: _env("YOUTUBE_PRIVACY", "public"))
