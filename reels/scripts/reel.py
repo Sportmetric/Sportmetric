@@ -180,6 +180,10 @@ def cmd_cut(a):
     sh(["ffmpeg", "-v", "error", "-y", "-i", mkv, "-an", "-c:v", "copy", out])
     os.remove(mkv)
     dur = float(probe(out)["format"]["duration"])
+    if a.mute or not has_audio:
+        # no usable voice (e.g. product shot with a copyrighted song): silent voice track
+        sh(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
+            "-t", f"{dur:.3f}", os.path.join(a.workdir, "voice.wav")])
     print(f"cut.mp4: {dur:.2f}s", file=sys.stderr)
 
 
@@ -277,6 +281,8 @@ def cmd_plan(a):
     t = ov.get("chart") or find_kw(tw, ch.get("keywords", []), after, [], 0) or after
     chart = {"label": ch.get("label", ""), "start": round(t, 3),
              "end": round(min(t + ch.get("duration", 3.2), main_dur), 3)}
+    for c in counters:
+        if c.get("duration"): c["end"] = round(min(c["start"] + c["duration"], main_dur), 3)
 
     me = brief.get("measure", {})
     t = ov.get("measure") or find_kw(tw, me.get("keywords", []), after, taken, 2.6)
@@ -294,10 +300,26 @@ def cmd_plan(a):
             {"file": "riser.wav", "t": max(0, main_dur - 0.85), "gain": 0.6},
             {"file": "pop.wav", "t": main_dur + 0.35, "gain": 0.5}]
 
+    if brief.get("tagline"):
+        cap = []
+        for tg in brief["tagline"]:
+            # "|" marks where a caption chunk breaks, e.g. "MEET THE | INNOMETRICS | SMART GLASSES"
+            groups = [g.split() for g in tg["text"].upper().split("|") if g.strip()]
+            n = sum(len(g) for g in groups); step = (tg["end"] - tg["start"]) / n; i = 0
+            for g in groups:
+                for j, w in enumerate(g):
+                    cap.append({"w": w + ("." if j == len(g) - 1 else ""),
+                                "start": tg["start"] + i * step, "end": tg["start"] + (i + 0.85) * step}); i += 1
+        tw = cap
     tl = {"main_duration": round(main_dur, 3), "intro": intro, "outro": outro,
+          "mode": brief.get("mode", "talking"), "layout": brief.get("layout", {}),
+          "music_gain": brief.get("music_gain", 0.30 if brief.get("mode") != "product" else 0.55),
           "total": round(main_dur + outro, 3), "handle": brief.get("handle", "@innometrics.wear"),
           "captions": caption_chunks(tw), "counters": counters, "chips": chips,
           "chart": chart, "measure": measure, "sfx": sorted(sfx, key=lambda s: s["t"])}
+    trk = os.path.join(wd, "measure_track.json")
+    if os.path.exists(trk):
+        measure["track"] = json.load(open(trk)); measure["offset"] = me.get("offset", 230)
     json.dump(tl, open(os.path.join(wd, "timeline.json"), "w"), ensure_ascii=False, indent=1)
     print(f"timeline.json: main {main_dur:.2f}s + outro {outro}s = {tl['total']:.2f}s")
     for c in counters: print(f"  counter {c['label']:<8} @ {c['start']:.2f}s {'(auto-placed)' if c['auto'] else '(keyword)'}")
@@ -354,12 +376,32 @@ class Tracker:
         return mask, self.face
 
 
+class ProductTracker:
+    """Product-shot mode: masks precomputed by product_masks.py, smoothed + feathered. No face."""
+
+    def __init__(self, workdir, mask_ema=0.65):
+        self.masks = np.load(os.path.join(workdir, "masks.npz"))["masks"]
+        self.prev = None; self.ema = mask_ema; self.k = 0
+
+    def step(self, rgb, ts_ms, reset=False):
+        m = self.masks[min(self.k, len(self.masks) - 1)].astype(np.float32) / 255
+        self.k += 1
+        if self.prev is not None and not reset:
+            m = self.prev * (1 - self.ema) + m * self.ema   # temporal smoothing (edge flicker)
+        self.prev = m
+        hard = np.clip((m - 0.35) / 0.4, 0, 1)
+        hard = cv2.GaussianBlur(hard, (0, 0), 1.6)
+        return cv2.resize(hard, (W, H), interpolation=cv2.INTER_LINEAR), None
+
+
 # ---------------------------------------------------------------- graphics
 class GFX:
     PANEL = (64, 150, W - 64, 1380)
 
     def __init__(self, tl):
         self.tl = tl
+        self.L = {"caption_y": 1560, "counter_y": 1215, "chips_y": None, "chart_y": 330}
+        self.L.update(tl.get("layout", {}))
         x0, y0, x1, y1 = self.PANEL
         pw, ph = x1 - x0, y1 - y0
         g = vgrad(pw, ph, NAVY, PURPLE, 238, 235)
@@ -403,7 +445,7 @@ class GFX:
         blend(out, self.panel, x0, int(y0 + (1 - p) * 80), p)
         ch = tl["chart"]
         a = window_alpha(t, ch["start"], ch["end"], 0.2, 0.4)
-        if a > 0: blend(out, self.chart(t - ch["start"], ch["label"]), x0 + 40, y0 + 330, a * p)
+        if a > 0: blend(out, self.chart(t - ch["start"], ch["label"]), x0 + 40, self.L["chart_y"], a * p)
 
     def chart(self, tt, label):
         w, h = W - 2 * 64 - 80, 430
@@ -441,13 +483,14 @@ class GFX:
     def front(self, out, t, face):
         tl = self.tl
         if t < tl["main_duration"]:
-            self.measure(out, t, face)
+            if self.tl["measure"].get("track"): self.measure_tracked(out, t)
+            else: self.measure(out, t, face)
             self.counters(out, t, face)
             self.chips(out, t)
         self.captions(out, t, face)
 
     def caption_y(self, face):
-        y = 1560
+        y = self.L["caption_y"]
         if face is not None and face["box"][3] > 1420: y = 1700
         return y
 
@@ -491,7 +534,7 @@ class GFX:
             s = 0.86 + 0.14 * ease_out_back(tt / 0.35)
             if abs(s - 1) > 0.01:
                 card = card.resize((max(1, int(card.width * s)), max(1, int(card.height * s))), Image.BILINEAR)
-            y = 1215
+            y = self.L["counter_y"]
             if face is not None and face["box"][3] > 1130: y = 150   # close-up: move above head
             blend(out, card, (W - card.width) // 2, y + (240 - card.height) // 2, a)
 
@@ -559,7 +602,7 @@ class GFX:
             if cur and cw + im.width + 16 > W - 100: rows.append(cur); cur, cw = [], 0
             cur.append((c, im)); cw += im.width + 16
         rows.append(cur)
-        y = 1440 - (len(rows) - 1) * 82
+        y = self.L["chips_y"] if self.L["chips_y"] is not None else 1440 - (len(rows) - 1) * 82
         for row in rows:
             rw = sum(im.width for _, im in row) + 16 * (len(row) - 1); x = (W - rw) // 2
             for c, im in row:
@@ -613,6 +656,53 @@ class GFX:
             mid = (P0 + P1) / 2 + nrm * 58
             blend(out, lab, int(mid[0] - lw / 2), int(mid[1] - lh / 2 - 8 * (1 - la)), a * la)
 
+    def measure_tracked(self, out, t):
+        """Dimension line under an object, from tracked points (product mode)."""
+        m = self.tl["measure"]
+        a = window_alpha(t, m["start"], m["end"], 0.1, 0.35)
+        pts = m["track"].get(str(int(round(t * FPS))))
+        if a <= 0 or not pts: return
+        tt = t - m["start"]
+        Q0, Q1 = np.array(pts[:2], float), np.array(pts[2:], float)
+        v = Q1 - Q0; ln = np.linalg.norm(v) + 1e-6; u = v / ln
+        nrm = np.array([-u[1], u[0]])
+        if nrm[1] < 0: nrm = -nrm                     # point downwards
+        off = m.get("offset", 230)
+        P0, P1 = Q0 + nrm * off, Q1 + nrm * off
+        pad = 120
+        bx0 = int(min(Q0[0], Q1[0], P0[0], P1[0]) - pad); by0 = int(min(Q0[1], Q1[1], P0[1], P1[1]) - pad)
+        cw = int(max(Q0[0], Q1[0], P0[0], P1[0]) - bx0 + pad); chh = int(max(Q0[1], Q1[1], P0[1], P1[1]) - by0 + pad)
+        im = Image.new("RGBA", (cw, chh)); gl = Image.new("RGBA", (cw, chh))
+        d = ImageDraw.Draw(im); dg = ImageDraw.Draw(gl)
+        o = np.array([bx0, by0]); A0, A1, B0, B1 = Q0 - o, Q1 - o, P0 - o, P1 - o
+        # extension lines grow first, then the dimension line sweeps across
+        pe = ease_out_cubic(tt / 0.3)
+        for Q, P in ((A0, B0), (A1, B1)):
+            E = Q + (P - Q) * pe + nrm * 0
+            d.line([tuple(Q + nrm * 14), tuple(E + nrm * 12 * pe)], fill=(255, 255, 255, 150), width=2)
+            d.ellipse([Q[0] - 6, Q[1] - 6, Q[0] + 6, Q[1] + 6], outline=(255, 255, 255, 230), width=2)
+        p = ease_in_out((tt - 0.2) / 0.65)
+        if p > 0:
+            E = B0 + (B1 - B0) * p
+            dg.line([tuple(B0), tuple(E)], fill=PURPLE_HI + (255,), width=10)
+            d.line([tuple(B0), tuple(E)], fill=(255, 255, 255, 255), width=3)
+            tick = nrm * 16
+            d.line([tuple(B0 - tick), tuple(B0 + tick)], fill=(255, 255, 255, 255), width=3)
+            if p >= 0.999: d.line([tuple(B1 - tick), tuple(B1 + tick)], fill=(255, 255, 255, 255), width=3)
+            d.ellipse([E[0] - 7, E[1] - 7, E[0] + 7, E[1] + 7], fill=PURPLE_HI + (255,), outline=(255, 255, 255, 255), width=2)
+        im = Image.alpha_composite(gl.filter(ImageFilter.GaussianBlur(5)), im)
+        blend(out, im, bx0, by0, a)
+        la = clamp((tt - 0.8) / 0.25)
+        if la > 0 and m["label"]:
+            f = font(FONT_WIDE, 24); sp = 6
+            lw = int(text_w(m["label"], f, sp) + 48); lh = 52
+            lab = Image.new("RGBA", (lw, lh)); dl = ImageDraw.Draw(lab)
+            dl.rounded_rectangle([0, 0, lw - 1, lh - 1], lh // 2, fill=NAVY + (215,), outline=PURPLE_HI + (200,), width=2)
+            draw_spaced(dl, 24, (lh - 28) / 2, m["label"], f, (255, 255, 255, 255), sp)
+            low = P0 if P0[1] > P1[1] else P1          # place label just under the line's lowest end
+            x = int(np.clip((P0[0] + P1[0]) / 2 - lw / 2, 30, W - lw - 30))
+            blend(out, lab, x, int(low[1] + 34 + 8 * (1 - la)), a * la)
+
     # ---------------- intro / outro
     def intro_compose(self, frame, mask, t):
         """0..intro: cut-out flashes over navy, then the full shot fades in."""
@@ -662,7 +752,8 @@ def cut_boundaries(workdir):
 
 def frames(workdir, tl, only=None):
     """Yield (index, t, composed RGB uint8) for the whole reel (or just `only` indices)."""
-    g = GFX(tl); tr = Tracker()
+    g = GFX(tl)
+    tr = ProductTracker(workdir) if tl.get("mode") == "product" else Tracker()
     cap = cv2.VideoCapture(os.path.join(workdir, "cut.mp4"))
     n_main = int(round(tl["main_duration"] * FPS)); n_total = int(round(tl["total"] * FPS))
     bounds = cut_boundaries(workdir)
@@ -692,7 +783,8 @@ def frames(workdir, tl, only=None):
             if only is not None and k not in only: continue
             out = g.outro_compose(last_out, t - tl["main_duration"])
         yield k, t, np.clip(out, 0, 255).astype(np.uint8)
-    cap.release(); tr.seg.close(); tr.lm.close()
+    cap.release()
+    if hasattr(tr, "seg"): tr.seg.close(); tr.lm.close()
 
 
 def cmd_preview(a):
@@ -719,7 +811,7 @@ def mix_audio(workdir, tl, out_wav, sfx_dir):
     inputs = ["-i", os.path.join(workdir, "voice.wav"), "-stream_loop", "-1", "-i", os.path.join(sfx_dir, "beat.wav")]
     fc = [f"[0:a]aresample=48000,highpass=f=75,acompressor=threshold=-22dB:ratio=2.5:attack=5:release=90:makeup=2,"
           f"apad=whole_dur={total:.3f},asplit=2[voice][key]",
-          f"[1:a]atrim=0:{total:.3f},volume=0.30,afade=t=in:d=0.4,afade=t=out:st={total - 1.0:.3f}:d=1.0[mus]",
+          f"[1:a]atrim=0:{total:.3f},volume={tl.get("music_gain", 0.30)},afade=t=in:d=0.4,afade=t=out:st={total - 1.0:.3f}:d=1.0[mus]",
           "[mus][key]sidechaincompress=threshold=0.02:ratio=10:attack=15:release=400:makeup=1[duck]"]
     mix = ["[voice]", "[duck]"]
     for i, s in enumerate(tl["sfx"]):
@@ -761,6 +853,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)
     p = sp.add_parser("cut"); p.add_argument("workdir"); p.add_argument("--video")
+    p.add_argument("--mute", action="store_true", help="drop original audio (music/copyright)")
     p = sp.add_parser("plan"); p.add_argument("workdir"); p.add_argument("--brief", required=True)
     p = sp.add_parser("preview"); p.add_argument("workdir"); p.add_argument("--at", help="name=sec,..."); p.add_argument("--out")
     p = sp.add_parser("render"); p.add_argument("workdir"); p.add_argument("--out")
