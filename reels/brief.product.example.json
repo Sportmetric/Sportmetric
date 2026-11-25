@@ -21,23 +21,26 @@
     {
       "id": "battery",
       "label": "BATTERY",
-      "value": 0,
+      "value": 144,
       "unit": "HOURS",
-      "duration": 1.6
+      "duration": 1.6,
+      "decimals": 0
     },
     {
       "id": "weight",
       "label": "WEIGHT",
-      "value": 0,
+      "value": 150,
       "unit": "G",
-      "duration": 1.6
+      "duration": 1.6,
+      "decimals": 0
     },
     {
       "id": "price",
       "label": "PRICE",
-      "value": 0,
+      "value": 120,
       "unit": "€",
-      "duration": 1.45
+      "duration": 1.45,
+      "decimals": 0
     }
   ],
   "chips": [
@@ -59,7 +62,7 @@
     "duration": 3.3
   },
   "measure": {
-    "label": "FRAME WIDTH · XXX MM",
+    "label": "FRAME WIDTH",
     "duration": 1.6,
     "offset": 160
   },

@@ -77,6 +77,24 @@ def font(path, size):
     return _fonts[k]
 
 
+_cmaps = {}
+FONT_FALLBACK = os.path.join(ASSETS, "Syncopate.ttf")
+BAD_GLYPHS = {"Michroma.ttf": set("€")}   # present in the cmap but drawn as an empty box
+
+
+def has_glyphs(path, text):
+    """True if the font file covers every character (e.g. Michroma has no €)."""
+    if path not in _cmaps:
+        from fontTools.ttLib import TTFont
+        _cmaps[path] = set(TTFont(path).getBestCmap())
+    bad = BAD_GLYPHS.get(os.path.basename(path), set())
+    return all((ord(c) in _cmaps[path] and c not in bad) or c == " " for c in text)
+
+
+def font_for(path, size, text):
+    return font(path if has_glyphs(path, text) else FONT_FALLBACK, size)
+
+
 def text_w(text, f, spacing):
     if not text: return 0
     return sum(f.getlength(c) for c in text) + spacing * (len(text) - 1)
@@ -381,11 +399,18 @@ class ProductTracker:
 
     def __init__(self, workdir, mask_ema=0.65):
         self.masks = np.load(os.path.join(workdir, "masks.npz"))["masks"]
-        self.prev = None; self.ema = mask_ema; self.k = 0
+        self.prev = None; self.ema = mask_ema; self.k = 0; self.conf = 1.0
 
     def step(self, rgb, ts_ms, reset=False):
-        m = self.masks[min(self.k, len(self.masks) - 1)].astype(np.float32) / 255
+        raw = self.masks[min(self.k, len(self.masks) - 1)]
         self.k += 1
+        fg = raw > 40
+        # confidence: share of the object the model is sure about (drops on motion-blurred whips)
+        c = float((raw >= 215).sum()) / max(1, int(fg.sum()))
+        self.conf = self.conf * 0.6 + c * 0.4
+        # renormalize so a blurred-but-detected object stays solid instead of ghosting
+        p95 = float(np.percentile(raw[fg], 95)) if fg.any() else 255.0
+        m = np.clip(raw.astype(np.float32) / max(p95, 120.0), 0, 1)
         if self.prev is not None and not reset:
             m = self.prev * (1 - self.ema) + m * self.ema   # temporal smoothing (edge flicker)
         self.prev = m
@@ -437,9 +462,9 @@ class GFX:
         self.logo_full = Image.open(os.path.join(ASSETS, "im_logo_full.png")).convert("RGBA")
 
     # ---------------- behind layer
-    def behind(self, out, t):
+    def behind(self, out, t, gain=1.0):
         tl = self.tl; intro = tl["intro"]
-        p = ease_out_cubic((t - intro) / 0.5)
+        p = ease_out_cubic((t - intro) / 0.5) * gain
         if p <= 0: return
         x0, y0, _, _ = self.PANEL
         blend(out, self.panel, x0, int(y0 + (1 - p) * 80), p)
@@ -557,7 +582,7 @@ class GFX:
         else:
             num = final = "XX"
         unit = c.get("unit", "")
-        fb, fu = font(FONT_BOLD, 96), font(FONT_WIDE, 34)
+        fb, fu = font(FONT_BOLD, 96), font_for(FONT_WIDE, 40, unit)
         nw = text_w(final, fb, 4); uw = text_w(unit, fu, 6)
         total = nw + 22 + uw
         nx = (cw - total) / 2; ny = 74
@@ -774,7 +799,8 @@ def frames(workdir, tl, only=None):
                 out = g.intro_compose(frame, mask, t)
             else:
                 out = frame.copy()
-                g.behind(out, t)
+                # fade the behind-layer while the cut-out is unreliable (fast whip pans)
+                g.behind(out, t, gain=clamp((getattr(tr, "conf", 1.0) - 0.35) / 0.35))
                 m = mask[..., None]
                 out = out * (1 - m) + frame * m
             g.front(out, t, face)
