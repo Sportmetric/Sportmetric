@@ -1,0 +1,30 @@
+{
+  "handle": "@innometrics.wear",
+  "intro_seconds": 1.0,
+  "outro_seconds": 1.5,
+
+  "specs": [
+    {"id": "battery", "label": "BATTERY", "value": 0, "decimals": 0, "unit": "HOURS",
+     "keywords": ["battery", "hours", "charge", "μπαταρία", "ώρες"]},
+    {"id": "weight", "label": "WEIGHT", "value": 0, "decimals": 0, "unit": "G",
+     "keywords": ["weight", "weighs", "grams", "light", "lightweight", "βάρος", "γραμμάρια", "ελαφρι"]},
+    {"id": "price", "label": "PRICE", "value": 0, "decimals": 0, "unit": "€",
+     "keywords": ["price", "euro", "euros", "cost", "costs", "τιμή", "ευρώ"]}
+  ],
+
+  "chips": [
+    {"text": "OPEN-EAR AUDIO", "keywords": ["open-ear", "open", "speaker", "speakers", "music", "audio", "ήχο", "μουσική"]},
+    {"text": "BLUETOOTH 5.x", "keywords": ["bluetooth", "connect", "pair", "phone", "κινητό"]},
+    {"text": "UV PROTECTION", "keywords": ["uv", "sun", "sunglasses", "lenses", "ήλιο", "φακοί"]},
+    {"text": "HANDS-FREE CALLS", "keywords": ["call", "calls", "hands-free", "handsfree", "κλήσεις", "τηλέφωνο"]}
+  ],
+
+  "chart": {"label": "ALL-DAY PERFORMANCE", "keywords": ["smart", "technology", "day", "έξυπνα", "μέρα"],
+            "duration": 3.2},
+
+  "measure": {"label": "FRAME WIDTH · 142 MM",
+              "keywords": ["frame", "fit", "size", "design", "look", "σκελετός", "σχέδιο"],
+              "duration": 2.6},
+
+  "overrides": {}
+}
