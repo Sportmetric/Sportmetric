@@ -17,3 +17,12 @@
 | Balance | Έσοδα, έξοδα, αποτέλεσμα και σωρευτικά ανά μήνα. |
 
 Κάθε καρτέλα έχει εξαγωγή σε CSV.
+
+## Innometrics Control Center (dashboard/)
+
+Ο φάκελος `dashboard/` περιέχει το νέο εσωτερικό admin dashboard (React + Vite + TypeScript).
+Οδηγίες εκτέλεσης και σύνδεσης με πραγματικά δεδομένα: `dashboard/README.md`.
+
+> Το repository είναι δημόσιο. Τα δεδομένα στο `dashboard/src/data/seed/` είναι ενδεικτικά (mock).
+> Τα πραγματικά δεδομένα εισάγονται μόνο τοπικά από *Settings → Import backup* και δεν μπαίνουν ποτέ στο git.
+

@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { color-scheme: dark; }
+  html, body, #root { min-height: 100%; }
+  body {
+    @apply font-sans text-white antialiased;
+    background: radial-gradient(1200px 800px at 85% -10%, rgba(91, 42, 158, 0.55), transparent 60%),
+      linear-gradient(135deg, #0b1033 0%, #2a1260 55%, #5b2a9e 100%);
+    background-attachment: fixed;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection { background: rgba(167, 139, 250, 0.45); }
+  *:focus-visible { outline: 2px solid rgba(94, 231, 255, 0.85); outline-offset: 2px; border-radius: 10px; }
+  input, select, textarea { color-scheme: dark; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-track { background: transparent; }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-white/20 bg-white/10 shadow-glass backdrop-blur-xl;
+  }
+  .glass-soft {
+    @apply rounded-xl border border-white/10 bg-white/[0.06] backdrop-blur-md;
+  }
+  .heading {
+    @apply font-display uppercase tracking-[0.08em];
+  }
+  .label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55;
+  }
+  .input {
+    @apply w-full rounded-xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm text-white placeholder-white/35 outline-none transition
+      focus:border-glow-cyan/60 focus:bg-white/[0.1] focus:ring-2 focus:ring-glow-cyan/20;
+  }
+  .input option { @apply bg-navy-950 text-white; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-glow-cyan to-glow-violet text-navy-950 shadow-glow hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.12];
+  }
+  .btn-danger {
+    @apply btn border border-glow-rose/40 bg-glow-rose/15 text-glow-rose hover:bg-glow-rose/25;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.07] px-2.5 py-1 text-xs font-medium text-white/80;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+}
+
+.blob { position: fixed; border-radius: 9999px; filter: blur(90px); opacity: 0.55; pointer-events: none; z-index: 0; }
+
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+.skeleton { position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.07); border-radius: 12px; }
+.skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); animation: shimmer 1.4s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Printable quote (Quotes → Export PDF uses the browser's "Save as PDF") */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: #fff !important; color: #111 !important; }
+  body * { visibility: hidden; }
+  #print-root, #print-root * { visibility: visible; }
+  #print-root { position: absolute; inset: 0; display: block !important; }
+}

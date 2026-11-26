@@ -1,0 +1,15 @@
+{
+  "companyName": "INNOWARE ΜΟΝΟΠΡΟΣΩΠΗ ΙΚΕ",
+  "brandName": "Innometrics",
+  "vatNumber": "",
+  "address": "Athens, Greece",
+  "email": "",
+  "phone": "",
+  "currency": "EUR",
+  "vatRate": 0.24,
+  "skroutzCommission": 0.1054,
+  "lowStockThreshold": 5,
+  "defaultLogoFee": 4,
+  "userName": "Labros D.",
+  "userRole": "Co-CEO / COO"
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "month": "2025-12",
+    "visits": 384,
+    "orders": 7
+  },
+  {
+    "month": "2026-01",
+    "visits": 392,
+    "orders": 8
+  },
+  {
+    "month": "2026-02",
+    "visits": 309,
+    "orders": 8
+  },
+  {
+    "month": "2026-03",
+    "visits": 296,
+    "orders": 8
+  },
+  {
+    "month": "2026-04",
+    "visits": 357,
+    "orders": 9
+  },
+  {
+    "month": "2026-05",
+    "visits": 285,
+    "orders": 8
+  },
+  {
+    "month": "2026-06",
+    "visits": 429,
+    "orders": 11
+  },
+  {
+    "month": "2026-07",
+    "visits": 731,
+    "orders": 15
+  },
+  {
+    "month": "2026-08",
+    "visits": 552,
+    "orders": 14
+  },
+  {
+    "month": "2026-09",
+    "visits": 486,
+    "orders": 11
+  },
+  {
+    "month": "2026-10",
+    "visits": 596,
+    "orders": 16
+  },
+  {
+    "month": "2026-11",
+    "visits": 1039,
+    "orders": 22
+  }
+]

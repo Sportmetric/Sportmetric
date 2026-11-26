@@ -1,0 +1,115 @@
+[
+  {
+    "id": "quo_0074",
+    "number": "Q-2026-014",
+    "date": "2026-11-23",
+    "validUntil": "2026-12-23",
+    "client": "Orion Logistics (mock)",
+    "contactEmail": "",
+    "lines": [
+      {
+        "productId": "w610-black",
+        "qty": 40,
+        "unitPrice": 92
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 20,
+        "unitPrice": 92
+      }
+    ],
+    "discountPct": 5,
+    "customLogo": true,
+    "logoFeePerUnit": 4,
+    "status": "Sent",
+    "notes": "Christmas gifts for staff"
+  },
+  {
+    "id": "quo_0075",
+    "number": "Q-2026-013",
+    "date": "2026-11-16",
+    "validUntil": "2026-12-16",
+    "client": "Plaisio",
+    "partnerId": "plaisio",
+    "contactEmail": "",
+    "lines": [
+      {
+        "productId": "w610-black",
+        "qty": 60,
+        "unitPrice": 82
+      },
+      {
+        "productId": "v5-black",
+        "qty": 40,
+        "unitPrice": 27
+      }
+    ],
+    "discountPct": 0,
+    "customLogo": false,
+    "logoFeePerUnit": 0,
+    "status": "Sent",
+    "notes": "Opening order proposal"
+  },
+  {
+    "id": "quo_0076",
+    "number": "Q-2026-012",
+    "date": "2026-10-23",
+    "validUntil": "2026-11-22",
+    "client": "Nova Tech SA (mock)",
+    "partnerId": "nova-tech-sa-mock",
+    "contactEmail": "",
+    "lines": [
+      {
+        "productId": "w610-black",
+        "qty": 26,
+        "unitPrice": 85
+      }
+    ],
+    "discountPct": 3,
+    "customLogo": true,
+    "logoFeePerUnit": 4,
+    "status": "Accepted",
+    "notes": ""
+  },
+  {
+    "id": "quo_0077",
+    "number": "Q-2026-011",
+    "date": "2026-10-09",
+    "validUntil": "2026-11-08",
+    "client": "Medilab (mock)",
+    "contactEmail": "",
+    "lines": [
+      {
+        "productId": "y13",
+        "qty": 50,
+        "unitPrice": 23
+      }
+    ],
+    "discountPct": 8,
+    "customLogo": true,
+    "logoFeePerUnit": 3,
+    "status": "Lost",
+    "notes": "Went with a cheaper supplier"
+  },
+  {
+    "id": "quo_0078",
+    "number": "Q-2026-015",
+    "date": "2026-11-25",
+    "validUntil": "2026-12-25",
+    "client": "Athens Sports Club (mock)",
+    "partnerId": "athens-sports-club-mock",
+    "contactEmail": "",
+    "lines": [
+      {
+        "productId": "gs-05",
+        "qty": 30,
+        "unitPrice": 40
+      }
+    ],
+    "discountPct": 0,
+    "customLogo": false,
+    "logoFeePerUnit": 0,
+    "status": "Draft",
+    "notes": "Spring events"
+  }
+]
