@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Boxes, Glasses, PackageCheck, PackagePlus, Pencil, Plus, Ship, SlidersHorizontal, Trash2, Watch, Circle } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Boxes, Camera, Loader2, Glasses, PackageCheck, PackagePlus, Pencil, Plus, Ship, SlidersHorizontal, Trash2, Watch, Circle } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { Badge, statusTone } from "../components/Badge";
 import { EmptyState } from "../components/EmptyState";
 import { Field, Segmented } from "../components/Field";
@@ -11,6 +11,7 @@ import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
 import type { Product, ProductCategory, Shipment, ShipmentStatus, StockMovement } from "../data/types";
 import { productName, skroutzUnitMargin, stockLevels, unitCosts, type StockInfo } from "../lib/calc";
+import { storeProductPhoto } from "../lib/platform";
 import { fmtDate, fmtEur, fmtEur0, fmtPct, num0, parseAmount, relativeDays, todayISO, uid } from "../lib/format";
 
 const CAT_LABEL: Record<ProductCategory, string> = { glasses: "Smartglasses", watch: "Smartwatches", ring: "Smartrings" };
@@ -31,11 +32,14 @@ export function Inventory() {
 
   const stock = useMemo(() => stockLevels(db), [db]);
   const costs = useMemo(() => unitCosts(db), [db]);
-  const list = db.products.filter((p) => (cat === "all" || p.category === cat) && (!onlyLow || stock[p.id].state !== "ok") && (!q || `${p.model} ${p.variant} ${p.sku} ${p.ean}`.toLowerCase().includes(q.toLowerCase())));
+  const everStocked = (id: string) => stock[id].purchased + stock[id].adjusted + stock[id].sold > 0;
+  const list = db.products
+    .filter((p) => (cat === "all" || p.category === cat) && (!onlyLow || (stock[p.id].state !== "ok" && everStocked(p.id))) && (!q || `${p.model} ${p.variant} ${p.sku} ${p.ean}`.toLowerCase().includes(q.toLowerCase())))
+    .sort((a, b) => Number(everStocked(b.id)) - Number(everStocked(a.id)) || stock[b.id].qty - stock[a.id].qty);
   const totals = db.products.reduce((a, p) => {
     const s = stock[p.id], c = costs[p.id];
     if (s.qty > 0) { a.units += s.qty; a.value += s.qty * (c ?? 0); a.retail += s.qty * (p.skroutzPrice ?? 0); }
-    if (s.state !== "ok") a.alerts++;
+    if (s.state !== "ok" && s.purchased + s.adjusted + s.sold > 0) a.alerts++;
     a.incoming += s.incoming;
     return a;
   }, { units: 0, value: 0, retail: 0, alerts: 0, incoming: 0 });
@@ -120,13 +124,20 @@ function ProductCard({ p, s, cost, maxQty, onEdit, onReceive, onAdjust }: { p: P
   const bar = s.state === "out" ? "from-glow-rose to-glow-pink" : s.state === "low" ? "from-glow-amber to-glow-rose" : "from-glow-cyan to-glow-mint";
   return (
     <GlassCard padded={false} className="flex h-full flex-col overflow-hidden">
-      <div className={`relative h-32 bg-gradient-to-br ${CAT_GRAD[p.category]}`}>
-        {p.image ? <img src={p.image} alt={productName(p)} className="h-full w-full object-cover" /> : (
-          <div className="absolute inset-0 grid place-items-center"><Icon size={52} strokeWidth={1.2} className="text-white/70 drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)]" /></div>
+      <div className={`relative h-40 bg-gradient-to-br ${CAT_GRAD[p.category]}`}>
+        {p.image ? (
+          <div className="absolute inset-0 bg-gradient-to-b from-white to-[#eef0f7]"><img src={p.image} alt={productName(p)} loading="lazy" className="h-full w-full object-contain p-3" /></div>
+        ) : (
+          <div className="absolute inset-0 grid place-items-center">
+            <Icon size={46} strokeWidth={1.2} className="text-white/60 drop-shadow-[0_6px_18px_rgba(0,0,0,0.35)]" />
+            <PhotoButton product={p} className="absolute bottom-3 left-1/2 -translate-x-1/2" />
+          </div>
         )}
         <div className="absolute left-3 top-3 flex gap-1.5">
-          {s.state === "out" && <Badge tone="rose" dot>Out of stock</Badge>}
-          {s.state === "low" && <Badge tone="amber" dot>Low stock</Badge>}
+          {s.purchased + s.adjusted + s.sold === 0 ? <Badge tone="neutral">Not stocked yet</Badge> : <>
+            {s.state === "out" && <Badge tone="rose" dot>Out of stock</Badge>}
+            {s.state === "low" && <Badge tone="amber" dot>Low stock</Badge>}
+          </>}
           {p.privateLabel && <Badge tone="violet">Private label</Badge>}
         </div>
         <button onClick={onEdit} className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg bg-navy-950/40 text-white/80 backdrop-blur hover:text-white" aria-label={`Edit ${productName(p)}`}><Pencil size={14} /></button>
@@ -162,6 +173,30 @@ function ProductCard({ p, s, cost, maxQty, onEdit, onReceive, onAdjust }: { p: P
   );
 }
 
+/** Small "Add photo" button that uploads and saves straight onto the product. */
+function PhotoButton({ product, className = "", label = "Add photo" }: { product: Product; className?: string; label?: string }) {
+  const { upsert } = useStore();
+  const toast = useToast();
+  const [busy, setBusy] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const onFile = async (f?: File) => {
+    if (!f) return;
+    setBusy(true);
+    try { const url = await storeProductPhoto(f); upsert("products", { ...product, image: url }); toast(`Photo added to ${productName(product)}`); }
+    catch (e) { toast((e as Error).message || "Upload failed", "error"); }
+    finally { setBusy(false); if (input.current) input.current.value = ""; }
+  };
+  return (
+    <>
+      <button type="button" disabled={busy} onClick={(e) => { e.stopPropagation(); input.current?.click(); }}
+        className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/25 bg-navy-950/45 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur hover:bg-navy-950/65 ${className}`}>
+        {busy ? <Loader2 size={13} className="animate-spin" /> : <Camera size={13} />} {busy ? "Uploading…" : label}
+      </button>
+      <input ref={input} type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
+    </>
+  );
+}
+
 const money = (v: number | null | undefined) => (v == null ? "" : String(v).replace(".", ","));
 
 function ProductModal({ open, product, onClose }: { open: boolean; product: Product | null; onClose: () => void }) {
@@ -172,6 +207,8 @@ function ProductModal({ open, product, onClose }: { open: boolean; product: Prod
   const [pl, setPl] = useState(false);
   const [err, setErr] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const photoInput = useRef<HTMLInputElement>(null);
   const [lastOpen, setLastOpen] = useState(false);
   if (open !== lastOpen) {
     setLastOpen(open);
@@ -206,7 +243,27 @@ function ProductModal({ open, product, onClose }: { open: boolean; product: Prod
           <Field label="Skroutz price (€)"><input className="input" inputMode="decimal" {...f("skroutz")} /></Field>
           <Field label="Retail price (€)"><input className="input" inputMode="decimal" {...f("retail")} /></Field>
           <Field label="Wholesale price (€)"><input className="input" inputMode="decimal" {...f("wholesale")} /></Field>
-          <Field label="Photo URL (optional)" className="sm:col-span-2"><input className="input" placeholder="https://…" {...f("image")} /></Field>
+          <div className="sm:col-span-2">
+            <span className="label">Photo</span>
+            <div className="mt-1.5 flex items-center gap-4">
+              <div className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/15 bg-white">
+                {d.image ? <img src={d.image} alt="" className="h-full w-full object-contain p-1.5" /> : <Camera size={22} className="text-navy-950/30" />}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button type="button" className="btn-ghost text-xs" disabled={uploading} onClick={() => photoInput.current?.click()}>
+                  {uploading ? <Loader2 size={14} className="animate-spin" /> : <Camera size={14} />} {uploading ? "Uploading…" : d.image ? "Change photo" : "Upload photo"}
+                </button>
+                {d.image && <button type="button" className="btn-ghost text-xs" onClick={() => setD((x) => ({ ...x, image: "" }))}>Remove</button>}
+                <input ref={photoInput} type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                  const file = e.target.files?.[0]; if (!file) return;
+                  setUploading(true); setErr("");
+                  try { const url = await storeProductPhoto(file); setD((x) => ({ ...x, image: url })); }
+                  catch (ex) { setErr((ex as Error).message || "Upload failed."); }
+                  finally { setUploading(false); e.target.value = ""; }
+                }} />
+              </div>
+            </div>
+          </div>
           <label className="flex items-center gap-2 text-sm sm:col-span-2"><input type="checkbox" checked={pl} onChange={(e) => setPl(e.target.checked)} className="h-4 w-4 accent-[#A78BFA]" /> Private label (our logo, box and Bluetooth name)</label>
         </div>
       </Modal>

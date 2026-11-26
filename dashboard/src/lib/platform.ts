@@ -60,3 +60,43 @@ export async function saveToArtifact(key: string, value: unknown): Promise<boole
   if (!db) return false;
   try { await db.collection("state").doc(key).set({ value }); return true; } catch { return false; }
 }
+
+/** Shrinks a photo in the browser so uploads stay small and fast. */
+async function resizeImage(file: File, maxSide: number, quality: number): Promise<Blob> {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise<HTMLImageElement>((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error("Could not read this image.")); i.src = url; });
+    const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(img.naturalWidth * scale);
+    canvas.height = Math.round(img.naturalHeight * scale);
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#ffffff"; // transparent PNGs get a clean white background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return await new Promise<Blob>((res, rej) => canvas.toBlob((b) => (b ? res(b) : rej(new Error("Could not process this image."))), "image/jpeg", quality));
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+interface Assets { upload(blob: Blob, opts?: { type?: string }): Promise<{ url: string }> }
+let assetsPromise: Promise<Assets | null> | null = null;
+
+/**
+ * Stores a product photo and returns a URL for <img src>.
+ * claude.ai: uploaded to the Artifact's file store. Locally: kept as a small data URL in localStorage.
+ */
+export async function storeProductPhoto(file: File): Promise<string> {
+  if (!file.type.startsWith("image/")) throw new Error("Please choose an image file (JPG, PNG, WebP or HEIC).");
+  if (isArtifact()) {
+    const assets = await (assetsPromise ||= withTimeout(runtime()!.use("assets") as Promise<Assets | null>, 10_000).catch(() => null));
+    if (!assets) throw new Error("Photo uploads are not available here.");
+    // Formats the browser cannot decode (e.g. some HEIC files) are uploaded as they are.
+    const blob = await resizeImage(file, 1400, 0.86).catch(() => file);
+    const res = await assets.upload(blob, { type: blob.type || file.type });
+    return res.url;
+  }
+  const blob = await resizeImage(file, 800, 0.8);
+  return await new Promise<string>((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result)); r.onerror = () => rej(new Error("Could not read the image.")); r.readAsDataURL(blob); });
+}
