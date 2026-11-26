@@ -12,6 +12,7 @@
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CollectionKey, Database, Settings } from "./types";
+import { isArtifact, loadFromArtifact, saveToArtifact } from "../lib/platform";
 import settings from "./seed/settings.json";
 import products from "./seed/products.json";
 import stockMovements from "./seed/stockMovements.json";
@@ -100,25 +101,49 @@ interface StoreValue {
 const StoreContext = createContext<StoreValue | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [db, setDb] = useState<Database>(() => loadDatabase());
+  const artifact = isArtifact();
+  const [db, setDb] = useState<Database>(() => (artifact ? seedDatabase() : loadDatabase()));
   const [ready, setReady] = useState(false);
   const [saveError, setSaveError] = useState(false);
-  const first = useRef(true);
+  const loaded = useRef(false);
+  const saved = useRef<Record<string, string>>({});
 
-  // Short, deliberate loading phase so skeletons render smoothly on first paint.
+  // First load: Artifact database when published on claude.ai, otherwise localStorage (already read above).
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 450);
-    return () => clearTimeout(t);
-  }, []);
+    let alive = true;
+    (async () => {
+      if (artifact) {
+        try {
+          const remote = await loadFromArtifact();
+          if (alive && remote) {
+            const next = normalizeDatabase(remote);
+            Object.entries(next).forEach(([k, v]) => (saved.current[k] = JSON.stringify(v)));
+            setDb(next);
+          }
+        } catch { /* keep seed */ }
+      } else {
+        await new Promise((r) => setTimeout(r, 450)); // short, deliberate skeleton phase
+      }
+      if (alive) { loaded.current = true; setReady(true); }
+    })();
+    return () => { alive = false; };
+  }, [artifact]);
 
+  // Persist changes (debounced). In the Artifact only changed collections are written.
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
-    const t = setTimeout(() => setSaveError(!saveDatabase(db)), 250);
+    if (!loaded.current) return;
+    const t = setTimeout(async () => {
+      if (!artifact) { setSaveError(!saveDatabase(db)); return; }
+      let ok = true;
+      for (const [k, v] of Object.entries(db)) {
+        const str = JSON.stringify(v);
+        if (saved.current[k] === str) continue;
+        if (await saveToArtifact(k, v)) saved.current[k] = str; else ok = false;
+      }
+      setSaveError(!ok);
+    }, 600);
     return () => clearTimeout(t);
-  }, [db]);
+  }, [db, artifact]);
 
   const upsert = useCallback(<K extends CollectionKey>(key: K, item: Item<K>) => {
     setDb((prev) => {

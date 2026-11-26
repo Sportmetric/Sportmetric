@@ -203,7 +203,7 @@ export function attentionItems(db: Database, today = todayISO()): AttentionItem[
       kind: "stock",
       title: `${productName(p)} ${s.state === "out" ? "is out of stock" : "is running low"}`,
       detail: `${s.qty} left${s.incoming ? ` · ${s.incoming} incoming` : ""}`,
-      href: "#/inventory",
+      href: "#inventory",
       severity: s.state === "out" ? "high" : "medium",
     });
   });
@@ -215,25 +215,25 @@ export function attentionItems(db: Database, today = todayISO()): AttentionItem[
       kind: "followup",
       title: `Follow up with ${p.name}`,
       detail: `${p.nextAction || "Follow-up due"}${late > 0 ? ` · ${late}d overdue` : " · today"}`,
-      href: "#/partners",
+      href: "#partners",
       severity: late > 0 ? "high" : "medium",
     });
   });
   db.tasks.forEach((t) => {
     if (t.done || !t.due || t.due > today) return;
-    items.push({ id: "tsk-" + t.id, kind: "task", title: t.title, detail: t.due < today ? `Overdue since ${t.due}` : "Due today", href: "#/tasks", severity: t.priority === "High" ? "high" : "medium" });
+    items.push({ id: "tsk-" + t.id, kind: "task", title: t.title, detail: t.due < today ? `Overdue since ${t.due}` : "Due today", href: "#tasks", severity: t.priority === "High" ? "high" : "medium" });
   });
   db.quotes.forEach((q) => {
     if (q.status === "Sent" && q.validUntil <= addDays(today, 5))
-      items.push({ id: "q-" + q.id, kind: "quote", title: `Quote ${q.number} for ${q.client} expires soon`, detail: `Valid until ${q.validUntil}`, href: "#/quotes", severity: "medium" });
+      items.push({ id: "q-" + q.id, kind: "quote", title: `Quote ${q.number} for ${q.client} expires soon`, detail: `Valid until ${q.validUntil}`, href: "#quotes", severity: "medium" });
   });
   db.orders.forEach((o) => {
     if (o.status === "Pending" && daysBetween(o.date, today) >= 2)
-      items.push({ id: "o-" + o.id, kind: "order", title: `Order ${o.number} still pending`, detail: `${o.customer} · ${o.channel}`, href: "#/orders", severity: "medium" });
+      items.push({ id: "o-" + o.id, kind: "order", title: `Order ${o.number} still pending`, detail: `${o.customer} · ${o.channel}`, href: "#orders", severity: "medium" });
   });
   db.shipments.forEach((s) => {
     if (s.status !== "Arrived" && s.eta <= addDays(today, 2))
-      items.push({ id: "sh-" + s.id, kind: "shipment", title: `Shipment ${s.reference} arriving`, detail: `${s.status} · ETA ${s.eta}`, href: "#/inventory", severity: "medium" });
+      items.push({ id: "sh-" + s.id, kind: "shipment", title: `Shipment ${s.reference} arriving`, detail: `${s.status} · ETA ${s.eta}`, href: "#inventory", severity: "medium" });
   });
   return items.sort((a, b) => (a.severity === b.severity ? 0 : a.severity === "high" ? -1 : 1));
 }

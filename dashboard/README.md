@@ -11,7 +11,7 @@ Requires Node.js 18 or newer.
 ```bash
 cd dashboard
 npm install
-npm run dev        # http://localhost:5173/#/overview
+npm run dev        # http://localhost:5173/#overview
 npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build
 ```
@@ -22,7 +22,7 @@ Shortcuts: **⌘K / Ctrl+K** opens the command palette to search orders, partner
 
 | Route | What it does |
 |---|---|
-| `#/overview` | Greeting and attention count. KPIs: revenue this month, net profit, orders, units in stock, low-stock alerts, open B2B quotes, follow-ups due, Skroutz conversion. Revenue-by-month chart (3/6/12 months) and a donut of revenue by channel. |
+| `#overview` | Greeting and attention count. KPIs: revenue this month, net profit, orders, units in stock, low-stock alerts, open B2B quotes, follow-ups due, Skroutz conversion. Revenue-by-month chart (3/6/12 months) and a donut of revenue by channel. |
 | `#/orders` | Filterable orders table (channel, status, date, search) with **profit per order**. "Record an order" modal with a live profit breakdown. CSV export. |
 | `#/inventory` | Card per SKU: stock bar, average cost, Skroutz/retail/wholesale prices, per-unit margin, low-stock badge. Incoming shipments with "mark arrived", plus receive and adjust stock. |
 | `#/partners` | CRM kanban (Lead → Contacted → Meeting → Negotiation → Active) with drag and drop, follow-up dates, notes, activity timeline and a **follow-up email drafter** (Greek or English). |
@@ -73,6 +73,12 @@ src/
 ```
 
 Stack: React 18, Vite 5, TypeScript, Tailwind CSS 3, framer-motion, lucide-react and Recharts.
+
+## Private online version (claude.ai)
+
+The same build also runs as a private claude.ai Artifact. There, `src/lib/platform.ts` stores data in the Artifact's own database instead of the browser's, so the data follows your claude.ai account across devices. Downloads go through claude.ai. Quotes download as a print-ready page: open it and choose *Save as PDF*.
+
+Routes are plain hashes such as `#orders`. The older `#/orders` form also works.
 
 ## Notes
 

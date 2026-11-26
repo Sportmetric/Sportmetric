@@ -12,7 +12,7 @@ import { useStore } from "../data/store";
 import type { Channel, Order, OrderItem, OrderStatus, Product, Settings } from "../data/types";
 import { CHANNELS, isCountedOrder, orderEconomics, orderUnits, productName, stockLevels, unitCosts } from "../lib/calc";
 import { addDays, downloadFile, fmtDate, fmtEur, fmtPct, parseAmount, toCsv, todayISO, uid } from "../lib/format";
-import { consumeNewFlag } from "../lib/router";
+import { useNewAction } from "../lib/router";
 
 const STATUSES: OrderStatus[] = ["Pending", "Paid", "Shipped", "Delivered", "Returned", "Cancelled"];
 
@@ -33,7 +33,7 @@ export function Orders() {
   const [creating, setCreating] = useState(false);
   const toast = useToast();
 
-  useEffect(() => { if (consumeNewFlag()) setCreating(true); }, []);
+  useNewAction("orders", () => setCreating(true));
 
   const costs = useMemo(() => unitCosts(db), [db]);
   const rows = useMemo(() => {

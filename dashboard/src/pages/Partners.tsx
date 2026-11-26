@@ -9,6 +9,7 @@ import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
 import type { Activity, Database, Partner, PartnerStage, PartnerType } from "../data/types";
 import { isCountedOrder, orderGross, productName } from "../lib/calc";
+import { openNew } from "../lib/router";
 import { addDays, fmtDate, fmtDateShort, fmtEur0, relativeDays, todayISO, uid } from "../lib/format";
 
 const STAGES: PartnerStage[] = ["Lead", "Contacted", "Meeting", "Negotiation", "Active"];
@@ -202,7 +203,7 @@ function EmailDraft({ partner, db }: { partner: Partner; db: Database }) {
       <div className="flex flex-wrap gap-2">
         <button className="btn-primary" onClick={copy}><Copy size={15} /> Copy</button>
         {partner.email && <a className="btn-ghost" href={mailto}><Mail size={15} /> Open in mail app</a>}
-        <a className="btn-ghost" href="#/quotes?new"><MessageSquare size={15} /> Create a quote</a>
+        <button className="btn-ghost" onClick={() => openNew("quotes")}><MessageSquare size={15} /> Create a quote</button>
       </div>
     </div>
   );

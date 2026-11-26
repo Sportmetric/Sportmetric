@@ -41,7 +41,7 @@ const countTone = { rose: "bg-glow-rose text-navy-950", amber: "bg-glow-amber te
 
 function Logo() {
   return (
-    <a href="#/overview" className="flex items-center gap-3 px-2">
+    <a href="#overview" className="flex items-center gap-3 px-2">
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-glow-cyan to-glow-violet font-display text-sm font-bold text-navy-950 shadow-glow">IM</span>
       <span className="leading-tight">
         <span className="block font-display text-[13px] font-semibold tracking-[0.2em] text-white">INNOMETRICS</span>
@@ -65,7 +65,7 @@ function NavList({ route, onNavigate }: { route: RouteId; onNavigate?: () => voi
               return (
                 <li key={it.id} className="relative">
                   {active && <motion.span layoutId="nav-glow" className="absolute inset-0 rounded-xl bg-gradient-to-r from-glow-cyan/25 to-glow-violet/20 shadow-glow ring-1 ring-white/25" transition={{ type: "spring", stiffness: 380, damping: 32 }} />}
-                  <a href={`#/${it.id}`} onClick={onNavigate} aria-current={active ? "page" : undefined}
+                  <a href={`#${it.id}`} onClick={onNavigate} aria-current={active ? "page" : undefined}
                     className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${active ? "text-white" : "text-white/65 hover:bg-white/[0.06] hover:text-white"}`}>
                     <Icon size={18} className={active ? "text-glow-cyan drop-shadow-[0_0_8px_rgba(94,231,255,0.8)]" : ""} />
                     <span className="flex-1">{it.label}</span>
@@ -192,7 +192,7 @@ export function Layout({ route, children }: { route: RouteId; children: ReactNod
       <div className="fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden">
         <div className="glass-card flex items-center justify-around rounded-2xl bg-[#1c1356]/70 px-2 py-2">
           {([["overview", LayoutDashboard, "Home"], ["orders", ShoppingBag, "Orders"], ["inventory", Boxes, "Stock"], ["partners", Handshake, "Partners"]] as const).map(([id, Icon, label]) => (
-            <a key={id} href={`#/${id}`} className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1 text-[10px] font-semibold ${route === id ? "text-glow-cyan" : "text-white/60"}`}>
+            <a key={id} href={`#${id}`} className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1 text-[10px] font-semibold ${route === id ? "text-glow-cyan" : "text-white/60"}`}>
               <Icon size={20} />{label}
             </a>
           ))}

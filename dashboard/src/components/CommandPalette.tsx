@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "../data/store";
 import { productName } from "../lib/calc";
 import { fmtDateShort } from "../lib/format";
-import { ROUTES, type RouteId } from "../lib/router";
+import { openNew, ROUTES, type RouteId } from "../lib/router";
 
 interface Hit { id: string; group: string; label: string; sub?: string; href: string; icon: typeof Search }
 
@@ -20,27 +20,32 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
   const input = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) { setQ(""); setActive(0); setTimeout(() => input.current?.focus(), 30); }
+    if (open) { setQ(""); setActive(0); input.current?.focus(); }
   }, [open]);
 
   const hits = useMemo<Hit[]>(() => {
     const term = q.trim().toLowerCase();
     const match = (...xs: (string | undefined)[]) => !term || xs.some((x) => x?.toLowerCase().includes(term));
     const out: Hit[] = [];
-    out.push(...[{ id: "a-order", label: "Record an order", href: "#/orders?new" }, { id: "a-quote", label: "Create a B2B quote", href: "#/quotes?new" }, { id: "a-task", label: "Add a task", href: "#/tasks?new" }]
+    out.push(...[{ id: "a-order", label: "Record an order", href: "#orders?new" }, { id: "a-quote", label: "Create a B2B quote", href: "#quotes?new" }, { id: "a-task", label: "Add a task", href: "#tasks?new" }]
       .filter((a) => match(a.label)).map((a) => ({ ...a, group: "Actions", icon: Zap })));
-    out.push(...ROUTES.filter((r) => match(PAGE_LABELS[r], r)).map((r) => ({ id: "p-" + r, group: "Pages", label: PAGE_LABELS[r], href: `#/${r}`, icon: ArrowRight })));
+    out.push(...ROUTES.filter((r) => match(PAGE_LABELS[r], r)).map((r) => ({ id: "p-" + r, group: "Pages", label: PAGE_LABELS[r], href: `#${r}`, icon: ArrowRight })));
     if (term) {
-      out.push(...db.orders.filter((o) => match(o.number, o.customer, o.channel)).slice(0, 6).map((o) => ({ id: o.id, group: "Orders", label: `${o.number} · ${o.customer}`, sub: `${o.channel} · ${fmtDateShort(o.date)} · ${o.status}`, href: "#/orders", icon: ShoppingBag })));
-      out.push(...db.partners.filter((p) => match(p.name, p.city, p.contactName)).slice(0, 6).map((p) => ({ id: p.id, group: "Partners", label: p.name, sub: `${p.stage} · ${p.city}`, href: "#/partners", icon: Handshake })));
-      out.push(...db.products.filter((p) => match(p.model, p.variant, p.sku, p.ean)).slice(0, 6).map((p) => ({ id: p.id, group: "Products", label: productName(p), sub: p.sku, href: "#/inventory", icon: Boxes })));
-      out.push(...db.quotes.filter((x) => match(x.number, x.client)).slice(0, 4).map((x) => ({ id: x.id, group: "Quotes", label: `${x.number} · ${x.client}`, sub: x.status, href: "#/quotes", icon: FileSpreadsheet })));
+      out.push(...db.orders.filter((o) => match(o.number, o.customer, o.channel)).slice(0, 6).map((o) => ({ id: o.id, group: "Orders", label: `${o.number} · ${o.customer}`, sub: `${o.channel} · ${fmtDateShort(o.date)} · ${o.status}`, href: "#orders", icon: ShoppingBag })));
+      out.push(...db.partners.filter((p) => match(p.name, p.city, p.contactName)).slice(0, 6).map((p) => ({ id: p.id, group: "Partners", label: p.name, sub: `${p.stage} · ${p.city}`, href: "#partners", icon: Handshake })));
+      out.push(...db.products.filter((p) => match(p.model, p.variant, p.sku, p.ean)).slice(0, 6).map((p) => ({ id: p.id, group: "Products", label: productName(p), sub: p.sku, href: "#inventory", icon: Boxes })));
+      out.push(...db.quotes.filter((x) => match(x.number, x.client)).slice(0, 4).map((x) => ({ id: x.id, group: "Quotes", label: `${x.number} · ${x.client}`, sub: x.status, href: "#quotes", icon: FileSpreadsheet })));
     }
     return out;
   }, [q, db]);
 
   useEffect(() => setActive(0), [q]);
-  const go = (h?: Hit) => { if (!h) return; window.location.hash = h.href; onClose(); };
+  const go = (h?: Hit) => {
+    if (!h) return;
+    if (h.href.endsWith("?new")) openNew(h.href.slice(1, -4) as RouteId);
+    else window.location.hash = h.href;
+    onClose();
+  };
 
   let lastGroup = "";
   return (
@@ -52,7 +57,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             className="glass-card relative w-full max-w-xl overflow-hidden border-white/25 bg-[#1a1450]/90">
             <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3.5">
               <Search size={18} className="text-glow-cyan" />
-              <input ref={input} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search or jump to…" className="flex-1 bg-transparent text-[15px] text-white placeholder-white/40 outline-none"
+              <input ref={input} autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search or jump to…" className="flex-1 bg-transparent text-[15px] text-white placeholder-white/40 outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, hits.length - 1)); }
                   else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }

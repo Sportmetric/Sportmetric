@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { CalendarCheck2, Check, Link2, Plus, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Badge, statusTone } from "../components/Badge";
 import { EmptyState } from "../components/EmptyState";
 import { Field, Segmented } from "../components/Field";
@@ -11,7 +11,7 @@ import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
 import type { Priority, Task } from "../data/types";
 import { fmtDateShort, relativeDays, todayISO, uid } from "../lib/format";
-import { consumeNewFlag } from "../lib/router";
+import { useNewAction } from "../lib/router";
 
 const PRIORITIES: Priority[] = ["High", "Medium", "Low"];
 const PRIO_RANK: Record<Priority, number> = { High: 0, Medium: 1, Low: 2 };
@@ -24,7 +24,7 @@ export function Tasks() {
   const [creating, setCreating] = useState(false);
   const [quick, setQuick] = useState("");
   const today = todayISO();
-  useEffect(() => { if (consumeNewFlag()) setCreating(true); }, []);
+  useNewAction("tasks", () => setCreating(true));
 
   const list = db.tasks
     .filter((t) => (view === "open" ? !t.done : view === "done" ? t.done : view === "today" ? !t.done && !!t.due && t.due <= today : true))

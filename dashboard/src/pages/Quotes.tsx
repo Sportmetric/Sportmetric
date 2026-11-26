@@ -1,6 +1,8 @@
 import { FileDown, FileSpreadsheet, Plus, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { renderToStaticMarkup } from "react-dom/server";
+import { isArtifact, saveFile } from "../lib/platform";
 import { DataTable, type Column } from "../components/DataTable";
 import { EmptyState } from "../components/EmptyState";
 import { Field, Segmented } from "../components/Field";
@@ -9,10 +11,10 @@ import { ConfirmModal, Modal } from "../components/Modal";
 import { PageHeader } from "../components/PageHeader";
 import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
-import type { Quote, QuoteStatus, Settings, Product } from "../data/types";
+import type { Database, Quote, QuoteStatus, Settings, Product } from "../data/types";
 import { productName, quoteTotals } from "../lib/calc";
 import { addDays, fmtDate, fmtEur, fmtEur0, parseAmount, todayISO, uid } from "../lib/format";
-import { consumeNewFlag } from "../lib/router";
+import { useNewAction } from "../lib/router";
 
 const STATUSES: QuoteStatus[] = ["Draft", "Sent", "Accepted", "Lost"];
 const exVat = (p: Product | undefined, s: Settings) => {
@@ -28,12 +30,22 @@ export function Quotes() {
   const [creating, setCreating] = useState(false);
   const [printing, setPrinting] = useState<Quote | null>(null);
 
-  useEffect(() => { if (consumeNewFlag()) setCreating(true); }, []);
+  useNewAction("quotes", () => setCreating(true));
   useEffect(() => {
     if (!printing) return;
+    if (isArtifact()) {
+      // claude.ai pages cannot open the print dialog: download a print-ready page instead.
+      const q = printing;
+      setPrinting(null);
+      const body = renderToStaticMarkup(<PrintableQuote q={q} db={db} standalone />);
+      const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${q.number} · ${q.client.replace(/[<>&]/g, "")}</title><style>@page{size:A4;margin:14mm}body{margin:0;padding:24px;background:#fff}@media print{body{padding:0}}</style></head><body onload="setTimeout(function(){window.print()},300)">${body}</body></html>`;
+      saveFile(`${q.number}.html`, html, "text/html;charset=utf-8").then((ok) =>
+        toast(ok ? "Quote downloaded — open the file and choose Save as PDF" : "Download was blocked. PDF export works in the local version.", ok ? "success" : "error"));
+      return;
+    }
     const t = setTimeout(() => { window.print(); setPrinting(null); }, 120);
     return () => clearTimeout(t);
-  }, [printing]);
+  }, [printing, db, toast]);
 
   const rows = db.quotes.filter((q) => filter === "All" || q.status === filter).map((q) => ({ q, t: quoteTotals(q, db.settings) }));
   const sum = (st: QuoteStatus[]) => db.quotes.filter((q) => st.includes(q.status)).reduce((s, q) => s + quoteTotals(q, db.settings).total, 0);
@@ -73,7 +85,7 @@ export function Quotes() {
           empty={<EmptyState icon={FileSpreadsheet} title="No quotes here" text="Create a quote for a corporate client or retail partner." action={<button className="btn-primary" onClick={() => setCreating(true)}><Plus size={16} /> New quote</button>} />} />
       </GlassCard>
       <QuoteModal open={creating || !!editing} quote={editing} onClose={() => { setCreating(false); setEditing(null); }} onPrint={setPrinting} />
-      {printing && createPortal(<PrintableQuote q={printing} />, document.body)}
+      {printing && !isArtifact() && createPortal(<PrintableQuote q={printing} db={db} />, document.body)}
     </div>
   );
 }
@@ -169,12 +181,11 @@ const Line = ({ label, v, strong }: { label: string; v: number; strong?: boolean
 );
 
 /** Rendered only while printing; the print stylesheet hides everything else. */
-function PrintableQuote({ q }: { q: Quote }) {
-  const { db } = useStore();
+function PrintableQuote({ q, db, standalone = false }: { q: Quote; db: Database; standalone?: boolean }) {
   const s = db.settings;
   const t = quoteTotals(q, s);
   return (
-    <div id="print-root" style={{ display: "none", fontFamily: "Inter, Arial, sans-serif", color: "#111", background: "#fff", padding: 0 }}>
+    <div id="print-root" style={{ display: standalone ? "block" : "none", fontFamily: "Inter, Arial, sans-serif", color: "#111", background: "#fff", padding: 0 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderBottom: "3px solid #5B2A9E", paddingBottom: 16 }}>
         <div>
           <div style={{ fontFamily: "Unbounded, Arial", fontWeight: 700, fontSize: 22, letterSpacing: 3, color: "#2A1260" }}>INNOMETRICS</div>
