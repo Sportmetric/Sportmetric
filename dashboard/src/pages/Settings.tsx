@@ -1,4 +1,4 @@
-import { Building2, Download, Percent, RotateCcw, Upload, UserRound } from "lucide-react";
+import { Building2, Download, Palette, Percent, RotateCcw, Upload, UserRound } from "lucide-react";
 import { useRef, useState } from "react";
 import { Field } from "../components/Field";
 import { CardHeader, GlassCard } from "../components/GlassCard";
@@ -6,7 +6,16 @@ import { ConfirmModal } from "../components/Modal";
 import { PageHeader } from "../components/PageHeader";
 import { useToast } from "../components/Toast";
 import { normalizeDatabase, useStore } from "../data/store";
-import type { Database, Settings } from "../data/types";
+import type { BackgroundId, Database, Settings } from "../data/types";
+
+const BACKGROUNDS: { id: BackgroundId; label: string; preview: string }[] = [
+  { id: "aurora", label: "Aurora", preview: "radial-gradient(circle at 15% 10%, rgba(56,189,248,.6), transparent 55%), radial-gradient(circle at 90% 50%, rgba(217,70,239,.5), transparent 55%), linear-gradient(160deg,#060a26,#141a5c 45%,#3a1f86 75%,#6a2ea6)" },
+  { id: "violet", label: "Royal violet", preview: "linear-gradient(135deg,#0b1033,#2a1260 55%,#5b2a9e)" },
+  { id: "ocean", label: "Ocean", preview: "radial-gradient(circle at 90% 0%, rgba(34,211,238,.5), transparent 55%), linear-gradient(160deg,#03101f,#0a2647 50%,#0d5c75)" },
+  { id: "midnight", label: "Midnight", preview: "radial-gradient(circle at 80% 0%, rgba(99,102,241,.45), transparent 55%), linear-gradient(160deg,#05060c,#11142a 55%,#1e2342)" },
+  { id: "sunset", label: "Sunset", preview: "radial-gradient(circle at 100% 0%, rgba(251,146,60,.5), transparent 55%), linear-gradient(160deg,#150826,#3d0f4f 50%,#8c2f5a)" },
+];
+import { isArtifact } from "../lib/platform";
 import { downloadFile, parseAmount, todayISO } from "../lib/format";
 
 export function SettingsPage() {
@@ -69,7 +78,22 @@ export function SettingsPage() {
           </div>
         </GlassCard>
         <GlassCard hover={false}>
-          <CardHeader title="Data" subtitle="Everything is stored in this browser. Export a backup regularly." />
+          <CardHeader title={<span className="inline-flex items-center gap-2"><Palette size={16} className="text-glow-cyan" /> Appearance</span>} subtitle="Background of the dashboard. Applies instantly." />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+            {BACKGROUNDS.map((b) => {
+              const active = (db.settings.background ?? "aurora") === b.id;
+              return (
+                <button key={b.id} type="button" onClick={() => { updateSettings({ background: b.id }); setS((x) => ({ ...x, background: b.id })); toast(`Background: ${b.label}`); }}
+                  aria-pressed={active} className={`group rounded-xl p-1.5 text-left transition ${active ? "bg-white/15 ring-2 ring-glow-cyan" : "hover:bg-white/[0.08]"}`}>
+                  <span className="block h-16 rounded-lg ring-1 ring-white/20" style={{ background: b.preview }} />
+                  <span className="mt-1.5 block px-1 text-xs font-semibold text-white/85">{b.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </GlassCard>
+        <GlassCard hover={false}>
+          <CardHeader title="Data" subtitle={isArtifact() ? "Saved privately in your claude.ai account. Export a backup now and then." : "Everything is stored in this browser. Export a backup regularly."} />
           <div className="flex flex-wrap gap-2">
             <button className="btn-ghost" onClick={exportBackup}><Download size={16} /> Export backup</button>
             <button className="btn-ghost" onClick={() => file.current?.click()}><Upload size={16} /> Import backup</button>

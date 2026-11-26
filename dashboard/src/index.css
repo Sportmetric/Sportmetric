@@ -7,10 +7,40 @@
   html, body, #root { min-height: 100%; }
   body {
     @apply font-sans text-white antialiased;
-    background: radial-gradient(1200px 800px at 85% -10%, rgba(91, 42, 158, 0.55), transparent 60%),
-      linear-gradient(135deg, #0b1033 0%, #2a1260 55%, #5b2a9e 100%);
+    background: var(--bg-glow), var(--bg-base);
     background-attachment: fixed;
     font-feature-settings: "cv11", "ss01";
+  }
+  /* Backgrounds (Settings → Appearance). Each sets a base gradient, a soft glow and three blob colours. */
+  :root, [data-bg="aurora"] {
+    --bg-base: linear-gradient(160deg, #060a26 0%, #141a5c 45%, #3a1f86 75%, #6a2ea6 100%);
+    --bg-glow: radial-gradient(900px 600px at 10% 0%, rgba(56, 189, 248, 0.28), transparent 60%),
+      radial-gradient(800px 700px at 95% 35%, rgba(217, 70, 239, 0.22), transparent 60%),
+      radial-gradient(900px 600px at 50% 110%, rgba(45, 212, 191, 0.18), transparent 60%);
+    --blob-1: #2563eb; --blob-2: #c026d3; --blob-3: #14b8a6;
+  }
+  [data-bg="violet"] {
+    --bg-base: linear-gradient(135deg, #0b1033 0%, #2a1260 55%, #5b2a9e 100%);
+    --bg-glow: radial-gradient(1200px 800px at 85% -10%, rgba(91, 42, 158, 0.55), transparent 60%);
+    --blob-1: #3b5bff; --blob-2: #b03cff; --blob-3: #16c8e8;
+  }
+  [data-bg="ocean"] {
+    --bg-base: linear-gradient(160deg, #03101f 0%, #0a2647 50%, #0d5c75 100%);
+    --bg-glow: radial-gradient(900px 600px at 90% 0%, rgba(34, 211, 238, 0.25), transparent 60%),
+      radial-gradient(800px 600px at 0% 100%, rgba(59, 130, 246, 0.25), transparent 60%);
+    --blob-1: #0ea5e9; --blob-2: #2563eb; --blob-3: #10b981;
+  }
+  [data-bg="midnight"] {
+    --bg-base: linear-gradient(160deg, #05060c 0%, #11142a 55%, #1e2342 100%);
+    --bg-glow: radial-gradient(900px 600px at 80% 0%, rgba(99, 102, 241, 0.22), transparent 60%),
+      radial-gradient(700px 500px at 0% 100%, rgba(94, 231, 255, 0.10), transparent 60%);
+    --blob-1: #4f46e5; --blob-2: #6d28d9; --blob-3: #0891b2;
+  }
+  [data-bg="sunset"] {
+    --bg-base: linear-gradient(160deg, #150826 0%, #3d0f4f 50%, #8c2f5a 100%);
+    --bg-glow: radial-gradient(900px 600px at 100% 0%, rgba(251, 146, 60, 0.25), transparent 60%),
+      radial-gradient(800px 600px at 0% 100%, rgba(236, 72, 153, 0.25), transparent 60%);
+    --blob-1: #db2777; --blob-2: #9333ea; --blob-3: #f97316;
   }
   ::selection { background: rgba(167, 139, 250, 0.45); }
   *:focus-visible { outline: 2px solid rgba(94, 231, 255, 0.85); outline-offset: 2px; border-radius: 10px; }
@@ -56,7 +86,7 @@
   .num { font-variant-numeric: tabular-nums; }
 }
 
-.blob { position: fixed; border-radius: 9999px; filter: blur(90px); opacity: 0.55; pointer-events: none; z-index: 0; }
+.blob { position: fixed; border-radius: 9999px; filter: blur(100px); opacity: 0.45; pointer-events: none; z-index: 0; transition: background-color 0.6s ease; }
 
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 .skeleton { position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.07); border-radius: 12px; }

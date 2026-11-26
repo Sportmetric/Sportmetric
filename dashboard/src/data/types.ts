@@ -195,6 +195,8 @@ export interface SkroutzStat {
   orders: number;
 }
 
+export type BackgroundId = "aurora" | "violet" | "ocean" | "midnight" | "sunset";
+
 export interface Settings {
   companyName: string;
   brandName: string;
@@ -209,6 +211,8 @@ export interface Settings {
   defaultLogoFee: number;
   userName: string;
   userRole: string;
+  /** Dashboard background theme (Settings → Appearance). */
+  background?: BackgroundId;
 }
 
 export interface Database {

@@ -137,13 +137,14 @@ export function Layout({ route, children }: { route: RouteId; children: ReactNod
     return () => window.removeEventListener("keydown", onKey);
   }, []);
   useEffect(() => setSheetOpen(false), [route]);
+  useEffect(() => { document.documentElement.dataset.bg = db.settings.background ?? "aurora"; }, [db.settings.background]);
 
   return (
     <div className="relative min-h-screen">
       {/* ambient colour blobs */}
-      <div className="blob left-[-120px] top-[-80px] h-[380px] w-[380px] bg-[#3b5bff]" />
-      <div className="blob right-[-140px] top-[30%] h-[420px] w-[420px] bg-[#b03cff]" />
-      <div className="blob bottom-[-160px] left-[30%] h-[360px] w-[360px] bg-[#16c8e8] opacity-30" />
+      <div className="blob left-[-120px] top-[-80px] h-[380px] w-[380px]" style={{ background: "var(--blob-1)" }} />
+      <div className="blob right-[-140px] top-[30%] h-[420px] w-[420px]" style={{ background: "var(--blob-2)" }} />
+      <div className="blob bottom-[-160px] left-[30%] h-[360px] w-[360px] opacity-30" style={{ background: "var(--blob-3)" }} />
 
       {/* desktop sidebar */}
       <aside className="glass-card fixed bottom-4 left-4 top-4 z-30 hidden w-[248px] flex-col gap-8 overflow-y-auto rounded-3xl p-4 lg:flex">
