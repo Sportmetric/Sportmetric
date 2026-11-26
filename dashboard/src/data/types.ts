@@ -195,7 +195,7 @@ export interface SkroutzStat {
   orders: number;
 }
 
-export type BackgroundId = "aurora" | "violet" | "ocean" | "midnight" | "sunset";
+export type BackgroundId = "neon" | "aurora" | "violet" | "ocean" | "midnight" | "sunset";
 
 export interface Settings {
   companyName: string;

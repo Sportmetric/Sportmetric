@@ -12,7 +12,15 @@
     font-feature-settings: "cv11", "ss01";
   }
   /* Backgrounds (Settings → Appearance). Each sets a base gradient, a soft glow and three blob colours. */
-  :root, [data-bg="aurora"] {
+  /* Neon — default, taken from the Innometrics logo: black stage, magenta → electric-blue glow, reflective floor */
+  :root, [data-bg="neon"] {
+    --bg-base: linear-gradient(180deg, #030208 0%, #07061a 55%, #0d0828 100%);
+    --bg-glow: radial-gradient(700px 420px at 18% 100%, rgba(192, 38, 211, 0.30), transparent 65%),
+      radial-gradient(760px 460px at 82% 100%, rgba(37, 99, 235, 0.32), transparent 65%),
+      radial-gradient(900px 520px at 55% -10%, rgba(124, 58, 237, 0.28), transparent 60%);
+    --blob-1: #a21caf; --blob-2: #2563eb; --blob-3: #7c3aed;
+  }
+  [data-bg="aurora"] {
     --bg-base: linear-gradient(160deg, #060a26 0%, #141a5c 45%, #3a1f86 75%, #6a2ea6 100%);
     --bg-glow: radial-gradient(900px 600px at 10% 0%, rgba(56, 189, 248, 0.28), transparent 60%),
       radial-gradient(800px 700px at 95% 35%, rgba(217, 70, 239, 0.22), transparent 60%),
@@ -72,7 +80,10 @@
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-gradient-to-r from-glow-cyan to-glow-violet text-navy-950 shadow-glow hover:brightness-110;
+    @apply btn bg-gradient-to-r from-[#c026d3] via-[#7c3aed] to-[#2563eb] text-white shadow-[0_8px_28px_-6px_rgba(124,58,237,0.75)] ring-1 ring-white/20 hover:brightness-110;
+  }
+  .brand-text {
+    @apply bg-gradient-to-r from-[#f0abfc] via-[#c4b5fd] to-[#93c5fd] bg-clip-text text-transparent;
   }
   .btn-ghost {
     @apply btn border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.12];

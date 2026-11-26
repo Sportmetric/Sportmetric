@@ -8,6 +8,7 @@ import { useStore } from "../data/store";
 import { attentionItems, nav_counts } from "../lib/calc";
 import type { RouteId } from "../lib/router";
 import { CommandPalette } from "./CommandPalette";
+import logoMark from "../assets/im-mark.jpg";
 
 export interface NavItem { id: RouteId; label: string; icon: LucideIcon; count?: number; tone?: "rose" | "amber" | "cyan" }
 
@@ -42,9 +43,9 @@ const countTone = { rose: "bg-glow-rose text-navy-950", amber: "bg-glow-amber te
 function Logo() {
   return (
     <a href="#overview" className="flex items-center gap-3 px-2">
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-glow-cyan to-glow-violet font-display text-sm font-bold text-navy-950 shadow-glow">IM</span>
+      <img src={logoMark} alt="" className="h-11 w-11 shrink-0 rounded-xl object-cover mix-blend-screen" />
       <span className="leading-tight">
-        <span className="block font-display text-[13px] font-semibold tracking-[0.2em] text-white">INNOMETRICS</span>
+        <span className="brand-text block font-display text-[13px] font-semibold tracking-[0.2em]">INNOMETRICS</span>
         <span className="block text-[11px] font-medium tracking-wide text-white/50">Control Center</span>
       </span>
     </a>
@@ -137,7 +138,7 @@ export function Layout({ route, children }: { route: RouteId; children: ReactNod
     return () => window.removeEventListener("keydown", onKey);
   }, []);
   useEffect(() => setSheetOpen(false), [route]);
-  useEffect(() => { document.documentElement.dataset.bg = db.settings.background ?? "aurora"; }, [db.settings.background]);
+  useEffect(() => { document.documentElement.dataset.bg = db.settings.background ?? "neon"; }, [db.settings.background]);
 
   return (
     <div className="relative min-h-screen">
@@ -160,7 +161,7 @@ export function Layout({ route, children }: { route: RouteId; children: ReactNod
         {/* top bar */}
         <header className="sticky top-0 z-20 px-4 pb-2 pt-4 sm:px-6">
           <div className="glass-card flex items-center gap-3 rounded-2xl px-3 py-2.5 sm:px-4">
-            <div className="lg:hidden"><span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-glow-cyan to-glow-violet font-display text-xs font-bold text-navy-950">IM</span></div>
+            <a href="#overview" className="lg:hidden" aria-label="Overview"><img src={logoMark} alt="" className="h-10 w-10 rounded-xl object-cover mix-blend-screen" /></a>
             <button onClick={() => setPaletteOpen(true)} className="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-left text-sm text-white/50 transition hover:bg-white/[0.1] sm:max-w-md">
               <Search size={16} className="shrink-0" />
               <span className="truncate">Search orders, partners, products…</span>
