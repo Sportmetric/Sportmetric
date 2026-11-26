@@ -1,0 +1,78 @@
+[
+  {
+    "id": "tsk_007p",
+    "title": "Send revised wholesale price list to Plaisio",
+    "priority": "High",
+    "due": "2026-11-25",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z",
+    "partnerId": "plaisio"
+  },
+  {
+    "id": "tsk_007q",
+    "title": "Confirm customs clearance for V5 shipment",
+    "priority": "High",
+    "due": "2026-11-26",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z"
+  },
+  {
+    "id": "tsk_007r",
+    "title": "Prepare Christmas display for Hondos stores",
+    "priority": "Medium",
+    "due": "2026-11-29",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z",
+    "partnerId": "hondos-center"
+  },
+  {
+    "id": "tsk_007s",
+    "title": "Order EAN codes for GS and watch models",
+    "priority": "Medium",
+    "due": "2026-12-03",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z"
+  },
+  {
+    "id": "tsk_007t",
+    "title": "Book samples for Pool Sport meeting",
+    "priority": "Medium",
+    "due": "2026-11-30",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z",
+    "partnerId": "pool-sport"
+  },
+  {
+    "id": "tsk_007u",
+    "title": "Update Skroutz listings with new photos",
+    "priority": "Low",
+    "due": "2026-12-06",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z"
+  },
+  {
+    "id": "tsk_007v",
+    "title": "Pay 2nd half of display stand",
+    "priority": "Medium",
+    "due": "2026-12-10",
+    "done": false,
+    "createdAt": "2026-11-26T09:00:00.000Z"
+  },
+  {
+    "id": "tsk_007w",
+    "title": "Ship Nova Tech order",
+    "priority": "High",
+    "due": "2026-10-27",
+    "done": true,
+    "createdAt": "2026-11-26T09:00:00.000Z",
+    "partnerId": "nova-tech-sa-mock"
+  },
+  {
+    "id": "tsk_007x",
+    "title": "Renew GS1 membership",
+    "priority": "Low",
+    "due": "2026-01-25",
+    "done": true,
+    "createdAt": "2026-11-26T09:00:00.000Z"
+  }
+]

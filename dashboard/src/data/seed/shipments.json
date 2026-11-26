@@ -1,0 +1,60 @@
+[
+  {
+    "id": "shp_005e",
+    "supplier": "Shenzhen factory (Alibaba)",
+    "reference": "PO-2026-031",
+    "orderedOn": "2026-11-08",
+    "eta": "2026-12-02",
+    "status": "In transit",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 30,
+        "unitCost": 35.5
+      },
+      {
+        "productId": "w610-clear",
+        "qty": 20,
+        "unitCost": 35.5
+      }
+    ],
+    "freightCost": 240
+  },
+  {
+    "id": "shp_005f",
+    "supplier": "Shenzhen factory (Alibaba)",
+    "reference": "PO-2026-032",
+    "orderedOn": "2026-11-20",
+    "eta": "2026-12-20",
+    "status": "In production",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 40,
+        "unitCost": 21
+      },
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 15,
+        "unitCost": 29
+      }
+    ],
+    "freightCost": 180
+  },
+  {
+    "id": "shp_005g",
+    "supplier": "Watch supplier (1688)",
+    "reference": "PO-2026-029",
+    "orderedOn": "2026-11-01",
+    "eta": "2026-11-27",
+    "status": "Customs",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 25,
+        "unitCost": 16.5
+      }
+    ],
+    "freightCost": 90
+  }
+]

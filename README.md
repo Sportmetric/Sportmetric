@@ -21,3 +21,12 @@
 ## Βίντεο για Reels και TikTok
 
 Ο φάκελος `video_generator/` φτιάχνει δωρεάν κάθετα βίντεο για τα smartglasses. Οδηγίες στο `video_generator/README.md`.
+
+## Innometrics Control Center (dashboard/)
+
+Ο φάκελος `dashboard/` περιέχει το νέο εσωτερικό admin dashboard (React + Vite + TypeScript).
+Οδηγίες εκτέλεσης και σύνδεσης με πραγματικά δεδομένα: `dashboard/README.md`.
+
+> Το repository είναι δημόσιο. Τα δεδομένα στο `dashboard/src/data/seed/` είναι ενδεικτικά (mock).
+> Τα πραγματικά δεδομένα εισάγονται μόνο τοπικά από *Settings → Import backup* και δεν μπαίνουν ποτέ στο git.
+

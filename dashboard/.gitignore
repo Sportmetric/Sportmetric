@@ -1,0 +1,7 @@
+node_modules
+dist
+*.local
+# Private data exports must never be committed (this repository is public)
+private-data/
+*.backup.json
+*.tsbuildinfo

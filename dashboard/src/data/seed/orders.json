@@ -1,0 +1,2940 @@
+[
+  {
+    "id": "ord_000h",
+    "number": "IM-1047",
+    "date": "2025-12-08",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000i",
+    "number": "IM-1048",
+    "date": "2025-12-10",
+    "channel": "Direct",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 39
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000d",
+    "number": "IM-1043",
+    "date": "2025-12-19",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000e",
+    "number": "IM-1044",
+    "date": "2025-12-21",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000f",
+    "number": "IM-1045",
+    "date": "2025-12-22",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000g",
+    "number": "IM-1046",
+    "date": "2025-12-22",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000b",
+    "number": "IM-1041",
+    "date": "2025-12-26",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000c",
+    "number": "IM-1042",
+    "date": "2025-12-26",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000q",
+    "number": "IM-1056",
+    "date": "2026-01-02",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000s",
+    "number": "IM-1058",
+    "date": "2026-01-03",
+    "channel": "Direct",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 2,
+        "unitPrice": 45
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000r",
+    "number": "IM-1057",
+    "date": "2026-01-07",
+    "channel": "B2B",
+    "customer": "Orion Logistics (mock)",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 27,
+        "unitPrice": 105
+      }
+    ],
+    "shippingCost": 25,
+    "costOverride": null,
+    "notes": "Custom logo on box"
+  },
+  {
+    "id": "ord_000j",
+    "number": "IM-1049",
+    "date": "2026-01-08",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000o",
+    "number": "IM-1054",
+    "date": "2026-01-10",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000l",
+    "number": "IM-1051",
+    "date": "2026-01-12",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 2,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000p",
+    "number": "IM-1055",
+    "date": "2026-01-16",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000m",
+    "number": "IM-1052",
+    "date": "2026-01-18",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000n",
+    "number": "IM-1053",
+    "date": "2026-01-21",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-clear",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000k",
+    "number": "IM-1050",
+    "date": "2026-01-26",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000y",
+    "number": "IM-1064",
+    "date": "2026-02-02",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0010",
+    "number": "IM-1066",
+    "date": "2026-02-02",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000t",
+    "number": "IM-1059",
+    "date": "2026-02-12",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-clear",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000u",
+    "number": "IM-1060",
+    "date": "2026-02-13",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000z",
+    "number": "IM-1065",
+    "date": "2026-02-13",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0011",
+    "number": "IM-1067",
+    "date": "2026-02-18",
+    "channel": "Direct",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 45
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000x",
+    "number": "IM-1063",
+    "date": "2026-02-20",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000w",
+    "number": "IM-1062",
+    "date": "2026-02-25",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_000v",
+    "number": "IM-1061",
+    "date": "2026-02-26",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0016",
+    "number": "IM-1072",
+    "date": "2026-03-02",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001a",
+    "number": "IM-1076",
+    "date": "2026-03-02",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 10,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 7,
+        "unitPrice": 99
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0014",
+    "number": "IM-1070",
+    "date": "2026-03-05",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001b",
+    "number": "IM-1077",
+    "date": "2026-03-08",
+    "channel": "Direct",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 3,
+        "unitPrice": 45
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0013",
+    "number": "IM-1069",
+    "date": "2026-03-09",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0018",
+    "number": "IM-1074",
+    "date": "2026-03-10",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0019",
+    "number": "IM-1075",
+    "date": "2026-03-24",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0015",
+    "number": "IM-1071",
+    "date": "2026-03-25",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0017",
+    "number": "IM-1073",
+    "date": "2026-03-27",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0012",
+    "number": "IM-1068",
+    "date": "2026-03-28",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001h",
+    "number": "IM-1083",
+    "date": "2026-04-01",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001m",
+    "number": "IM-1088",
+    "date": "2026-04-02",
+    "channel": "B2B",
+    "customer": "Orion Logistics (mock)",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 25,
+        "unitPrice": 105
+      }
+    ],
+    "shippingCost": 25,
+    "costOverride": null,
+    "notes": "Custom logo on box"
+  },
+  {
+    "id": "ord_001d",
+    "number": "IM-1079",
+    "date": "2026-04-04",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001i",
+    "number": "IM-1084",
+    "date": "2026-04-04",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001e",
+    "number": "IM-1080",
+    "date": "2026-04-07",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001c",
+    "number": "IM-1078",
+    "date": "2026-04-09",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001k",
+    "number": "IM-1086",
+    "date": "2026-04-15",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001g",
+    "number": "IM-1082",
+    "date": "2026-04-16",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001l",
+    "number": "IM-1087",
+    "date": "2026-04-16",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 12,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 5,
+        "unitPrice": 99
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001n",
+    "number": "IM-1089",
+    "date": "2026-04-16",
+    "channel": "Direct",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 70
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001f",
+    "number": "IM-1081",
+    "date": "2026-04-18",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001j",
+    "number": "IM-1085",
+    "date": "2026-04-23",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001s",
+    "number": "IM-1094",
+    "date": "2026-05-01",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001v",
+    "number": "IM-1097",
+    "date": "2026-05-04",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001p",
+    "number": "IM-1091",
+    "date": "2026-05-11",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001q",
+    "number": "IM-1092",
+    "date": "2026-05-14",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001r",
+    "number": "IM-1093",
+    "date": "2026-05-15",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001w",
+    "number": "IM-1098",
+    "date": "2026-05-18",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 13,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 10,
+        "unitPrice": 99
+      },
+      {
+        "productId": "v5-black",
+        "qty": 4,
+        "unitPrice": 34
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001t",
+    "number": "IM-1095",
+    "date": "2026-05-20",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-clear",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001o",
+    "number": "IM-1090",
+    "date": "2026-05-21",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001u",
+    "number": "IM-1096",
+    "date": "2026-05-25",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0022",
+    "number": "IM-1104",
+    "date": "2026-06-03",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 2,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0024",
+    "number": "IM-1106",
+    "date": "2026-06-07",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0028",
+    "number": "IM-1110",
+    "date": "2026-06-08",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 12,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 5,
+        "unitPrice": 99
+      },
+      {
+        "productId": "v5-black",
+        "qty": 4,
+        "unitPrice": 34
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001z",
+    "number": "IM-1101",
+    "date": "2026-06-13",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0021",
+    "number": "IM-1103",
+    "date": "2026-06-13",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0023",
+    "number": "IM-1105",
+    "date": "2026-06-13",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0020",
+    "number": "IM-1102",
+    "date": "2026-06-16",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001x",
+    "number": "IM-1099",
+    "date": "2026-06-18",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0025",
+    "number": "IM-1107",
+    "date": "2026-06-21",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_001y",
+    "number": "IM-1100",
+    "date": "2026-06-22",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0026",
+    "number": "IM-1108",
+    "date": "2026-06-26",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 2,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0027",
+    "number": "IM-1109",
+    "date": "2026-06-28",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002e",
+    "number": "IM-1116",
+    "date": "2026-07-01",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002p",
+    "number": "IM-1127",
+    "date": "2026-07-05",
+    "channel": "B2B",
+    "customer": "Medilab (mock)",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 20,
+        "unitPrice": 105
+      }
+    ],
+    "shippingCost": 25,
+    "costOverride": null,
+    "notes": "Custom logo on box"
+  },
+  {
+    "id": "ord_002a",
+    "number": "IM-1112",
+    "date": "2026-07-06",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 2,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002l",
+    "number": "IM-1123",
+    "date": "2026-07-06",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002n",
+    "number": "IM-1125",
+    "date": "2026-07-07",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002o",
+    "number": "IM-1126",
+    "date": "2026-07-07",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 10,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 10,
+        "unitPrice": 99
+      },
+      {
+        "productId": "v5-black",
+        "qty": 6,
+        "unitPrice": 34
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002c",
+    "number": "IM-1114",
+    "date": "2026-07-08",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002j",
+    "number": "IM-1121",
+    "date": "2026-07-08",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Cancelled",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002m",
+    "number": "IM-1124",
+    "date": "2026-07-08",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002k",
+    "number": "IM-1122",
+    "date": "2026-07-13",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002b",
+    "number": "IM-1113",
+    "date": "2026-07-16",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002d",
+    "number": "IM-1115",
+    "date": "2026-07-20",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0029",
+    "number": "IM-1111",
+    "date": "2026-07-22",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-clear",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002g",
+    "number": "IM-1118",
+    "date": "2026-07-22",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 2,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002f",
+    "number": "IM-1117",
+    "date": "2026-07-27",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002h",
+    "number": "IM-1119",
+    "date": "2026-07-28",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002i",
+    "number": "IM-1120",
+    "date": "2026-07-28",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002w",
+    "number": "IM-1134",
+    "date": "2026-08-09",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002x",
+    "number": "IM-1135",
+    "date": "2026-08-12",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0034",
+    "number": "IM-1142",
+    "date": "2026-08-12",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 12,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 7,
+        "unitPrice": 99
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0030",
+    "number": "IM-1138",
+    "date": "2026-08-15",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002q",
+    "number": "IM-1128",
+    "date": "2026-08-16",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002t",
+    "number": "IM-1131",
+    "date": "2026-08-16",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002y",
+    "number": "IM-1136",
+    "date": "2026-08-17",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0033",
+    "number": "IM-1141",
+    "date": "2026-08-17",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002r",
+    "number": "IM-1129",
+    "date": "2026-08-18",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0031",
+    "number": "IM-1139",
+    "date": "2026-08-19",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002v",
+    "number": "IM-1133",
+    "date": "2026-08-20",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002s",
+    "number": "IM-1130",
+    "date": "2026-08-22",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0035",
+    "number": "IM-1143",
+    "date": "2026-08-22",
+    "channel": "Direct",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 3,
+        "unitPrice": 39
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002u",
+    "number": "IM-1132",
+    "date": "2026-08-24",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0032",
+    "number": "IM-1140",
+    "date": "2026-08-26",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_002z",
+    "number": "IM-1137",
+    "date": "2026-08-28",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-photochromic",
+        "qty": 2,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003h",
+    "number": "IM-1155",
+    "date": "2026-09-03",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 6,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 6,
+        "unitPrice": 99
+      },
+      {
+        "productId": "v5-black",
+        "qty": 7,
+        "unitPrice": 34
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0038",
+    "number": "IM-1146",
+    "date": "2026-09-07",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-clear",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0039",
+    "number": "IM-1147",
+    "date": "2026-09-10",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003e",
+    "number": "IM-1152",
+    "date": "2026-09-10",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003f",
+    "number": "IM-1153",
+    "date": "2026-09-12",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003d",
+    "number": "IM-1151",
+    "date": "2026-09-13",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003a",
+    "number": "IM-1148",
+    "date": "2026-09-14",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003c",
+    "number": "IM-1150",
+    "date": "2026-09-23",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0037",
+    "number": "IM-1145",
+    "date": "2026-09-24",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 2,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003i",
+    "number": "IM-1156",
+    "date": "2026-09-24",
+    "channel": "Direct",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 39
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0036",
+    "number": "IM-1144",
+    "date": "2026-09-25",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003b",
+    "number": "IM-1149",
+    "date": "2026-09-25",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003g",
+    "number": "IM-1154",
+    "date": "2026-09-28",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003k",
+    "number": "IM-1158",
+    "date": "2026-10-06",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003u",
+    "number": "IM-1168",
+    "date": "2026-10-06",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003n",
+    "number": "IM-1161",
+    "date": "2026-10-07",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 2,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0040",
+    "number": "IM-1174",
+    "date": "2026-10-09",
+    "channel": "B2B",
+    "customer": "Nova Tech SA (mock)",
+    "partnerId": "nova-tech-sa-mock",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 20,
+        "unitPrice": 105
+      }
+    ],
+    "shippingCost": 25,
+    "costOverride": null,
+    "notes": "Custom logo on box"
+  },
+  {
+    "id": "ord_003y",
+    "number": "IM-1172",
+    "date": "2026-10-11",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003o",
+    "number": "IM-1162",
+    "date": "2026-10-13",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003q",
+    "number": "IM-1164",
+    "date": "2026-10-13",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003p",
+    "number": "IM-1163",
+    "date": "2026-10-14",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003r",
+    "number": "IM-1165",
+    "date": "2026-10-14",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 2,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003j",
+    "number": "IM-1157",
+    "date": "2026-10-15",
+    "channel": "Skroutz",
+    "customer": "D. Konstantinou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003z",
+    "number": "IM-1173",
+    "date": "2026-10-15",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 8,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 8,
+        "unitPrice": 99
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003l",
+    "number": "IM-1159",
+    "date": "2026-10-16",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003v",
+    "number": "IM-1169",
+    "date": "2026-10-16",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003x",
+    "number": "IM-1171",
+    "date": "2026-10-16",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003m",
+    "number": "IM-1160",
+    "date": "2026-10-22",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003t",
+    "number": "IM-1167",
+    "date": "2026-10-26",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 1,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003s",
+    "number": "IM-1166",
+    "date": "2026-10-27",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_003w",
+    "number": "IM-1170",
+    "date": "2026-10-28",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "d8-tws",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0048",
+    "number": "IM-1182",
+    "date": "2026-11-02",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004a",
+    "number": "IM-1184",
+    "date": "2026-11-03",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004c",
+    "number": "IM-1186",
+    "date": "2026-11-04",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004l",
+    "number": "IM-1195",
+    "date": "2026-11-05",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004p",
+    "number": "IM-1199",
+    "date": "2026-11-07",
+    "channel": "B2B",
+    "customer": "Athens Sports Club (mock)",
+    "partnerId": "athens-sports-club-mock",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 12,
+        "unitPrice": 52
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004d",
+    "number": "IM-1187",
+    "date": "2026-11-09",
+    "channel": "Skroutz",
+    "customer": "K. Georgiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004k",
+    "number": "IM-1194",
+    "date": "2026-11-09",
+    "channel": "Skroutz",
+    "customer": "A. Ioannou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-orange",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0041",
+    "number": "IM-1175",
+    "date": "2026-11-10",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "v5-black",
+        "qty": 1,
+        "unitPrice": 50
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004f",
+    "number": "IM-1189",
+    "date": "2026-11-10",
+    "channel": "Skroutz",
+    "customer": "V. Makri",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004m",
+    "number": "IM-1196",
+    "date": "2026-11-10",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0046",
+    "number": "IM-1180",
+    "date": "2026-11-11",
+    "channel": "Skroutz",
+    "customer": "I. Antoniou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0043",
+    "number": "IM-1177",
+    "date": "2026-11-13",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "qy-pro-2-cycling",
+        "qty": 2,
+        "unitPrice": 80
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0049",
+    "number": "IM-1183",
+    "date": "2026-11-14",
+    "channel": "Skroutz",
+    "customer": "G. Papadopoulos",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 2,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004j",
+    "number": "IM-1193",
+    "date": "2026-11-14",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004e",
+    "number": "IM-1188",
+    "date": "2026-11-15",
+    "channel": "Skroutz",
+    "customer": "T. Karagianni",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0047",
+    "number": "IM-1181",
+    "date": "2026-11-16",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004n",
+    "number": "IM-1197",
+    "date": "2026-11-16",
+    "channel": "Retail",
+    "customer": "Hondos Center",
+    "partnerId": "hondos-center",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 13,
+        "unitPrice": 99
+      },
+      {
+        "productId": "w610-photochromic",
+        "qty": 7,
+        "unitPrice": 99
+      }
+    ],
+    "shippingCost": 18,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0044",
+    "number": "IM-1178",
+    "date": "2026-11-17",
+    "channel": "Skroutz",
+    "customer": "P. Christodoulou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0045",
+    "number": "IM-1179",
+    "date": "2026-11-17",
+    "channel": "Skroutz",
+    "customer": "M. Nikolaou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004g",
+    "number": "IM-1190",
+    "date": "2026-11-17",
+    "channel": "Skroutz",
+    "customer": "N. Pappas",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "y13",
+        "qty": 1,
+        "unitPrice": 40
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_0042",
+    "number": "IM-1176",
+    "date": "2026-11-20",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Delivered",
+    "items": [
+      {
+        "productId": "w610-black",
+        "qty": 1,
+        "unitPrice": 149.89
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004h",
+    "number": "IM-1191",
+    "date": "2026-11-20",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Returned",
+    "items": [
+      {
+        "productId": "m109",
+        "qty": 1,
+        "unitPrice": 35
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004i",
+    "number": "IM-1192",
+    "date": "2026-11-21",
+    "channel": "Skroutz",
+    "customer": "S. Vasileiou",
+    "status": "Shipped",
+    "items": [
+      {
+        "productId": "gs-07",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004b",
+    "number": "IM-1185",
+    "date": "2026-11-23",
+    "channel": "Skroutz",
+    "customer": "E. Dimitriou",
+    "status": "Paid",
+    "items": [
+      {
+        "productId": "gs-03",
+        "qty": 1,
+        "unitPrice": 60
+      }
+    ],
+    "shippingCost": 3.2,
+    "costOverride": null,
+    "notes": ""
+  },
+  {
+    "id": "ord_004o",
+    "number": "IM-1198",
+    "date": "2026-11-25",
+    "channel": "Direct",
+    "customer": "T. Karagianni",
+    "status": "Pending",
+    "items": [
+      {
+        "productId": "gs-05",
+        "qty": 1,
+        "unitPrice": 70
+      }
+    ],
+    "shippingCost": 0,
+    "costOverride": null,
+    "notes": ""
+  }
+]

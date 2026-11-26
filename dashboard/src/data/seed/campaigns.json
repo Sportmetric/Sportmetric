@@ -1,0 +1,80 @@
+[
+  {
+    "id": "cmp_0079",
+    "name": "Fitness creator collab",
+    "handle": "@fit.creator",
+    "platform": "Instagram",
+    "cost": 420,
+    "status": "Done",
+    "date": "2026-10-20",
+    "reach": 48000,
+    "clicks": 1350,
+    "sales": 9,
+    "notes": "Reel + 3 stories with W610"
+  },
+  {
+    "id": "cmp_007a",
+    "name": "Tech reviewer",
+    "handle": "@techreview.gr",
+    "platform": "YouTube",
+    "cost": 260,
+    "status": "Live",
+    "date": "2026-11-03",
+    "reach": 22000,
+    "clicks": 610,
+    "sales": 4,
+    "notes": "Unboxing video"
+  },
+  {
+    "id": "cmp_007b",
+    "name": "Product video",
+    "handle": "videographer",
+    "platform": "TikTok",
+    "cost": 90,
+    "status": "Done",
+    "date": "2026-11-08",
+    "reach": 9000,
+    "clicks": 140,
+    "sales": 1,
+    "notes": "Short product video"
+  },
+  {
+    "id": "cmp_007c",
+    "name": "Cycling club ambassador",
+    "handle": "@cycling.athens",
+    "platform": "Instagram",
+    "cost": 150,
+    "status": "Agreed",
+    "date": "2026-12-04",
+    "reach": null,
+    "clicks": null,
+    "sales": null,
+    "notes": "QY-pro 2 Cycling"
+  },
+  {
+    "id": "cmp_007d",
+    "name": "Christmas gift guide",
+    "handle": "@lifestyle.gr",
+    "platform": "Instagram",
+    "cost": 300,
+    "status": "Contacted",
+    "date": "2026-12-08",
+    "reach": null,
+    "clicks": null,
+    "sales": null,
+    "notes": ""
+  },
+  {
+    "id": "cmp_007e",
+    "name": "Running event booth",
+    "handle": "Athens Marathon expo",
+    "platform": "Event",
+    "cost": 400,
+    "status": "Idea",
+    "date": "2027-03-15",
+    "reach": null,
+    "clicks": null,
+    "sales": null,
+    "notes": ""
+  }
+]

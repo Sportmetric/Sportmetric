@@ -1,0 +1,217 @@
+[
+  {
+    "id": "stk_004q",
+    "date": "2025-12-03",
+    "productId": "w610-black",
+    "qty": 68,
+    "type": "purchase",
+    "unitCost": 35.26,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_004r",
+    "date": "2026-04-01",
+    "productId": "w610-black",
+    "qty": 68,
+    "type": "purchase",
+    "unitCost": 36.74,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_004s",
+    "date": "2026-08-05",
+    "productId": "w610-black",
+    "qty": 69,
+    "type": "purchase",
+    "unitCost": 35.61,
+    "note": "Alibaba lot 3"
+  },
+  {
+    "id": "stk_004t",
+    "date": "2025-12-04",
+    "productId": "w610-clear",
+    "qty": 9,
+    "type": "purchase",
+    "unitCost": 36.96,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_004u",
+    "date": "2025-12-05",
+    "productId": "w610-photochromic",
+    "qty": 39,
+    "type": "purchase",
+    "unitCost": 35.29,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_004v",
+    "date": "2026-04-05",
+    "productId": "w610-photochromic",
+    "qty": 39,
+    "type": "purchase",
+    "unitCost": 34.25,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_004w",
+    "date": "2026-08-03",
+    "productId": "w610-photochromic",
+    "qty": 38,
+    "type": "purchase",
+    "unitCost": 35.02,
+    "note": "Alibaba lot 3"
+  },
+  {
+    "id": "stk_004x",
+    "date": "2025-12-01",
+    "productId": "w610-var4",
+    "qty": 3,
+    "type": "purchase",
+    "unitCost": 34.84,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_004y",
+    "date": "2025-12-01",
+    "productId": "gs-05",
+    "qty": 12,
+    "type": "purchase",
+    "unitCost": 21.26,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_004z",
+    "date": "2026-04-02",
+    "productId": "gs-05",
+    "qty": 12,
+    "type": "purchase",
+    "unitCost": 21.33,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_0050",
+    "date": "2025-12-04",
+    "productId": "gs-07",
+    "qty": 12,
+    "type": "purchase",
+    "unitCost": 22.88,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0051",
+    "date": "2026-04-02",
+    "productId": "gs-07",
+    "qty": 12,
+    "type": "purchase",
+    "unitCost": 22.85,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_0052",
+    "date": "2025-12-01",
+    "productId": "gs-03",
+    "qty": 20,
+    "type": "purchase",
+    "unitCost": 21.03,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0053",
+    "date": "2025-12-05",
+    "productId": "qy-pro-2-cycling",
+    "qty": 12,
+    "type": "purchase",
+    "unitCost": 28.55,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0054",
+    "date": "2025-12-05",
+    "productId": "d8-tws",
+    "qty": 17,
+    "type": "purchase",
+    "unitCost": 24.47,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0055",
+    "date": "2025-12-05",
+    "productId": "m109",
+    "qty": 16,
+    "type": "purchase",
+    "unitCost": 12.32,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0056",
+    "date": "2026-04-01",
+    "productId": "m109",
+    "qty": 16,
+    "type": "purchase",
+    "unitCost": 12.12,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_0057",
+    "date": "2025-12-04",
+    "productId": "v5-black",
+    "qty": 17,
+    "type": "purchase",
+    "unitCost": 17.62,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_0058",
+    "date": "2026-04-01",
+    "productId": "v5-black",
+    "qty": 16,
+    "type": "purchase",
+    "unitCost": 16.27,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_0059",
+    "date": "2025-12-01",
+    "productId": "v5-orange",
+    "qty": 15,
+    "type": "purchase",
+    "unitCost": 17.63,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_005a",
+    "date": "2026-04-03",
+    "productId": "v5-orange",
+    "qty": 15,
+    "type": "purchase",
+    "unitCost": 16.85,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_005b",
+    "date": "2025-12-03",
+    "productId": "y13",
+    "qty": 17,
+    "type": "purchase",
+    "unitCost": 13.96,
+    "note": "Alibaba lot 1"
+  },
+  {
+    "id": "stk_005c",
+    "date": "2026-04-01",
+    "productId": "y13",
+    "qty": 16,
+    "type": "purchase",
+    "unitCost": 13.41,
+    "note": "Alibaba lot 2"
+  },
+  {
+    "id": "stk_005d",
+    "date": "2026-11-14",
+    "productId": "w610-black",
+    "qty": -2,
+    "type": "adjustment",
+    "note": "Demo units for Hondos display"
+  }
+]

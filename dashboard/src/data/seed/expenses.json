@@ -1,0 +1,474 @@
+[
+  {
+    "id": "exp_005i",
+    "date": "2025-12-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_005h",
+    "date": "2025-12-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_005l",
+    "date": "2025-12-20",
+    "category": "Merchandise",
+    "description": "Factory order (see stock purchases)",
+    "supplier": "Alibaba",
+    "amount": 2608
+  },
+  {
+    "id": "exp_005j",
+    "date": "2025-12-24",
+    "category": "Marketing",
+    "description": "Instagram ads",
+    "supplier": "Meta",
+    "amount": 136
+  },
+  {
+    "id": "exp_005k",
+    "date": "2025-12-28",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 51
+  },
+  {
+    "id": "exp_005n",
+    "date": "2026-01-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_005p",
+    "date": "2026-01-04",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 44
+  },
+  {
+    "id": "exp_005m",
+    "date": "2026-01-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_0070",
+    "date": "2026-01-20",
+    "category": "GS1",
+    "description": "GS1 Greece annual membership + barcodes",
+    "supplier": "GS1 Association Greece",
+    "amount": 186
+  },
+  {
+    "id": "exp_005o",
+    "date": "2026-01-27",
+    "category": "Marketing",
+    "description": "Google Ads",
+    "supplier": "Google",
+    "amount": 120
+  },
+  {
+    "id": "exp_005r",
+    "date": "2026-02-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_005q",
+    "date": "2026-02-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_005t",
+    "date": "2026-02-14",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 77
+  },
+  {
+    "id": "exp_005s",
+    "date": "2026-02-17",
+    "category": "Marketing",
+    "description": "Instagram ads",
+    "supplier": "Google",
+    "amount": 170
+  },
+  {
+    "id": "exp_005u",
+    "date": "2026-02-27",
+    "category": "Packaging",
+    "description": "Custom boxes & manuals",
+    "supplier": "Print shop",
+    "amount": 203
+  },
+  {
+    "id": "exp_005w",
+    "date": "2026-03-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_005v",
+    "date": "2026-03-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_005x",
+    "date": "2026-03-06",
+    "category": "Marketing",
+    "description": "Google Ads",
+    "supplier": "Google",
+    "amount": 179
+  },
+  {
+    "id": "exp_005y",
+    "date": "2026-03-28",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 73
+  },
+  {
+    "id": "exp_0060",
+    "date": "2026-04-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_005z",
+    "date": "2026-04-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_0063",
+    "date": "2026-04-08",
+    "category": "Merchandise",
+    "description": "Factory order (see stock purchases)",
+    "supplier": "Alibaba",
+    "amount": 2020
+  },
+  {
+    "id": "exp_0062",
+    "date": "2026-04-13",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 82
+  },
+  {
+    "id": "exp_0061",
+    "date": "2026-04-24",
+    "category": "Marketing",
+    "description": "Meta ads",
+    "supplier": "Google",
+    "amount": 207
+  },
+  {
+    "id": "exp_0065",
+    "date": "2026-05-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_0064",
+    "date": "2026-05-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_0067",
+    "date": "2026-05-11",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 89
+  },
+  {
+    "id": "exp_0066",
+    "date": "2026-05-15",
+    "category": "Marketing",
+    "description": "Meta ads",
+    "supplier": "Google",
+    "amount": 170
+  },
+  {
+    "id": "exp_0068",
+    "date": "2026-05-16",
+    "category": "Packaging",
+    "description": "Custom boxes & manuals",
+    "supplier": "Print shop",
+    "amount": 167
+  },
+  {
+    "id": "exp_006a",
+    "date": "2026-06-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006b",
+    "date": "2026-06-03",
+    "category": "Marketing",
+    "description": "Meta ads",
+    "supplier": "Meta",
+    "amount": 211
+  },
+  {
+    "id": "exp_0069",
+    "date": "2026-06-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_0071",
+    "date": "2026-06-10",
+    "category": "Events",
+    "description": "Booth at Thessaloniki tech fair",
+    "supplier": "HELEXPO",
+    "amount": 650
+  },
+  {
+    "id": "exp_006c",
+    "date": "2026-06-25",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 69
+  },
+  {
+    "id": "exp_006e",
+    "date": "2026-07-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006d",
+    "date": "2026-07-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_006f",
+    "date": "2026-07-14",
+    "category": "Marketing",
+    "description": "Google Ads",
+    "supplier": "Google",
+    "amount": 252
+  },
+  {
+    "id": "exp_006g",
+    "date": "2026-07-17",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 116
+  },
+  {
+    "id": "exp_006i",
+    "date": "2026-08-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006k",
+    "date": "2026-08-04",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 110
+  },
+  {
+    "id": "exp_006h",
+    "date": "2026-08-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_006l",
+    "date": "2026-08-10",
+    "category": "Merchandise",
+    "description": "Factory order (see stock purchases)",
+    "supplier": "Alibaba",
+    "amount": 2651
+  },
+  {
+    "id": "exp_006j",
+    "date": "2026-08-18",
+    "category": "Marketing",
+    "description": "Instagram ads",
+    "supplier": "Google",
+    "amount": 274
+  },
+  {
+    "id": "exp_006m",
+    "date": "2026-08-21",
+    "category": "Packaging",
+    "description": "Custom boxes & manuals",
+    "supplier": "Print shop",
+    "amount": 159
+  },
+  {
+    "id": "exp_006o",
+    "date": "2026-09-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006n",
+    "date": "2026-09-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_006q",
+    "date": "2026-09-08",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 76
+  },
+  {
+    "id": "exp_006p",
+    "date": "2026-09-27",
+    "category": "Marketing",
+    "description": "Instagram ads",
+    "supplier": "Meta",
+    "amount": 299
+  },
+  {
+    "id": "exp_006s",
+    "date": "2026-10-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006r",
+    "date": "2026-10-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_0073",
+    "date": "2026-10-20",
+    "category": "Marketing",
+    "description": "Influencer collaboration",
+    "supplier": "Fitness creator",
+    "amount": 420
+  },
+  {
+    "id": "exp_006t",
+    "date": "2026-10-23",
+    "category": "Marketing",
+    "description": "Meta ads",
+    "supplier": "Meta",
+    "amount": 271
+  },
+  {
+    "id": "exp_006u",
+    "date": "2026-10-24",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 123
+  },
+  {
+    "id": "exp_006w",
+    "date": "2026-11-03",
+    "category": "Skroutz",
+    "description": "Skroutz Marketplace subscription",
+    "supplier": "Skroutz SA",
+    "amount": 49.6
+  },
+  {
+    "id": "exp_006v",
+    "date": "2026-11-05",
+    "category": "Epsilon Net",
+    "description": "Accounting & invoicing software",
+    "supplier": "Epsilon Net",
+    "amount": 62
+  },
+  {
+    "id": "exp_006z",
+    "date": "2026-11-07",
+    "category": "Packaging",
+    "description": "Custom boxes & manuals",
+    "supplier": "Print shop",
+    "amount": 186
+  },
+  {
+    "id": "exp_0072",
+    "date": "2026-11-12",
+    "category": "Events",
+    "description": "Retail display stand (advance)",
+    "supplier": "Stand maker",
+    "amount": 690
+  },
+  {
+    "id": "exp_006y",
+    "date": "2026-11-13",
+    "category": "Shipping",
+    "description": "Courier invoices",
+    "supplier": "ACS Courier",
+    "amount": 94
+  },
+  {
+    "id": "exp_006x",
+    "date": "2026-11-17",
+    "category": "Marketing",
+    "description": "Meta ads",
+    "supplier": "Google",
+    "amount": 309
+  }
+]

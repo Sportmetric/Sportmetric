@@ -1,0 +1,180 @@
+[
+  {
+    "id": "hondos-center",
+    "name": "Hondos Center",
+    "type": "Retail chain",
+    "stage": "Active",
+    "city": "Athens",
+    "contactName": "Category buyer",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-11-28",
+    "nextAction": "Propose Christmas re-order of W610 Photochromic",
+    "notes": "Stocks W610 in flagship stores. Monthly re-orders.",
+    "activities": [
+      {
+        "id": "act_0001",
+        "date": "2026-10-17",
+        "kind": "meeting",
+        "text": "Quarterly review: W610 sell-through strong in Athens stores."
+      },
+      {
+        "id": "act_0002",
+        "date": "2026-11-14",
+        "kind": "order",
+        "text": "Re-order of 30 units W610."
+      },
+      {
+        "id": "act_0003",
+        "date": "2026-11-23",
+        "kind": "email",
+        "text": "Sent Christmas display proposal."
+      }
+    ]
+  },
+  {
+    "id": "plaisio",
+    "name": "Plaisio",
+    "type": "Retail chain",
+    "stage": "Negotiation",
+    "city": "Athens",
+    "contactName": "Wearables buyer",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-11-25",
+    "nextAction": "Send revised wholesale price list",
+    "notes": "Interested in W610 + V5 bundle for 2027 catalogue.",
+    "activities": [
+      {
+        "id": "act_0004",
+        "date": "2026-10-27",
+        "kind": "call",
+        "text": "Intro call with wearables buyer."
+      },
+      {
+        "id": "act_0005",
+        "date": "2026-11-10",
+        "kind": "meeting",
+        "text": "Demo of W610 at HQ. Asked for 5% better margin."
+      }
+    ]
+  },
+  {
+    "id": "pool-sport",
+    "name": "Pool Sport",
+    "type": "Store",
+    "stage": "Meeting",
+    "city": "Thessaloniki",
+    "contactName": "Store manager",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-12-01",
+    "nextAction": "Bring QY-pro 2 Cycling samples to meeting",
+    "notes": "Sports retailer, good fit for cycling glasses.",
+    "activities": [
+      {
+        "id": "act_0006",
+        "date": "2026-11-17",
+        "kind": "email",
+        "text": "Sent catalogue PDF."
+      },
+      {
+        "id": "act_0007",
+        "date": "2026-11-22",
+        "kind": "call",
+        "text": "Meeting booked."
+      }
+    ]
+  },
+  {
+    "id": "kallistos",
+    "name": "Kallistos",
+    "type": "Store",
+    "stage": "Contacted",
+    "city": "Patra",
+    "contactName": "",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-11-26",
+    "nextAction": "Follow up on catalogue email",
+    "notes": "",
+    "activities": [
+      {
+        "id": "act_0008",
+        "date": "2026-11-19",
+        "kind": "email",
+        "text": "First outreach with catalogue."
+      }
+    ]
+  },
+  {
+    "id": "public",
+    "name": "Public",
+    "type": "Retail chain",
+    "stage": "Lead",
+    "city": "Athens",
+    "contactName": "",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-12-05",
+    "nextAction": "Find the wearables category manager",
+    "notes": "",
+    "activities": []
+  },
+  {
+    "id": "kotsovolos",
+    "name": "Kotsovolos",
+    "type": "Retail chain",
+    "stage": "Lead",
+    "city": "Athens",
+    "contactName": "",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": null,
+    "nextAction": "",
+    "notes": "",
+    "activities": []
+  },
+  {
+    "id": "nova-tech-sa-mock",
+    "name": "Nova Tech SA (mock)",
+    "type": "Corporate",
+    "stage": "Active",
+    "city": "Athens",
+    "contactName": "HR department",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-12-16",
+    "nextAction": "Ask about employee gifts for Q1",
+    "notes": "Corporate gifts for staff, custom logo on box.",
+    "activities": [
+      {
+        "id": "act_0009",
+        "date": "2026-10-24",
+        "kind": "order",
+        "text": "24 units W610 with custom box."
+      }
+    ]
+  },
+  {
+    "id": "athens-sports-club-mock",
+    "name": "Athens Sports Club (mock)",
+    "type": "Corporate",
+    "stage": "Active",
+    "city": "Athens",
+    "contactName": "Events office",
+    "email": "",
+    "phone": "",
+    "nextFollowUp": "2026-12-10",
+    "nextAction": "Pitch GS-05 for spring events",
+    "notes": "",
+    "activities": [
+      {
+        "id": "act_000a",
+        "date": "2026-11-05",
+        "kind": "order",
+        "text": "12 units GS-05."
+      }
+    ]
+  }
+]
