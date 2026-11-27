@@ -25,6 +25,7 @@ export function Partners() {
   const [dragId, setDragId] = useState<string | null>(null);
   const [overStage, setOverStage] = useState<PartnerStage | null>(null);
   const [q, setQ] = useState("");
+  const [mobileStage, setMobileStage] = useState<PartnerStage>("Lead");
   const today = todayISO();
 
   const revenue = useMemo(() => {
@@ -42,12 +43,61 @@ export function Partners() {
     toast(`${p.name} moved to ${stage}`);
   };
 
+  const cardBody = (p: Partner) => {
+    const overdue = p.nextFollowUp && p.nextFollowUp < today;
+    const isToday = p.nextFollowUp === today;
+    const lastAct = [...p.activities].sort((a, b) => b.date.localeCompare(a.date))[0];
+    return (
+      <>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0"><div className="truncate font-semibold">{p.name}</div><div className="truncate text-xs text-white/50">{p.type}{p.city ? ` · ${p.city}` : ""}</div></div>
+                        {revenue[p.id] ? <span className="num text-xs font-semibold text-glow-mint">{fmtEur0(revenue[p.id])}</span> : null}
+                      </div>
+                      {p.nextFollowUp ? (
+                        <Badge tone={overdue ? "rose" : isToday ? "amber" : "neutral"} dot><CalendarClock size={11} /> {overdue ? `Overdue · ${fmtDateShort(p.nextFollowUp)}` : isToday ? "Follow up today" : `${fmtDateShort(p.nextFollowUp)} · ${relativeDays(p.nextFollowUp)}`}</Badge>
+                      ) : <span className="text-[11px] text-white/35">No follow-up set</span>}
+                      {p.nextAction && <p className="line-clamp-2 text-xs text-white/75">{p.nextAction}</p>}
+                      {p.notes && <p className="line-clamp-2 text-[11px] italic text-white/45">{p.notes}</p>}
+                      {lastAct && <p className="truncate border-t border-white/10 pt-2 text-[11px] text-white/45">{fmtDateShort(lastAct.date)} · {lastAct.text}</p>}
+      </>
+    );
+  };
+  const nextStage = (s: PartnerStage) => STAGES[Math.min(STAGES.length - 1, STAGES.indexOf(s) + 1)];
+
   return (
     <div>
-      <PageHeader eyebrow="Sales" title="Partners" subtitle={<>Retail partners, corporate clients and leads. Drag a card to change its stage. <span className={due ? "font-semibold text-glow-rose" : ""}>{due} follow-up{due === 1 ? "" : "s"} due.</span></>}
-        actions={<><input className="input w-48" placeholder="Search partners" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search partners" /><button className="btn-primary" onClick={() => setCreating(true)}><Plus size={16} /> Add partner</button></>} />
+      <PageHeader eyebrow="Sales" title="Partners" subtitle={<>Retail partners, corporate clients and leads. <span className="hidden md:inline">Drag a card to change its stage. </span><span className={due ? "font-semibold text-glow-rose" : ""}>{due} follow-up{due === 1 ? "" : "s"} due.</span></>}
+        actions={<><input className="input w-full sm:w-48" placeholder="Search partners" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search partners" /><button className="btn-primary" onClick={() => setCreating(true)}><Plus size={16} /> Add partner</button></>} />
 
-      <div className="-mx-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6">
+      {/* Phones: one stage at a time */}
+      <div className="md:hidden">
+        <div className="-mx-4 mb-3 flex gap-2 overflow-x-auto px-4 pb-1">
+          {STAGES.map((st) => {
+            const n = list.filter((p) => p.stage === st).length;
+            return (
+              <button key={st} onClick={() => setMobileStage(st)} aria-pressed={mobileStage === st}
+                className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-semibold transition ${mobileStage === st ? "border-white/40 bg-white/90 text-navy-950" : "border-white/15 bg-white/[0.06] text-white/75"}`}>
+                <span className={`h-2 w-2 rounded-full ${STAGE_GLOW[st]}`} />{st}<span className="num opacity-70">{n}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="space-y-2.5">
+          {list.filter((p) => p.stage === mobileStage).sort((a, b) => (a.nextFollowUp ?? "9999").localeCompare(b.nextFollowUp ?? "9999")).map((p) => (
+            <div key={p.id} className="glass-soft p-3">
+              <button className="block w-full space-y-2 text-left" onClick={() => setOpen(p)}>{cardBody(p)}</button>
+              {p.stage !== "Active" && (
+                <button className="mt-2 w-full rounded-lg border border-white/15 bg-white/[0.05] py-2 text-xs font-semibold text-white/80 active:bg-white/[0.12]" onClick={() => moveTo(p.id, nextStage(p.stage))}>
+                  Move to {nextStage(p.stage)} →
+                </button>
+              )}
+            </div>
+          ))}
+          {list.filter((p) => p.stage === mobileStage).length === 0 && <p className="rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-white/45">No partners in {mobileStage}.</p>}
+        </div>
+      </div>
+
+      <div className="-mx-4 hidden overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 md:block">
         <div className="grid min-w-[1100px] grid-cols-5 gap-4">
           {STAGES.map((stage) => {
             const cards = list.filter((p) => p.stage === stage).sort((a, b) => (a.nextFollowUp ?? "9999").localeCompare(b.nextFollowUp ?? "9999"));
@@ -62,27 +112,13 @@ export function Partners() {
                   <span className="chip ml-auto px-2 py-0 text-[11px]">{cards.length}</span>
                 </header>
                 {cards.length === 0 && <div className="grid flex-1 place-items-center rounded-xl border border-dashed border-white/15 p-4 text-center text-xs text-white/40">Drop a partner here</div>}
-                {cards.map((p) => {
-                  const overdue = p.nextFollowUp && p.nextFollowUp < today;
-                  const isToday = p.nextFollowUp === today;
-                  const lastAct = [...p.activities].sort((a, b) => b.date.localeCompare(a.date))[0];
-                  return (
-                    <motion.button layout layoutId={p.id} key={p.id} draggable onDragStart={() => setDragId(p.id)} onDragEnd={() => setDragId(null)}
-                      whileHover={{ y: -4 }} onClick={() => setOpen(p)}
-                      className={`glass-soft cursor-grab space-y-2 p-3 text-left active:cursor-grabbing ${dragId === p.id ? "opacity-50" : ""}`}>
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0"><div className="truncate font-semibold">{p.name}</div><div className="truncate text-xs text-white/50">{p.type}{p.city ? ` · ${p.city}` : ""}</div></div>
-                        {revenue[p.id] ? <span className="num text-xs font-semibold text-glow-mint">{fmtEur0(revenue[p.id])}</span> : null}
-                      </div>
-                      {p.nextFollowUp ? (
-                        <Badge tone={overdue ? "rose" : isToday ? "amber" : "neutral"} dot><CalendarClock size={11} /> {overdue ? `Overdue · ${fmtDateShort(p.nextFollowUp)}` : isToday ? "Follow up today" : `${fmtDateShort(p.nextFollowUp)} · ${relativeDays(p.nextFollowUp)}`}</Badge>
-                      ) : <span className="text-[11px] text-white/35">No follow-up set</span>}
-                      {p.nextAction && <p className="line-clamp-2 text-xs text-white/75">{p.nextAction}</p>}
-                      {p.notes && <p className="line-clamp-2 text-[11px] italic text-white/45">{p.notes}</p>}
-                      {lastAct && <p className="truncate border-t border-white/10 pt-2 text-[11px] text-white/45">{fmtDateShort(lastAct.date)} · {lastAct.text}</p>}
-                    </motion.button>
-                  );
-                })}
+                {cards.map((p) => (
+                  <motion.button layout layoutId={p.id} key={p.id} draggable onDragStart={() => setDragId(p.id)} onDragEnd={() => setDragId(null)}
+                    whileHover={{ y: -4 }} onClick={() => setOpen(p)}
+                    className={`glass-soft cursor-grab space-y-2 p-3 text-left active:cursor-grabbing ${dragId === p.id ? "opacity-50" : ""}`}>
+                    {cardBody(p)}
+                  </motion.button>
+                ))}
               </section>
             );
           })}

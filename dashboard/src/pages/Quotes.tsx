@@ -142,7 +142,7 @@ function QuoteModal({ open, quote, onClose, onPrint }: { open: boolean; quote: Q
               <div className="label mb-2">Products</div>
               <div className="space-y-2">
                 {d.lines.map((l, i) => (
-                  <div key={i} className="glass-soft grid grid-cols-[1fr_72px_96px_88px_32px] items-center gap-2 p-2 max-sm:grid-cols-[1fr_64px_84px_32px]">
+                  <div key={i} className="glass-soft grid grid-cols-[1fr_1fr_32px] items-center gap-2 p-2 sm:grid-cols-[1fr_72px_96px_88px_32px] [&>select:first-child]:col-span-3 sm:[&>select:first-child]:col-span-1">
                     <select className="input" value={l.productId} aria-label="Product" onChange={(e) => setLine(i, { productId: e.target.value, unitPrice: exVat(db.products.find((p) => p.id === e.target.value), db.settings) })}>{db.products.map((p) => <option key={p.id} value={p.id}>{productName(p)}</option>)}</select>
                     <input className="input text-right" aria-label="Quantity" inputMode="numeric" value={l.qty} onChange={(e) => setLine(i, { qty: Math.max(0, Math.floor(Number(e.target.value) || 0)) })} />
                     <input className="input text-right" aria-label="Unit price excl. VAT" inputMode="decimal" value={String(l.unitPrice).replace(".", ",")} onChange={(e) => setLine(i, { unitPrice: parseAmount(e.target.value) ?? 0 })} />

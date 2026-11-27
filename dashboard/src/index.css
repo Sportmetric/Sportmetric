@@ -72,7 +72,7 @@
     @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55;
   }
   .input {
-    @apply w-full rounded-xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm text-white placeholder-white/35 outline-none transition
+    @apply w-full rounded-xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-base text-white sm:text-sm placeholder-white/35 outline-none transition
       focus:border-glow-cyan/60 focus:bg-white/[0.1] focus:ring-2 focus:ring-glow-cyan/20;
   }
   .input option { @apply bg-navy-950 text-white; }

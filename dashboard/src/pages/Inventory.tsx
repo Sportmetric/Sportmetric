@@ -334,7 +334,7 @@ function ShipmentModal({ open, onClose }: { open: boolean; onClose: () => void }
       <div className="label mb-2 mt-5">Items</div>
       <div className="space-y-2">
         {s.items.map((it, i) => (
-          <div key={i} className="glass-soft grid grid-cols-[1fr_72px_96px_32px] gap-2 p-2">
+          <div key={i} className="glass-soft grid grid-cols-[1fr_1fr_32px] gap-2 p-2 sm:grid-cols-[1fr_72px_96px_32px] [&>select:first-child]:col-span-3 sm:[&>select:first-child]:col-span-1">
             <select className="input" value={it.productId} aria-label="Product" onChange={(e) => setS({ ...s, items: s.items.map((x, j) => (j === i ? { ...x, productId: e.target.value } : x)) })}>{db.products.map((p) => <option key={p.id} value={p.id}>{productName(p)}</option>)}</select>
             <input className="input text-right" aria-label="Quantity" inputMode="numeric" value={it.qty} onChange={(e) => setS({ ...s, items: s.items.map((x, j) => (j === i ? { ...x, qty: Math.floor(Number(e.target.value) || 0) } : x)) })} />
             <input className="input text-right" aria-label="Unit cost" inputMode="decimal" placeholder="€/unit" value={money(it.unitCost)} onChange={(e) => setS({ ...s, items: s.items.map((x, j) => (j === i ? { ...x, unitCost: parseAmount(e.target.value) ?? undefined } : x)) })} />

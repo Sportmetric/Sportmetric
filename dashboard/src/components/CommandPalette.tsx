@@ -57,7 +57,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             className="glass-card relative w-full max-w-xl overflow-hidden border-white/25 bg-[#1a1450]/90">
             <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3.5">
               <Search size={18} className="text-glow-cyan" />
-              <input ref={input} autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search or jump to…" className="flex-1 bg-transparent text-[15px] text-white placeholder-white/40 outline-none"
+              <input ref={input} autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search or jump to…" className="flex-1 bg-transparent text-base text-white placeholder-white/40 outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => Math.min(a + 1, hits.length - 1)); }
                   else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }

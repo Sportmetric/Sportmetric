@@ -187,14 +187,14 @@ function OrderModal({ open, order, onClose, onDeleted }: { open: boolean; order:
                 {draft.items.map((it, i) => {
                   const p = db.products.find((x) => x.id === it.productId);
                   return (
-                    <div key={i} className="glass-soft grid grid-cols-[1fr_72px_100px_32px] items-center gap-2 p-2">
+                    <div key={i} className="glass-soft grid grid-cols-[1fr_1fr_32px] items-center gap-2 p-2 sm:grid-cols-[1fr_72px_100px_32px] [&>select:first-child]:col-span-3 sm:[&>select:first-child]:col-span-1">
                       <select className="input" value={it.productId} aria-label="Product" onChange={(ev) => setItem(i, { productId: ev.target.value, unitPrice: defaultPrice(db.products.find((x) => x.id === ev.target.value), draft.channel) })}>
                         {db.products.map((x) => <option key={x.id} value={x.id}>{productName(x)} · {stock[x.id]?.qty ?? 0} in stock</option>)}
                       </select>
                       <input className="input text-right" inputMode="numeric" aria-label="Quantity" value={it.qty} onChange={(ev) => setItem(i, { qty: Math.max(0, Math.floor(Number(ev.target.value) || 0)) })} />
                       <input className="input text-right" inputMode="decimal" aria-label="Unit price incl. VAT" value={String(it.unitPrice).replace(".", ",")} onChange={(ev) => setItem(i, { unitPrice: parseAmount(ev.target.value) ?? 0 })} />
                       <button className="grid h-9 w-8 place-items-center rounded-lg text-white/50 hover:bg-white/10 hover:text-glow-rose disabled:opacity-30" disabled={draft.items.length === 1} aria-label="Remove line" onClick={() => set("items", draft.items.filter((_, j) => j !== i))}><Trash2 size={15} /></button>
-                      {p && stock[p.id] && it.qty > stock[p.id].qty && !order && <span className="col-span-4 px-1 text-xs text-glow-amber">Only {Math.max(0, stock[p.id].qty)} in stock</span>}
+                      {p && stock[p.id] && it.qty > stock[p.id].qty && !order && <span className="col-span-full px-1 text-xs text-glow-amber">Only {Math.max(0, stock[p.id].qty)} in stock</span>}
                     </div>
                   );
                 })}
