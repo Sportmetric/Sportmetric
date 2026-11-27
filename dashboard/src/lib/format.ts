@@ -77,3 +77,6 @@ export function greeting(d = new Date()) {
   const h = d.getHours();
   return h < 5 ? "Good evening" : h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
 }
+
+/** Deep copy for plain JSON data (works on every browser, unlike structuredClone on older iPhones). */
+export const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T;

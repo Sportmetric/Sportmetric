@@ -10,7 +10,7 @@ import { useStore } from "../data/store";
 import type { Activity, Database, Partner, PartnerStage, PartnerType } from "../data/types";
 import { isCountedOrder, orderGross, productName } from "../lib/calc";
 import { openNew } from "../lib/router";
-import { addDays, fmtDate, fmtDateShort, fmtEur0, relativeDays, todayISO, uid } from "../lib/format";
+import { addDays, fmtDate, fmtDateShort, fmtEur0, relativeDays, todayISO, uid, clone } from "../lib/format";
 
 const STAGES: PartnerStage[] = ["Lead", "Contacted", "Meeting", "Negotiation", "Active"];
 const TYPES: PartnerType[] = ["Retail chain", "Store", "Corporate", "Marketplace", "Distributor"];
@@ -143,7 +143,7 @@ function PartnerModal({ partner, creating, onClose }: { partner: Partner | null;
   const isOpen = !!partner || creating;
   const [lastKey, setLastKey] = useState<string | null>(null);
   const key = partner?.id ?? (creating ? "new" : null);
-  if (key !== lastKey) { setLastKey(key); if (key) { setD(partner ? structuredClone(partner) : blank()); setTab("details"); setErr(""); setAct({ kind: "call", text: "" }); } }
+  if (key !== lastKey) { setLastKey(key); if (key) { setD(partner ? clone(partner) : blank()); setTab("details"); setErr(""); setAct({ kind: "call", text: "" }); } }
   const live = db.partners.find((p) => p.id === d.id);
 
   const save = () => {

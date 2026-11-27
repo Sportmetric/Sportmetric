@@ -13,7 +13,7 @@ import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
 import type { Database, Quote, QuoteStatus, Settings, Product } from "../data/types";
 import { productName, quoteTotals } from "../lib/calc";
-import { addDays, fmtDate, fmtEur, fmtEur0, parseAmount, todayISO, uid } from "../lib/format";
+import { addDays, fmtDate, fmtEur, fmtEur0, parseAmount, todayISO, uid, clone } from "../lib/format";
 import { useNewAction } from "../lib/router";
 
 const STATUSES: QuoteStatus[] = ["Draft", "Sent", "Accepted", "Lost"];
@@ -105,7 +105,7 @@ function QuoteModal({ open, quote, onClose, onPrint }: { open: boolean; quote: Q
   const [confirm, setConfirm] = useState(false);
   const [lastKey, setLastKey] = useState<string | null>(null);
   const key = open ? quote?.id ?? "new" : null;
-  if (key !== lastKey) { setLastKey(key); if (key) { setD(quote ? structuredClone(quote) : blank()); setErr(""); } }
+  if (key !== lastKey) { setLastKey(key); if (key) { setD(quote ? clone(quote) : blank()); setErr(""); } }
   const t = useMemo(() => quoteTotals(d, db.settings), [d, db.settings]);
   const setLine = (i: number, patch: Partial<Quote["lines"][number]>) => setD((x) => ({ ...x, lines: x.lines.map((l, j) => (j === i ? { ...l, ...patch } : l)) }));
 

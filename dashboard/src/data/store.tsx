@@ -13,6 +13,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CollectionKey, Database, Settings } from "./types";
 import { isArtifact, loadFromArtifact, saveToArtifact } from "../lib/platform";
+import { clone } from "../lib/format";
 import settings from "./seed/settings.json";
 import products from "./seed/products.json";
 import stockMovements from "./seed/stockMovements.json";
@@ -29,7 +30,7 @@ import skroutzStats from "./seed/skroutzStats.json";
 const STORAGE_KEY = "innometrics.control-center.db.v1";
 
 export const seedDatabase = (): Database =>
-  structuredClone({
+  clone({
     version: 1,
     settings,
     products,

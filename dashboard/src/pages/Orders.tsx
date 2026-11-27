@@ -11,7 +11,7 @@ import { useToast } from "../components/Toast";
 import { useStore } from "../data/store";
 import type { Channel, Order, OrderItem, OrderStatus, Product, Settings } from "../data/types";
 import { CHANNELS, isCountedOrder, orderEconomics, orderUnits, productName, stockLevels, unitCosts } from "../lib/calc";
-import { addDays, downloadFile, fmtDate, fmtEur, fmtPct, parseAmount, toCsv, todayISO, uid } from "../lib/format";
+import { addDays, downloadFile, fmtDate, fmtEur, fmtPct, parseAmount, toCsv, todayISO, uid, clone } from "../lib/format";
 import { useNewAction } from "../lib/router";
 
 const STATUSES: OrderStatus[] = ["Pending", "Paid", "Shipped", "Delivered", "Returned", "Cancelled"];
@@ -129,7 +129,7 @@ function OrderModal({ open, order, onClose, onDeleted }: { open: boolean; order:
 
   useEffect(() => {
     if (!open) return;
-    const d = order ? structuredClone(order) : blank();
+    const d = order ? clone(order) : blank();
     setDraft(d);
     setShipText(String(d.shippingCost).replace(".", ","));
     setError("");

@@ -7,6 +7,8 @@ export default defineConfig({
   base: "./",
   server: { port: 5173, open: false },
   build: {
+    // Older iPhones / Android WebViews
+    target: ["es2019", "safari13", "chrome80"],
     rollupOptions: {
       output: {
         manualChunks: {
