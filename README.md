@@ -18,6 +18,10 @@
 
 Κάθε καρτέλα έχει εξαγωγή σε CSV.
 
+## Βίντεο για Reels και TikTok
+
+Ο φάκελος `video_generator/` φτιάχνει δωρεάν κάθετα βίντεο για τα smartglasses. Οδηγίες στο `video_generator/README.md`.
+
 ## Innometrics Control Center (dashboard/)
 
 Ο φάκελος `dashboard/` περιέχει το νέο εσωτερικό admin dashboard (React + Vite + TypeScript).
